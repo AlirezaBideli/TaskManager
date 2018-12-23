@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.example.admin.software_1.TaskManagerActivity"
+    tools:showIn="@layout/activity_task_manager">
+
+
+
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/container_viewPager_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        >
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tasktab_tab_Activity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:tabMode="fixed" >
+
+            <android.support.design.widget.TabItem
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/tab_name_All"/>
+            <android.support.design.widget.TabItem
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/tab_name_Done"/>
+            <android.support.design.widget.TabItem
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/tab_name_UnDone"/>
+        </android.support.design.widget.TabLayout>
+    </android.support.v4.view.ViewPager>
+</android.support.constraint.ConstraintLayout>
