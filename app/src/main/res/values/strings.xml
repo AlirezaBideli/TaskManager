@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">software_1</string>
+    <string name="title_activity_main2">MainActivity2</string>
+    <string name="tab_name_UnDone">UnDone</string>
+    <string name="tab_name_Done">Done</string>
+    <string name="tab_name_All">All</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
