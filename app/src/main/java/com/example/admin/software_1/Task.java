@@ -12,6 +12,16 @@ public class Task {
     private String mDescription;
     private Date mDate;
     private Date mHour;
+    private TaskType mTaskType;
+
+
+    public TaskType getTaskType() {
+        return mTaskType;
+    }
+
+    public void setTaskType(TaskType taskType) {
+        mTaskType = taskType;
+    }
 
     public String getTitle() {
         return mTitle;
@@ -46,6 +56,12 @@ public class Task {
     }
 
 
+enum TaskType
+{
+    ALL,
+    Done,
+    UNDONE
+}
 
 
 }
