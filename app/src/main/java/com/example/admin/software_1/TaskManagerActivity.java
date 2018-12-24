@@ -49,7 +49,6 @@ public class TaskManagerActivity extends AppCompatActivity {
                 return "";
             }
         });
-
         mTabLayout.setupWithViewPager(mViewPager);
 
 

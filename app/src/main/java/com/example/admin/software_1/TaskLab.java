@@ -40,7 +40,7 @@ public class TaskLab {
         }
     }
 
-    private List<Task> getTasksList(Task.TaskType taskType)
+    public List<Task> getTasksList(Task.TaskType taskType)
     {
 
         switch (taskType)

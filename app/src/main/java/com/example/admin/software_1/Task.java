@@ -11,7 +11,7 @@ public class Task {
     private String mTitle;
     private String mDescription;
     private Date mDate;
-    private Date mHour;
+    private long mHour;
     private TaskType mTaskType;
 
 
@@ -47,12 +47,12 @@ public class Task {
         mDate = date;
     }
 
-    public Date getHour() {
+    public long getHour() {
         return mHour;
     }
 
     public void setHour(Date hour) {
-        mHour = hour;
+        mHour = hour.getTime();
     }
 
 
