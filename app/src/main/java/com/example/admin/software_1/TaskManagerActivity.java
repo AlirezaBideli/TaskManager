@@ -1,5 +1,7 @@
 package com.example.admin.software_1;
 
+import android.content.Context;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
@@ -8,6 +10,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 
 public class TaskManagerActivity extends AppCompatActivity {
 
@@ -15,6 +18,13 @@ public class TaskManagerActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     private TabLayout mTabLayout;
     private FloatingActionButton mAdd_fab;
+
+
+    public  Intent newIntent(Context context)
+    {
+        Intent intent=new Intent(context,EditActivity.class);
+        return intent;
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +62,19 @@ public class TaskManagerActivity extends AppCompatActivity {
         mTabLayout.setupWithViewPager(mViewPager);
 
 
+
+        mAdd_fab.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                Intent intent=newIntent(TaskManagerActivity.this);
+                startActivity(intent);
+            }
+        });
+
     }
+
+
 
 
     private void initialization()

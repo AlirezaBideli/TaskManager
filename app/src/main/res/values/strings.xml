@@ -9,4 +9,9 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="Untitled">Untitled</string>
     <string name="Untitled_firstLetter">U</string>
+    <string name="title"> Title</string>
+    <string name="Desc">Description</string>
+    <string name="Date">Date</string>
+    <string name="Hour">hour</string>
+    <string name="Add">Add</string>
 </resources>
