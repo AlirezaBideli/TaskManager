@@ -79,8 +79,8 @@ public class TaskManagerActivity extends AppCompatActivity {
 
     private void initialization()
     {
-        mViewPager=findViewById(R.id.container_viewPager_fragment);
+        mViewPager=findViewById(R.id.container_viewPager_TaskManagerActivity);
         mTabLayout=findViewById(R.id.tasktab_tab_Activity);
-        mAdd_fab=findViewById(R.id.add_fab_Activity);
+        mAdd_fab=findViewById(R.id.add_fab_TaskManagerActivity);
     }
 }

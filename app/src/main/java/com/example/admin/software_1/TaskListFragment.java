@@ -61,7 +61,7 @@ public class TaskListFragment extends Fragment {
 
     private void initialization(View view)
     {
-        mRecyclerView=view.findViewById(R.id.tasklist_recy_fragment);
+        mRecyclerView=view.findViewById(R.id.tasklist_recy_TaskListfragment);
     }
 
 
@@ -77,7 +77,7 @@ public class TaskListFragment extends Fragment {
         private TextView mTitleFirstLetter_textView;
         public TaskHolder(View itemView) {
             super(itemView);
-            mTitile_textView=itemView.findViewById(R.id.title_textView_fragment);
+            mTitile_textView=itemView.findViewById(R.id.title_textView_TaskListfragment);
             mDateandHour_textView=itemView.findViewById(R.id.hourAndDate_textView_fragment);
             mTitleFirstLetter_textView=itemView.findViewById(R.id.firstLetter_textView_fragment);
         }

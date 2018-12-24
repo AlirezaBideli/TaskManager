@@ -16,7 +16,7 @@ public class EditActivity extends AppCompatActivity {
 
         FragmentManager fragmentManager=getSupportFragmentManager();
         fragmentManager.beginTransaction()
-                .replace(R.id.container_frame_fragment,new AddFragment())
+                .replace(R.id.container_frame_EditFragment,new AddFragment())
                 .commit();
 
 

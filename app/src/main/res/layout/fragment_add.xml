@@ -8,7 +8,7 @@
     tools:context="com.example.admin.software_1.AddFragment">
 
     <EditText
-        android:id="@+id/title_textView_fragment"
+        android:id="@+id/title_textView_Addfragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -17,7 +17,7 @@
         android:maxLength="30" />
 
     <EditText
-        android:id="@+id/description_textView_fragment"
+        android:id="@+id/description_textView_Addfragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -26,12 +26,13 @@
         android:maxLength="200" />
 
     <CheckBox
+        android:id="@+id/taskType_checkbox_Addfragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/tab_name_Done" />
 
     <Button
-        android:id="@+id/add_button_fragment"
+        android:id="@+id/add_button_Addfragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/Add" />

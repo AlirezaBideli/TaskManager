@@ -29,7 +29,7 @@
 
 
         <TextView
-            android:id="@+id/title_textView_fragment"
+            android:id="@+id/title_textView_TaskListfragment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
