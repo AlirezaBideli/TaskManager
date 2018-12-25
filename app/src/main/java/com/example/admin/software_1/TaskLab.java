@@ -15,7 +15,7 @@ public class TaskLab {
     private static final TaskLab mInstance=new TaskLab();
 
     private List<Task> mAll_tasks=new ArrayList<>();//the list of All tasks
-    private List<Task> mDone_tasks=new ArrayList<>();//the list of Done tasks
+    private List<Task> mDone_tasks=new ArrayList<>();//the list of DONE tasks
     private List<Task> mUndone_tasks=new ArrayList<>();//the list of UnDone tasks
 
     private TaskLab(){}
@@ -31,7 +31,7 @@ public class TaskLab {
 
         switch (taskType)
         {
-            case Done:
+            case DONE:
                 mDone_tasks.add(task);
                 break;
             case UNDONE:
@@ -47,7 +47,7 @@ public class TaskLab {
         {
             case ALL:
                 return mAll_tasks;
-            case Done:
+            case DONE:
                 return mDone_tasks;
             case UNDONE:
                 return mUndone_tasks;

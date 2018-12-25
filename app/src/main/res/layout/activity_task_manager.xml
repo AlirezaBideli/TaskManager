@@ -2,12 +2,41 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/edit_container_TaskManagerActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.admin.software_1.TaskManagerActivity">
 
 
-    <include layout="@layout/content_task" />
+    <android.support.v4.view.ViewPager
+        android:id="@+id/container_viewPager_TaskManagerActivity"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white">
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tasktab_tab_Activity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:tabMode="fixed">
+
+            <android.support.design.widget.TabItem
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/tab_name_All" />
+
+            <android.support.design.widget.TabItem
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/tab_name_Done" />
+
+            <android.support.design.widget.TabItem
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/tab_name_UnDone" />
+        </android.support.design.widget.TabLayout>
+    </android.support.v4.view.ViewPager>
+
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/add_fab_TaskManagerActivity"

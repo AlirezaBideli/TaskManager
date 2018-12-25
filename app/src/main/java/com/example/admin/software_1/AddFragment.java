@@ -3,6 +3,7 @@ package com.example.admin.software_1;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,9 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,6 +29,8 @@ public class AddFragment extends Fragment {
     private String mTiltle;
     private String mDescription;
     private Task.TaskType mTaskType;
+    public static final String mDatePattern="yyyy-MM-dd";
+    public static final String mHourPattern="HH:mm a";
 
     public AddFragment() {
         // Required empty public constructor
@@ -42,6 +48,9 @@ public class AddFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 getDatasFromUI();
+                getActivity().finish();
+                Toast.makeText(getActivity(),mTaskType.toString(),Toast.LENGTH_LONG).show();
+
             }
         });
         return view;
@@ -64,11 +73,29 @@ public class AddFragment extends Fragment {
             mTiltle = mTitle_textView.getText().toString();
             mDescription = mDescription_textView.getText().toString();
             if (mTaskType_checkbox.isChecked())
-                mTaskType = Task.TaskType.Done;
+                mTaskType = Task.TaskType.DONE;
             else
                 mTaskType = Task.TaskType.UNDONE;
+
+
+            Task temp_task=new Task();
+            temp_task.setTitle(mTiltle);
+            temp_task.setDescription(mDescription);
+            temp_task.setTaskType(mTaskType);
+            temp_task.setDate(makeDate_Time(mDatePattern));
+            temp_task.setHour(makeDate_Time(mHourPattern));
+            TaskLab.getInstance().addTask(mTaskType,temp_task);
+
         }
 
     }
+    private String makeDate_Time(String pattern)
+    {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern);
+        String result = simpleDateFormat.format(new Date());
+        return result;
+    }
+
+
 
 }

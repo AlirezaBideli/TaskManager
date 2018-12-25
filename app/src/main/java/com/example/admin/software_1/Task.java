@@ -10,9 +10,27 @@ public class Task {
 
     private String mTitle;
     private String mDescription;
-    private Date mDate;
-    private long mHour;
+    private String mDate;
+    private String mHour;
     private TaskType mTaskType;
+
+
+    public String getDate() {
+        return mDate;
+    }
+
+    public void setDate(String date) {
+        mDate = date;
+    }
+
+    public String getHour() {
+        return mHour;
+    }
+
+    public void setHour(String hour) {
+        mHour = hour;
+    }
+
 
 
     public TaskType getTaskType() {
@@ -39,27 +57,13 @@ public class Task {
         mDescription = description;
     }
 
-    public Date getDate() {
-        return mDate;
-    }
 
-    public void setDate(Date date) {
-        mDate = date;
-    }
-
-    public long getHour() {
-        return mHour;
-    }
-
-    public void setHour(Date hour) {
-        mHour = hour.getTime();
-    }
 
 
 enum TaskType
 {
     ALL,
-    Done,
+    DONE,
     UNDONE
 }
 

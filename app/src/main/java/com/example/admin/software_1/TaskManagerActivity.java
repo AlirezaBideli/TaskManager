@@ -7,14 +7,15 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-public class TaskManagerActivity extends AppCompatActivity {
+public class TaskManagerActivity extends AppCompatActivity implements GetDataFromActivity {
 
-
+//Widget variables
     private ViewPager mViewPager;
     private TabLayout mTabLayout;
     private FloatingActionButton mAdd_fab;
@@ -33,15 +34,15 @@ public class TaskManagerActivity extends AppCompatActivity {
         initialization();//initialize Widgets ids
 
 
-        mViewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
+        mViewPager.setAdapter(new FragmentStatePagerAdapter(getSupportFragmentManager()) {
             @Override
             public Fragment getItem(int position) {
-                return new TaskListFragment();
+                return  TaskListFragment.newInstance(position);
             }
 
             @Override
             public int getCount() {
-                return 3;//number of tabs are 3 ALL,Done,UnDone
+                return 3;//number of tabs are 3 ALL,DONE,UnDone
             }
 
             @Override
@@ -49,6 +50,7 @@ public class TaskManagerActivity extends AppCompatActivity {
                 switch (position)
                 {
                     case 0:
+
                         return getResources().getString(R.string.tab_name_All);
                     case 1:
                         return getResources().getString(R.string.tab_name_Done);
@@ -82,5 +84,11 @@ public class TaskManagerActivity extends AppCompatActivity {
         mViewPager=findViewById(R.id.container_viewPager_TaskManagerActivity);
         mTabLayout=findViewById(R.id.tasktab_tab_Activity);
         mAdd_fab=findViewById(R.id.add_fab_TaskManagerActivity);
+    }
+
+    @Override
+    public int getData() {
+
+        return mTabLayout.getSelectedTabPosition();
     }
 }

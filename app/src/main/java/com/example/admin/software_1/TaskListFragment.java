@@ -1,8 +1,10 @@
 package com.example.admin.software_1;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -22,11 +24,24 @@ public class TaskListFragment extends Fragment {
 
 
     private RecyclerView mRecyclerView;
+    public static final String Tag_tabPosition="om.example.admin.software_1_tag_taskType";
 
+    private int  mTabposition;
+    private Task.TaskType mTaskType;
     public TaskListFragment() {
         // Required empty public constructor
     }
 
+
+
+    public static Fragment newInstance(int tabPosition)
+    {
+        Bundle bundle=new Bundle();
+        bundle.putInt(Tag_tabPosition,tabPosition);
+        TaskListFragment fragment=new TaskListFragment();
+        fragment.setArguments(bundle);
+        return fragment;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -35,29 +50,21 @@ public class TaskListFragment extends Fragment {
         View view=inflater.inflate(R.layout.fragment_task_list, container, false);
         initialization(view);
 
-        List<Task> taskList=new ArrayList<>();
-        Task task=new Task();
-        task.setTitle("Eating dinner");
-        task.setTaskType(Task.TaskType.ALL);
-        task.setDate(new Date());
-        task.setHour(new Date());
-        task.setDescription("A good Night");
-        TaskLab.getInstance().addTask(task.getTaskType(),task);
-        Task task2=new Task();
-        task2.setTitle("Eating BreakFast");
-        task2.setTaskType(Task.TaskType.ALL);
-        task2.setDate(new Date());
-        task2.setHour(new Date());
-        task2.setDescription("A good Morning");
-        TaskLab.getInstance().addTask(task2.getTaskType(),task);
-        taskList=TaskLab.getInstance().getTasksList(Task.TaskType.ALL);
-        TaskAdapter adapter=new  TaskAdapter(taskList);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mRecyclerView.setAdapter(adapter);
-
         return view;
     }
 
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mTabposition=getArguments().getInt(Tag_tabPosition,0);
+        setTaskType(mTabposition);
+
+        List<Task>taskList=TaskLab.getInstance().getTasksList(mTaskType);
+        TaskAdapter adapter=new  TaskAdapter(taskList);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mRecyclerView.setAdapter(adapter);
+    }
 
     private void initialization(View view)
     {
@@ -65,6 +72,23 @@ public class TaskListFragment extends Fragment {
     }
 
 
+
+    private void setTaskType(int mTabposition)
+    {
+        switch (mTabposition)
+        {
+            case 0:
+                mTaskType= Task.TaskType.ALL;
+                break;
+            case 1:
+                mTaskType= Task.TaskType.DONE;
+                break;
+            case 2:
+                mTaskType= Task.TaskType.UNDONE;
+                break;
+
+        }
+    }
 
     ///RecyclerView Classes
 
@@ -96,7 +120,7 @@ public class TaskListFragment extends Fragment {
 
     private class TaskAdapter extends RecyclerView.Adapter<TaskHolder>
     {
-        List<Task> mTasks=new ArrayList<>();
+        List<Task> mTasks;
 
         public TaskAdapter(List<Task> tasks)
         {
@@ -120,5 +144,7 @@ public class TaskListFragment extends Fragment {
             return mTasks.size();
         }
     }
+
+
 
 }
