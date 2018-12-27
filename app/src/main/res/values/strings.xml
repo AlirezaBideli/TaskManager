@@ -15,4 +15,6 @@
     <string name="Hour">hour</string>
     <string name="Add">Add</string>
     <string name="Befor_button">Befor</string>
+    <string name="Save">Save</string>
+    <string name="Remove">Remove</string>
 </resources>

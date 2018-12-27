@@ -1,6 +1,7 @@
 package com.example.admin.software_1;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -14,9 +15,8 @@ public class TaskLab {
 
     private static final TaskLab mInstance=new TaskLab();
 
-    private List<Task> mAll_tasks=new ArrayList<>();//the list of All tasks
-    private List<Task> mDone_tasks=new ArrayList<>();//the list of DONE tasks
-    private List<Task> mUndone_tasks=new ArrayList<>();//the list of UnDone tasks
+    private List<Task> mAll_tasks=new LinkedList<>();//the list of All tasks
+
 
     private TaskLab(){}
 
@@ -26,35 +26,67 @@ public class TaskLab {
     }
     public void addTask(Task.TaskType taskType,Task task)
     {
-
         mAll_tasks.add(task);
 
-        switch (taskType)
-        {
-            case DONE:
-                mDone_tasks.add(task);
-                break;
-            case UNDONE:
-                mUndone_tasks.add(task);
-                break;
-        }
     }
 
     public List<Task> getTasksList(Task.TaskType taskType)
     {
-
         switch (taskType)
         {
             case ALL:
                 return mAll_tasks;
             case DONE:
-                return mDone_tasks;
+                return getDoneTaskList();
+
             case UNDONE:
-                return mUndone_tasks;
+                return getUnDoneTaskList();
+        }
+        return new ArrayList<>();
+    }
+
+    public Task getTaskByPosition(int position,Task.TaskType taskType)
+    {
+        List<Task> result;
+        switch (taskType)
+        {
+            case ALL:
+               return mAll_tasks.get(position);
+            case DONE:
+                result= getDoneTaskList();
+                return result.get(position);
+
+            case UNDONE:
+                result= getUnDoneTaskList();
+                return result.get(position);
+
         }
         return null;
     }
 
+
+    private List<Task> getDoneTaskList()
+    {
+        List<Task> done_tasks=new ArrayList<>();
+
+        for(int i=0;i<mAll_tasks.size();i++)
+        {
+            if(mAll_tasks.get(i).getTaskType()==Task.TaskType.DONE)
+                done_tasks.add(mAll_tasks.get(i));
+        }
+        return done_tasks;
+    }
+    private List<Task> getUnDoneTaskList()
+    {
+        List<Task> Undone_tasks=new ArrayList<>();
+
+        for(int i=0;i<mAll_tasks.size();i++)
+        {
+            if(mAll_tasks.get(i).getTaskType()==Task.TaskType.UNDONE)
+                Undone_tasks.add(mAll_tasks.get(i));
+        }
+        return Undone_tasks;
+    }
 
 
 

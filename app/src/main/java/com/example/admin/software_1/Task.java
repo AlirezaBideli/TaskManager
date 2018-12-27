@@ -8,6 +8,9 @@ import java.util.Date;
 
 public class Task {
 
+
+
+    private int mPosition;
     private String mTitle;
     private String mDescription;
     private String mDate;
@@ -57,6 +60,13 @@ public class Task {
         mDescription = description;
     }
 
+    public int getPosition() {
+        return mPosition;
+    }
+
+    public void setPosition(int position) {
+        mPosition = position;
+    }
 
 
 

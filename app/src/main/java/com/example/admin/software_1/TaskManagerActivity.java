@@ -11,19 +11,22 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
-public class TaskManagerActivity extends AppCompatActivity implements GetDataFromActivity {
+public class TaskManagerActivity extends AppCompatActivity  {
 
 //Widget variables
     private ViewPager mViewPager;
     private TabLayout mTabLayout;
     private FloatingActionButton mAdd_fab;
+    public static final String Tag_state="om.example.admin.software_1_tag_tabPosition";
 
 
-    public  Intent newIntent(Context context)
+    public  Intent newIntent(int state)
     {
-        Intent intent=new Intent(context,EditActivity.class);
+        Intent intent=new Intent(TaskManagerActivity.this,EditActivity.class);
+        intent.putExtra(Tag_state,state);
         return intent;
     }
     @Override
@@ -37,7 +40,10 @@ public class TaskManagerActivity extends AppCompatActivity implements GetDataFro
         mViewPager.setAdapter(new FragmentStatePagerAdapter(getSupportFragmentManager()) {
             @Override
             public Fragment getItem(int position) {
-                return  TaskListFragment.newInstance(position);
+                Task.TaskType taskType=getTaskType(position);
+                Log.i("Tag",taskType+"");
+
+                return  TaskListFragment.newInstance(taskType);
             }
 
             @Override
@@ -50,7 +56,6 @@ public class TaskManagerActivity extends AppCompatActivity implements GetDataFro
                 switch (position)
                 {
                     case 0:
-
                         return getResources().getString(R.string.tab_name_All);
                     case 1:
                         return getResources().getString(R.string.tab_name_Done);
@@ -69,14 +74,30 @@ public class TaskManagerActivity extends AppCompatActivity implements GetDataFro
 
             @Override
             public void onClick(View v) {
-                Intent intent=newIntent(TaskManagerActivity.this);
+                Intent intent=newIntent(0);
                 startActivity(intent);
             }
         });
 
+
+
+
     }
 
+private Task.TaskType getTaskType(int position)
+{
 
+    switch (position)
+    {
+        case 0:
+            return Task.TaskType.ALL;
+        case 1:
+            return Task.TaskType.DONE;
+        case 2:
+            return Task.TaskType.UNDONE;
+    }
+    return null;
+}
 
 
     private void initialization()
@@ -86,9 +107,5 @@ public class TaskManagerActivity extends AppCompatActivity implements GetDataFro
         mAdd_fab=findViewById(R.id.add_fab_TaskManagerActivity);
     }
 
-    @Override
-    public int getData() {
 
-        return mTabLayout.getSelectedTabPosition();
-    }
 }

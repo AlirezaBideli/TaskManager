@@ -1,0 +1,48 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.admin.software_1.EditFragment"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="16dp">
+
+
+
+
+    <EditText
+        android:id="@+id/title_textView_Editfragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/title"
+        android:inputType="textPersonName"
+        android:maxLength="30" />
+
+    <EditText
+        android:id="@+id/description_textView_Editfragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="@string/Desc"
+        android:inputType="textPersonName"
+        android:maxLength="200" />
+
+    <CheckBox
+        android:id="@+id/taskType_checkbox_Editfragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/tab_name_Done" />
+
+    <Button
+        android:id="@+id/save_button_EditFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/Save" />
+    <Button
+        android:id="@+id/remove_button_EditFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/Remove" />
+
+</LinearLayout>

@@ -1,12 +1,14 @@
 package com.example.admin.software_1;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,20 +26,32 @@ public class TaskListFragment extends Fragment {
 
 
     private RecyclerView mRecyclerView;
-    public static final String Tag_tabPosition="om.example.admin.software_1_tag_taskType";
+    public static final String EXTRA_TASK_POSITION ="taskPosition";
+    public static final String EXTRA_TASK_TYPE ="taskType";
 
-    private int  mTabposition;
+
+
     private Task.TaskType mTaskType;
     public TaskListFragment() {
         // Required empty public constructor
     }
 
 
+    public Intent newIntent(int state,int position,Task.TaskType taskType)
+    {
+        Intent intent=new Intent(getActivity(),EditActivity.class);
+        intent.putExtra(TaskManagerActivity.Tag_state,state);
+        intent.putExtra(EXTRA_TASK_POSITION,position);
+        intent.putExtra(EXTRA_TASK_TYPE,taskType);
 
-    public static Fragment newInstance(int tabPosition)
+        Log.i("Tag",state+" "+position+" "+taskType);
+        return intent;
+    }
+
+    public static Fragment newInstance(Task.TaskType taskType)
     {
         Bundle bundle=new Bundle();
-        bundle.putInt(Tag_tabPosition,tabPosition);
+        bundle.putSerializable(EXTRA_TASK_TYPE,taskType);
         TaskListFragment fragment=new TaskListFragment();
         fragment.setArguments(bundle);
         return fragment;
@@ -57,8 +71,7 @@ public class TaskListFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        mTabposition=getArguments().getInt(Tag_tabPosition,0);
-        setTaskType(mTabposition);
+        mTaskType=(Task.TaskType)getArguments().getSerializable(EXTRA_TASK_TYPE);
 
         List<Task>taskList=TaskLab.getInstance().getTasksList(mTaskType);
         TaskAdapter adapter=new  TaskAdapter(taskList);
@@ -73,22 +86,6 @@ public class TaskListFragment extends Fragment {
 
 
 
-    private void setTaskType(int mTabposition)
-    {
-        switch (mTabposition)
-        {
-            case 0:
-                mTaskType= Task.TaskType.ALL;
-                break;
-            case 1:
-                mTaskType= Task.TaskType.DONE;
-                break;
-            case 2:
-                mTaskType= Task.TaskType.UNDONE;
-                break;
-
-        }
-    }
 
     ///RecyclerView Classes
 
@@ -104,6 +101,15 @@ public class TaskListFragment extends Fragment {
             mTitile_textView=itemView.findViewById(R.id.title_textView_TaskListfragment);
             mDateandHour_textView=itemView.findViewById(R.id.hourAndDate_textView_fragment);
             mTitleFirstLetter_textView=itemView.findViewById(R.id.firstLetter_textView_fragment);
+
+            itemView.setOnClickListener(new View.OnClickListener(){
+
+                @Override
+                public void onClick(View v) {
+                    Intent intent=newIntent(1,getAdapterPosition(),mTaskType);
+                    startActivity(intent);
+                }
+            });
         }
 
 
