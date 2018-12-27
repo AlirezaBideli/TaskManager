@@ -4,7 +4,7 @@ android {
     compileSdkVersion 26
     defaultConfig {
         applicationId "com.example.admin.software_1"
-        minSdkVersion 23
+        minSdkVersion 23 ///Change it from 14 to 23 because of TimePicker methods like getHour
         targetSdkVersion 26
         versionCode 1
         versionName "1.0"

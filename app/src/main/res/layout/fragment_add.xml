@@ -32,11 +32,17 @@
         android:text="@string/tab_name_Done" />
 
     <Button
+        android:id="@+id/setDate_btn_AddFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="@string/set_date" />
+
+    <Button
         android:id="@+id/setTime_btn_AddFragment"
-        android:text="@string/setTime_btn"
-        />
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/setTime_btn" />
+
     <Button
         android:id="@+id/add_button_Addfragment"
         android:layout_width="match_parent"

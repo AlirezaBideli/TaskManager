@@ -6,39 +6,33 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TimePickerFragment extends DialogFragment {
+public class TaskTimePickerFragment extends DialogFragment {
 
-    public static final String EXTRA_DATE_TIME = "com.example.admin.software_1_date_time";
+    public static final String EXTRA_TIME = "com.example.admin.software_1_date_time";
     private TimePicker mTimePicker;
 
-    public static TimePickerFragment newInstance() {
+    public static TaskTimePickerFragment newInstance() {
 
         Bundle args = new Bundle();
 
-        TimePickerFragment fragment = new TimePickerFragment();
+        TaskTimePickerFragment fragment = new TaskTimePickerFragment();
         fragment.setArguments(args);
         return fragment;
     }
 
-    public TimePickerFragment() {
+    public TaskTimePickerFragment() {
         // Required empty public constructor
     }
 
@@ -60,7 +54,7 @@ public class TimePickerFragment extends DialogFragment {
                         Intent intent = new Intent();
                         int hour = mTimePicker.getHour();
                         int minute = mTimePicker.getMinute();
-                        intent.putExtra(EXTRA_DATE_TIME, hour + ":" + minute);
+                        intent.putExtra(EXTRA_TIME, hour + ":" + minute);
                         getTargetFragment().onActivityResult(AddFragment.REQ_TIME_PICKER, Activity.RESULT_OK, intent);
                     }
                 })
@@ -71,12 +65,6 @@ public class TimePickerFragment extends DialogFragment {
         return alertDialog;
     }
 
-
-    @Override
-    public void onStart() {
-
-        super.onStart();
-    }
 
     private void initilization(View view) {
         mTimePicker = view.findViewById(R.id.taskTime_tmp_TimePickerFragment);

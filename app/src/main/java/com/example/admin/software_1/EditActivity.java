@@ -12,7 +12,8 @@ public class EditActivity extends AppCompatActivity {
 
 
     private int msavedState;
-
+    public static final int addButtonClicked=0;
+    public static final int itemTaskListClicked=1;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,10 +38,10 @@ public class EditActivity extends AppCompatActivity {
     {
         switch (msavedState)
         {
-            case 0://when user clicked on the fab button in TaskManager Activity
+            case addButtonClicked://when user clicked on the fab button in TaskManager Activity
                 return  AddFragment.newInstance();
 
-            case 1://when user clicked on  recycler view items in TaskListFragment
+            case itemTaskListClicked://when user clicked on  recycler view items in TaskListFragment
                 Log.i("Tag","ADDfragmnet");
 
                 int taskPostion=getIntent().getIntExtra(TaskListFragment.EXTRA_TASK_POSITION,-1);

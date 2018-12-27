@@ -2,14 +2,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.admin.software_1.TaskTimePickerFragment">
+    tools:context="com.example.admin.software_1.TaskDatePickerFragment">
 
-<TimePicker
-    android:id="@+id/taskTime_tmp_TimePickerFragment"
+<DatePicker
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-  >
+    android:id="@+id/taskDate_dap_TaskDatePickerFragment">
 
-</TimePicker>
+</DatePicker>
 
 </FrameLayout>

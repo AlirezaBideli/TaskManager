@@ -18,6 +18,11 @@
     <string name="Save">Save</string>
     <string name="Remove">Remove</string>
     <string name="setTime_btn">Set Time</string>
-    <string name="timePicker_string">Enter the Time</string>
+    <string name="timePicker_string">Enter your task time</string>
+    <string name="datePicker_string">Enter your task date</string>
+    <string name="set_date">Set Date</string>
+    <string name="OK">ok</string>
+    <string name="taskTime_button_response">Your task Time is %1$s</string>
+    <string name="taskDate_button_response">Your task Date is %1$s</string>
 
 </resources>
