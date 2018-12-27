@@ -13,18 +13,22 @@ public class Task {
     private int mPosition;
     private String mTitle;
     private String mDescription;
-    private String mDate;
+
+    private Date mDate;
     private String mHour;
     private TaskType mTaskType;
 
-
-    public String getDate() {
+    
+    public Date getDate() {
         return mDate;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         mDate = date;
     }
+
+
+
 
     public String getHour() {
         return mHour;
