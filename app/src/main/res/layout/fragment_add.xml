@@ -32,6 +32,12 @@
         android:text="@string/tab_name_Done" />
 
     <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/setTime_btn_AddFragment"
+        android:text="@string/setTime_btn"
+        />
+    <Button
         android:id="@+id/add_button_Addfragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

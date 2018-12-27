@@ -32,7 +32,7 @@ public class ShowTaskInfoFragmnet extends Fragment {
     }
 
 
-    public static Fragment newInstance(int taskPosition, Task.TaskType taskType) {
+    public static ShowTaskInfoFragmnet newInstance(int taskPosition, Task.TaskType taskType) {
         Bundle bundle = new Bundle();
         bundle.putInt(TaskListFragment.EXTRA_TASK_POSITION, taskPosition);
         bundle.putSerializable(TaskListFragment.EXTRA_TASK_TYPE, taskType);

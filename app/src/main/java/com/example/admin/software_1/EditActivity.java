@@ -38,7 +38,7 @@ public class EditActivity extends AppCompatActivity {
         switch (msavedState)
         {
             case 0://when user clicked on the fab button in TaskManager Activity
-                return new AddFragment();
+                return  AddFragment.newInstance();
 
             case 1://when user clicked on  recycler view items in TaskListFragment
                 Log.i("Tag","ADDfragmnet");

@@ -14,16 +14,16 @@ public class Task {
     private String mTitle;
     private String mDescription;
 
-    private Date mDate;
+    private String mDate;
     private String mHour;
     private TaskType mTaskType;
 
-    
-    public Date getDate() {
+
+    public String getDate() {
         return mDate;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         mDate = date;
     }
 

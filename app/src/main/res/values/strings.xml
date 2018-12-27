@@ -17,4 +17,7 @@
     <string name="Befor_button">Befor</string>
     <string name="Save">Save</string>
     <string name="Remove">Remove</string>
+    <string name="setTime_btn">Set Time</string>
+    <string name="timePicker_string">Enter the Time</string>
+
 </resources>

@@ -1,9 +1,10 @@
 package com.example.admin.software_1;
 
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,17 +26,35 @@ public class AddFragment extends Fragment {
     private TextView mDescription_textView;
     private CheckBox mTaskType_checkbox;
     private Button mAddButton;
+    private Button mSetTimeButton;
     //simple variables
     private String mTiltle;
     private String mDescription;
+    private String mHour;
     private Task.TaskType mTaskType;
     public static final String mDatePattern="yyyy-MM-dd";
-    public static final String mHourPattern="HH:mm a";
-
+    public static final String DIALOG_TAG ="timePicker_tag";
+    public static final int REQ_TIME_PICKER=0;
     public AddFragment() {
         // Required empty public constructor
     }
 
+    public static AddFragment newInstance() {
+
+        Bundle args = new Bundle();
+
+        AddFragment fragment = new AddFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -53,15 +72,38 @@ public class AddFragment extends Fragment {
 
             }
         });
+        mSetTimeButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                TimePickerFragment  timePickerFragment=TimePickerFragment.newInstance();
+                timePickerFragment.setTargetFragment(AddFragment.this,REQ_TIME_PICKER);
+                timePickerFragment.show(getFragmentManager(), DIALOG_TAG);
+            }
+        });
         return view;
     }
 
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode!= EditActivity.RESULT_OK)
+            return;
+        if(requestCode==REQ_TIME_PICKER)
+        {
+            mHour=data.getStringExtra(TimePickerFragment.EXTRA_DATE_TIME);
+            mSetTimeButton.setText(mHour);
+
+        }
+    }
 
     private void initilization(View view) {
         mTitle_textView = view.findViewById(R.id.title_textView_Addfragment);
         mDescription_textView = view.findViewById(R.id.description_textView_Addfragment);
         mTaskType_checkbox = view.findViewById(R.id.taskType_checkbox_Addfragment);
         mAddButton=view.findViewById(R.id.add_button_Addfragment);
+        mSetTimeButton=view.findViewById(R.id.setTime_btn_AddFragment);
     }
 
     private void getDatasFromUI()
@@ -83,7 +125,7 @@ public class AddFragment extends Fragment {
             temp_task.setDescription(mDescription);
             temp_task.setTaskType(mTaskType);
             temp_task.setDate(makeDate_Time(mDatePattern));
-            temp_task.setHour(makeDate_Time(mHourPattern));
+            temp_task.setHour(mHour);
             TaskLab.getInstance().addTask(mTaskType,temp_task);
 
         }
