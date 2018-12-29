@@ -5,4 +5,5 @@
     <color name="colorAccent">#FF4081</color>
     <color name="editactivity_color_purpul">#d45aca</color>
     <color name="editactivity_color_blue">#4f60d0</color>
+    <color name="Remove_dialog_red">#dd3459</color>
 </resources>

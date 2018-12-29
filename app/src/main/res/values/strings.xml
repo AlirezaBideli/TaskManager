@@ -24,5 +24,11 @@
     <string name="OK">ok</string>
     <string name="taskTime_button_response">Your task Time is %1$s</string>
     <string name="taskDate_button_response">Your task Date is %1$s</string>
-
+    <string name="edit">Edit</string>
+    <string name="remove_message">Do you really want to remove This task ?????</string>
+    <string name="yes_button">Yes</string>
+    <string name="no_button">No</string>
+    <string name="input_error_message">"لطفا در ورود اطلاعات دقت فرمایید"</string>
+    <string name="Done">Done</string>
+/>
 </resources>

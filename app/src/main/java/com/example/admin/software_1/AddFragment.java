@@ -137,7 +137,7 @@ public class AddFragment extends Fragment {
     private void getDatasFromUI() {
         //check if the input are empty ,show a message
         if ((mTitle_textView.getText().length() == 0) || (mDescription_textView.getText().length() == 0))
-            Toast.makeText(getActivity(), "لطفا در ورود اطلاعات دقت فرمایید", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), getResources().getString(R.string.input_error_message), Toast.LENGTH_LONG).show();
         else {
             mTiltle = mTitle_textView.getText().toString();
             mDescription = mDescription_textView.getText().toString();

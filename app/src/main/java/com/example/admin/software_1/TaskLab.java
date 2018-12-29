@@ -89,6 +89,10 @@ public class TaskLab {
     }
 
 
+    public void removeTask(Task task)
+    {
+        mAll_tasks.remove(task);
+    }
 
 
 }

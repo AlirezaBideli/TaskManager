@@ -1,12 +1,13 @@
 package com.example.admin.software_1;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by ADMIN on 12/23/2018.
  */
 
-public class Task {
+public class Task implements Serializable {
 
 
 
