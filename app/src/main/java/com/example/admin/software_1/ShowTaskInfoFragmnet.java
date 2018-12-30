@@ -15,8 +15,7 @@ import android.widget.TextView;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ShowTaskInfoFragmnet extends Fragment {
-
+public class ShowTaskInfoFragmnet extends Fragment implements View.OnClickListener {
 
 
     private Button mAdd_Button;
@@ -28,7 +27,8 @@ public class ShowTaskInfoFragmnet extends Fragment {
     private TextView mHour_textView;
     private CheckBox mTaskType_CheckBox;
 
-    public static final String REMOVE_TAG="remove_tag";
+    private Task mTask;
+    public static final String REMOVE_TAG = "remove_tag";
 
     public ShowTaskInfoFragmnet() {
         // Required empty public constructor
@@ -39,7 +39,7 @@ public class ShowTaskInfoFragmnet extends Fragment {
         Bundle bundle = new Bundle();
         bundle.putInt(TaskListFragment.EXTRA_TASK_POSITION, taskPosition);
         bundle.putSerializable(TaskListFragment.EXTRA_TASK_TYPE, taskType);
-        ShowTaskInfoFragmnet fragment  = new ShowTaskInfoFragmnet();
+        ShowTaskInfoFragmnet fragment = new ShowTaskInfoFragmnet();
         fragment.setArguments(bundle);
         return fragment;
     }
@@ -50,29 +50,13 @@ public class ShowTaskInfoFragmnet extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_show_task_info_fragmnet, container, false);
         initialization(view);
-        final Task task =getTaskFromArgs();
-        fillUIWidgets(task);
+        mTask = getTaskFromArgs();
+        fillUIWidgets(mTask);
+        mAdd_Button.setOnClickListener(this);
+        mRemove_Button.setOnClickListener(this);
+        mEdit_Button.setOnClickListener(this);
 
 
-        mAdd_Button.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v) {
-                FragmentManager fragmentManager=getFragmentManager();
-                fragmentManager.beginTransaction()
-                        .replace(R.id.container_frame_EditFragment,AddFragment.newInstance())
-                        .commit();
-
-            }
-        });
-
-        mRemove_Button.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                RemoveDialogFragment removeDialogFragmnet= RemoveDialogFragment.newInstance(task);
-                removeDialogFragmnet.show(getFragmentManager(),REMOVE_TAG);
-            }
-        });
         return view;
     }
 
@@ -82,41 +66,73 @@ public class ShowTaskInfoFragmnet extends Fragment {
         mDesc_textView = view.findViewById(R.id.description_textView_ShowTaskInfoFragment);
         mDate_textView = view.findViewById(R.id.date_textView_ShowTaskInfoFragment);
         mHour_textView = view.findViewById(R.id.hour_textView_ShowTaskInfoFragment);
-        mTaskType_CheckBox=view.findViewById(R.id.taskType_checkbox_ShowTaskInfoFragment);
+        mTaskType_CheckBox = view.findViewById(R.id.taskType_checkbox_ShowTaskInfoFragment);
 
-        mAdd_Button=view.findViewById(R.id.add_button_ShowTaskInfoFragment);
-        mEdit_Button=view.findViewById(R.id.edit_button_ShowTaskInfoFragment);
-        mRemove_Button=view.findViewById(R.id.remove_button_ShowTaskInfoFragment);
+        mAdd_Button = view.findViewById(R.id.add_button_ShowTaskInfoFragment);
+        mEdit_Button = view.findViewById(R.id.edit_button_ShowTaskInfoFragment);
+        mRemove_Button = view.findViewById(R.id.remove_button_ShowTaskInfoFragment);
     }
 
 
-    private Task getTaskFromArgs()
-    {
+    private Task getTaskFromArgs() {
         int taskPosition = getArguments().getInt(TaskListFragment.EXTRA_TASK_POSITION);
         Task.TaskType taskType = (Task.TaskType) getArguments().getSerializable(TaskListFragment.EXTRA_TASK_TYPE);
         Task task = TaskLab.getInstance().getTaskByPosition(taskPosition, taskType);
         return task;
     }
 
-    private void fillUIWidgets(Task task)
-    {
+    private void fillUIWidgets(Task task) {
 
 
         mTitle_textView.setText(task.getTitle());
         mDesc_textView.setText(task.getDescription());
         mDate_textView.setText(task.getDate());
         mHour_textView.setText(task.getHour());
-        boolean isDoneTask=setChecked(task.getTaskType());
+        boolean isDoneTask = setChecked(task.getTaskType());
         mTaskType_CheckBox.setChecked(isDoneTask);
     }
 
 
-    private boolean setChecked(Task.TaskType taskType)
-    {
+    private boolean setChecked(Task.TaskType taskType) {
 
-        if(taskType== Task.TaskType.DONE)
+        if (taskType == Task.TaskType.DONE)
             return true;
         else
             return false;
+    }
+
+    @Override
+    public void onClick(View v) {
+        FragmentManager fragmentManager = getFragmentManager();
+
+        switch (v.getId()) {
+            case R.id.add_button_ShowTaskInfoFragment:
+                goToAddFragment(fragmentManager);
+                break;
+            case R.id.remove_button_ShowTaskInfoFragment:
+                showRemoveDialog();
+                break;
+            case R.id.edit_button_ShowTaskInfoFragment:
+                goToEditFragment(fragmentManager);
+
+                break;
+        }
+    }
+
+    private void goToEditFragment(FragmentManager fragmentManager) {
+        fragmentManager.beginTransaction()
+                .replace(R.id.container_frame_EditFragment, EditFragment.newInstance(mTask))
+                .commit();
+    }
+
+    private void goToAddFragment(FragmentManager fragmentManager) {
+        fragmentManager.beginTransaction()
+                .replace(R.id.container_frame_EditFragment, AddFragment.newInstance())
+                .commit();
+    }
+
+    private void showRemoveDialog() {
+        RemoveDialogFragment removeDialogFragmnet = RemoveDialogFragment.newInstance(mTask);
+        removeDialogFragmnet.show(getFragmentManager(), REMOVE_TAG);
     }
 }

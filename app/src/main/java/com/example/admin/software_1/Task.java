@@ -11,12 +11,12 @@ public class Task implements Serializable {
 
 
 
+    //Change optional variables to "Undefined" when these variables are "null"
     private int mPosition;
     private String mTitle;
-    private String mDescription;
-
-    private String mDate;
-    private String mHour;
+    private String mDescription="Undefined";
+    private String mDate="Undefined";
+    private String mHour="Undefined";
     private TaskType mTaskType;
 
 

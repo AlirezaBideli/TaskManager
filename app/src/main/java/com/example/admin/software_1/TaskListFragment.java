@@ -113,12 +113,14 @@ public class TaskListFragment extends Fragment {
         }
 
 
-        public void bind(Task task)
+        public void bind(Task task,int position)
         {
             StringBuilder sb=new StringBuilder();
             sb.append(task.getTitle().charAt(0));
+            String date_time_format=getResources().getString(R.string.date_time_textView,task.getDate(),task.getHour());
+            task.setPosition(position);
             mTitile_textView.setText(task.getTitle());
-            mDateandHour_textView.setText(task.getDate()+" "+task.getHour());
+            mDateandHour_textView.setText(date_time_format);
             mTitleFirstLetter_textView.setText(sb.toString());
         }
     }
@@ -142,7 +144,7 @@ public class TaskListFragment extends Fragment {
         @Override
         public void onBindViewHolder(TaskHolder holder, int position) {
 
-            holder.bind(mTasks.get(position));
+            holder.bind(mTasks.get(position),position);
         }
 
         @Override

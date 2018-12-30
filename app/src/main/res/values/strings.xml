@@ -22,13 +22,20 @@
     <string name="datePicker_string">Enter your task date</string>
     <string name="set_date">Set Date</string>
     <string name="OK">ok</string>
-    <string name="taskTime_button_response">Your task Time is %1$s</string>
-    <string name="taskDate_button_response">Your task Date is %1$s</string>
+    <string name="taskTime_button_add">Your task Time is %1$s</string>
+    <string name="taskDate_button_add">Your task Date is %1$s</string>
     <string name="edit">Edit</string>
     <string name="remove_message">Do you really want to remove This task ?????</string>
     <string name="yes_button">Yes</string>
     <string name="no_button">No</string>
-    <string name="input_error_message">"لطفا در ورود اطلاعات دقت فرمایید"</string>
+    <string name="input_error_message">Invalid input please try again !!!</string>
     <string name="Done">Done</string>
+
+    <string name="date_time_textView">   Date= %1$s \n Hour= %2$s</string>
+    <string name="time_string">%1$s:%2$s</string>
+
+    <string name="undefined">Undefined</string>
+    <string name="taskTime_button_edit">Your task Time was %1$s</string>
+    <string name="taskDate_button_edit">Your task Date was %1$s</string>
 />
 </resources>

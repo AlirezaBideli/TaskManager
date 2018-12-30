@@ -41,7 +41,7 @@ public class TaskManagerActivity extends AppCompatActivity  {
             @Override
             public Fragment getItem(int position) {
                 Task.TaskType taskType=getTaskType(position);
-                Log.i("Tag",taskType+"");
+
 
                 return  TaskListFragment.newInstance(taskType);
             }
@@ -53,17 +53,20 @@ public class TaskManagerActivity extends AppCompatActivity  {
 
             @Override
             public CharSequence getPageTitle(int position) {
+                String result="";
                 switch (position)
                 {
                     case 0:
-                        return getResources().getString(R.string.tab_name_All);
+                        result= getResources().getString(R.string.tab_name_All);
+                        break;
                     case 1:
-                        return getResources().getString(R.string.tab_name_Done);
+                        result= getResources().getString(R.string.tab_name_Done);
+                    break;
                     case 2:
-                        return getResources().getString(R.string.tab_name_UnDone);
+                        result= getResources().getString(R.string.tab_name_UnDone);
+                    break;
                 }
-
-                return "";
+                return result;
             }
         });
         mTabLayout.setupWithViewPager(mViewPager);

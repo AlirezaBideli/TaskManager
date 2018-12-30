@@ -21,17 +21,17 @@
             android:layout_height="wrap_content"
             app:tabMode="fixed">
 
-            <android.support.design.widget.TabItem
+                 <android.support.design.widget.TabItem
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/tab_name_All" />
 
-            <android.support.design.widget.TabItem
+                 <android.support.design.widget.TabItem
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/tab_name_Done" />
 
-            <android.support.design.widget.TabItem
+               <android.support.design.widget.TabItem
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/tab_name_UnDone" />

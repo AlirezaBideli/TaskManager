@@ -10,39 +10,75 @@
 
 
 
-    <EditText
-        android:id="@+id/title_textView_Editfragment"
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="@string/title"
-        android:inputType="textPersonName"
-        android:maxLength="30" />
+        android:text="@string/title"
+        style="@style/show_detail_textView"/>
 
     <EditText
-        android:id="@+id/description_textView_Editfragment"
+        android:id="@+id/title_editText_EditFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="@string/Desc"
-        android:inputType="textPersonName"
-        android:maxLength="200" />
+        />
+    <TextView
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/Desc"
+        style="@style/show_detail_textView"
+        />
+    <EditText
+        android:id="@+id/description_editText_EditFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/Date"
+        style="@style/show_detail_textView"/>
+
+    <Button
+        android:id="@+id/setDate_btn_EditFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/set_date"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/Hour"
+        style="@style/show_detail_textView"/>
+    <Button
+        android:id="@+id/setTime_btn_EditFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/setTime_btn"/>
 
     <CheckBox
-        android:id="@+id/taskType_checkbox_Editfragment"
+        android:id="@+id/taskType_checkbox_EditFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/tab_name_Done" />
 
-    <Button
-        android:id="@+id/save_button_EditFragment"
+
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/Save" />
-    <Button
-        android:id="@+id/remove_button_EditFragment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/Remove" />
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/done_button_EditFragment"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/Done" />
+    </LinearLayout>
+
 
 </LinearLayout>
