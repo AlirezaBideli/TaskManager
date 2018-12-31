@@ -1,6 +1,7 @@
 package com.example.admin.software_1;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import android.support.v4.app.DialogFragment;
@@ -65,9 +66,9 @@ public class RemoveDialogFragment extends DialogFragment implements View.OnClick
         {
             case R.id.yes_btn_RemoveDialogFragment:
                 TaskLab.getInstance().removeTask(mTask);
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .remove(this)
-                        .commit();
+                Intent intent=((EditActivity)getActivity()).newIntent();
+                startActivity(intent);
+
                 break;
             case R.id.no_btn_RemoveDialogFragment:
                 getActivity().getSupportFragmentManager().beginTransaction()
