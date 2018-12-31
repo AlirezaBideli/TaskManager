@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ public class TaskListFragment extends Fragment {
 
 
     private RecyclerView mRecyclerView;
+    private ImageView mNoTaskImageView;
     public static final String EXTRA_TASK_POSITION ="taskPosition";
     public static final String EXTRA_TASK_TYPE ="taskType";
 
@@ -74,14 +76,22 @@ public class TaskListFragment extends Fragment {
         mTaskType=(Task.TaskType)getArguments().getSerializable(EXTRA_TASK_TYPE);
 
         List<Task>taskList=TaskLab.getInstance().getTasksList(mTaskType);
-        TaskAdapter adapter=new  TaskAdapter(taskList);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mRecyclerView.setAdapter(adapter);
+        if (taskList.size()>0) {
+            mNoTaskImageView.setVisibility(View.INVISIBLE);
+            TaskAdapter adapter = new TaskAdapter(taskList);
+            mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+            mRecyclerView.setAdapter(adapter);
+        }
+        else
+        {
+            mNoTaskImageView.setVisibility(View.VISIBLE);
+        }
     }
 
     private void initialization(View view)
     {
         mRecyclerView=view.findViewById(R.id.tasklist_recy_TaskListfragment);
+        mNoTaskImageView=view.findViewById(R.id.noTask_img_taskListFragment);
     }
 
 

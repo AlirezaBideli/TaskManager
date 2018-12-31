@@ -28,8 +28,15 @@ public class TaskDatePickerFragment extends DialogFragment {
     public static final String FORMAT_DATE = "yyyy/MM/dd";
     public static final String EXTRA_DATE = "com.example.admin.software_1_extra_date";
     public static final String ARG_DATE = "args_date";
+    public static final String SEPARATOR_DATE = "/";
+
     private DatePicker mDatePicker;
     private Date mDate;
+    private static int[] sIntDate;
+    private static boolean sIsFirstTime =true;
+    private static int sYear;
+    private static int sMonth;
+    private static int sDay;
 
     public static TaskDatePickerFragment newInstance(Date date) {
 
@@ -85,21 +92,31 @@ public class TaskDatePickerFragment extends DialogFragment {
         mDate = (Date) getArguments().getSerializable(ARG_DATE);
 
         if (mDate!=null) {//it means that if the mDate is equal to Undefined
-            int[] intDate = dateToInteger(mDate, FORMAT_DATE);//0: Year, 1: Month, 2: day
-            int year = intDate[0];
-            int month = intDate[1];
-            int day = intDate[2];
+            if (sIsFirstTime) {
+                sIntDate = dateToInteger(mDate, FORMAT_DATE);//0: Year, 1: Month, 2: day
+                sIsFirstTime =false;
+            }
+            else
+            {
+                //set the last date user has selected before
+                sIntDate[0]= sYear;
+                sIntDate[1]= sMonth;
+                sIntDate[2]= sDay;
+            }
+            int year = sIntDate[0];
+            int month = sIntDate[1];
+            int day = sIntDate[2];
             mDatePicker.init(year, month, day, null);
         }
     }
 
     private String getDate() {
-        int day = mDatePicker.getDayOfMonth();
-        int month = mDatePicker.getMonth();
-        int year = mDatePicker.getYear();
+        sDay = mDatePicker.getDayOfMonth();
+        sMonth = mDatePicker.getMonth();
+        sYear = mDatePicker.getYear();
 
         Calendar calendar = Calendar.getInstance();
-        calendar.set(year, month, day);
+        calendar.set(sYear, sMonth, sDay);
         Date date = calendar.getTime();
         SimpleDateFormat sdf = new SimpleDateFormat(FORMAT_DATE);
         String dateString = sdf.format(date);
@@ -113,18 +130,18 @@ public class TaskDatePickerFragment extends DialogFragment {
     }
 
 
-    private int[] dateToInteger(Date date, String aFormat) {
+    public  static int[] dateToInteger(Date date, String aFormat) {
 
         if (date == null) return null;
         SimpleDateFormat simpledateformat = new SimpleDateFormat(aFormat);
         String stringDate = simpledateformat.format(date);
-        String[] strDate = stringDate.split("/");
+        String[] strDate = stringDate.split(SEPARATOR_DATE);
         int[] intDate = strToIntArray(strDate);//0: Year, 1: Month, 2: day
         return intDate;
     }
 
 
-    private int[] strToIntArray(String[] strArray) {
+    public  static int[] strToIntArray(String[] strArray) {
         int[] temp = new int[strArray.length];
         for (byte i = 0; i < strArray.length; i++) {
             temp[i] = Integer.parseInt(strArray[i]);
@@ -132,6 +149,5 @@ public class TaskDatePickerFragment extends DialogFragment {
 
         return temp;
     }
-
 
 }

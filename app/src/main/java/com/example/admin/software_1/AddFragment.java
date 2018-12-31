@@ -39,6 +39,7 @@ public class AddFragment extends Fragment implements View.OnClickListener {
     public static final int REQ_TIME_PICKER = 0;
     public static final int REQ_DATE_PICKER = 1;
 
+
     public AddFragment() {
         // Required empty public constructor
     }
@@ -80,7 +81,8 @@ public class AddFragment extends Fragment implements View.OnClickListener {
     private void getDatasFromUI() {
         //check if the input are empty ,show a message
         if (mTitle_textView.getText().length() == 0)
-            Toast.makeText(getActivity(), getResources().getString(R.string.input_error_message), Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), getResources().getString(R.string.input_error_message),
+                    Toast.LENGTH_LONG).show();
         else {
             mTiltle = mTitle_textView.getText().toString();
             mDescription = mDescription_textView.getText().toString();
@@ -96,6 +98,7 @@ public class AddFragment extends Fragment implements View.OnClickListener {
                 temp_task.setDescription(mDescription);
 
             TaskLab.getInstance().addTask(mTaskType, temp_task);
+            getActivity().finish();
 
         }
 
@@ -118,6 +121,9 @@ public class AddFragment extends Fragment implements View.OnClickListener {
             return;
         if (requestCode == REQ_TIME_PICKER) {
             mTime = data.getStringExtra(TaskTimePickerFragment.EXTRA_TIME);
+            String[] strTime=mTime.split(TaskTimePickerFragment.SEPARATOR_TIME);
+            int[] intTime=TaskTimePickerFragment.strToIntArray(strTime);//0: hour, 1: minute
+
             String message = getResources().getString(R.string.taskTime_button_add, mTime);
             mSetTimeButton.setText(message);
         }
@@ -137,7 +143,6 @@ public class AddFragment extends Fragment implements View.OnClickListener {
 
             case R.id.add_button_Addfragment:
                 getDatasFromUI();
-                getActivity().finish();
                 break;
 
             case R.id.setTime_btn_AddFragment:
@@ -162,4 +167,7 @@ public class AddFragment extends Fragment implements View.OnClickListener {
         timePickerFragment.setTargetFragment(AddFragment.this, REQ_TIME_PICKER);
         timePickerFragment.show(getFragmentManager(), DIALOG_TAG_TIME_PICKER);
     }
+
+
+
 }
