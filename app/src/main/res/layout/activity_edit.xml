@@ -8,7 +8,7 @@
     android:gravity="center"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:context="com.example.admin.software_1.EditActivity">
+    tools:context="com.example.admin.software_1.controllers.activities.EditActivity">
 
 
 </LinearLayout>

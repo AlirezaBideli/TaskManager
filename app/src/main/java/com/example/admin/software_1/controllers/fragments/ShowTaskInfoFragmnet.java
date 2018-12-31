@@ -1,4 +1,4 @@
-package com.example.admin.software_1;
+package com.example.admin.software_1.controllers.fragments;
 
 
 import android.os.Bundle;
@@ -10,6 +10,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.TextView;
+
+import com.example.admin.software_1.R;
+import com.example.admin.software_1.models.Task;
+import com.example.admin.software_1.models.TaskLab;
 
 
 /**

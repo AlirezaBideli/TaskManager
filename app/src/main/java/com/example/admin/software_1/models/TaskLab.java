@@ -1,4 +1,4 @@
-package com.example.admin.software_1;
+package com.example.admin.software_1.models;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

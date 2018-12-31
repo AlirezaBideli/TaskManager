@@ -1,4 +1,4 @@
-package com.example.admin.software_1;
+package com.example.admin.software_1.controllers.fragments;
 
 
 import android.app.Activity;
@@ -14,6 +14,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TimePicker;
+
+import com.example.admin.software_1.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

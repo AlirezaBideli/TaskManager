@@ -1,18 +1,20 @@
-package com.example.admin.software_1;
+package com.example.admin.software_1.controllers.activities;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
+
+import com.example.admin.software_1.R;
+import com.example.admin.software_1.controllers.fragments.TaskListFragment;
+import com.example.admin.software_1.models.Task;
 
 public class TaskManagerActivity extends AppCompatActivity  {
 
@@ -87,7 +89,15 @@ public class TaskManagerActivity extends AppCompatActivity  {
 
     }
 
-private Task.TaskType getTaskType(int position)
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater=new MenuInflater(TaskManagerActivity.this);
+        inflater.inflate(R.menu.fragment_task_manager,menu);
+        return true;
+    }
+
+    private Task.TaskType getTaskType(int position)
 {
 
     switch (position)

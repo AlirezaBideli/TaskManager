@@ -9,7 +9,7 @@
     android:paddingRight="16dp"
     android:paddingStart="8dp"
     android:paddingTop="8dp"
-    tools:context="com.example.admin.software_1.EditFragment">
+    tools:context="com.example.admin.software_1.controllers.fragments.EditFragment">
 
 
 

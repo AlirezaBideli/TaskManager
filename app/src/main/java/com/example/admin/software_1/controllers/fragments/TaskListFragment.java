@@ -1,11 +1,9 @@
-package com.example.admin.software_1;
+package com.example.admin.software_1.controllers.fragments;
 
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -15,8 +13,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.Date;
+import com.example.admin.software_1.R;
+import com.example.admin.software_1.controllers.activities.EditActivity;
+import com.example.admin.software_1.controllers.activities.TaskManagerActivity;
+import com.example.admin.software_1.models.Task;
+import com.example.admin.software_1.models.TaskLab;
+
 import java.util.List;
 
 
@@ -75,7 +77,7 @@ public class TaskListFragment extends Fragment {
         super.onStart();
         mTaskType=(Task.TaskType)getArguments().getSerializable(EXTRA_TASK_TYPE);
 
-        List<Task>taskList=TaskLab.getInstance().getTasksList(mTaskType);
+        List<Task>taskList= TaskLab.getInstance().getTasksList(mTaskType);
         if (taskList.size()>0) {
             mNoTaskImageView.setVisibility(View.INVISIBLE);
             TaskAdapter adapter = new TaskAdapter(taskList);

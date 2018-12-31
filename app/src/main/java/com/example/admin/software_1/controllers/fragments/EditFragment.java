@@ -1,12 +1,10 @@
-package com.example.admin.software_1;
+package com.example.admin.software_1.controllers.fragments;
 
 
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +12,11 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.example.admin.software_1.R;
+import com.example.admin.software_1.controllers.activities.EditActivity;
+import com.example.admin.software_1.controllers.activities.TaskManagerActivity;
+import com.example.admin.software_1.models.Task;
 
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;

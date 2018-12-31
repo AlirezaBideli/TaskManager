@@ -37,5 +37,6 @@
     <string name="undefined">Undefined</string>
     <string name="taskTime_button_edit">Your task Time was %1$s</string>
     <string name="taskDate_button_edit">Your task Date was %1$s</string>
-/>
+    <string name="action_search">Search</string>
+    />
 </resources>

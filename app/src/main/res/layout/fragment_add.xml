@@ -5,7 +5,7 @@
     android:gravity="center"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:context="com.example.admin.software_1.AddFragment">
+    tools:context="com.example.admin.software_1.controllers.fragments.AddFragment">
 
     <EditText
         android:id="@+id/title_editText_Addfragment"

@@ -1,4 +1,4 @@
-package com.example.admin.software_1;
+package com.example.admin.software_1.controllers.fragments;
 
 
 import android.content.Intent;
@@ -11,6 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+
+import com.example.admin.software_1.R;
+import com.example.admin.software_1.controllers.activities.EditActivity;
+import com.example.admin.software_1.models.Task;
+import com.example.admin.software_1.models.TaskLab;
 
 
 /**

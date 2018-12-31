@@ -1,4 +1,4 @@
-package com.example.admin.software_1;
+package com.example.admin.software_1.models;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -75,7 +75,7 @@ public class Task implements Serializable {
 
 
 
-enum TaskType
+public enum TaskType
 {
     ALL,
     DONE,

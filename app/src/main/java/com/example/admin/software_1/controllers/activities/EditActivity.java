@@ -1,4 +1,4 @@
-package com.example.admin.software_1;
+package com.example.admin.software_1.controllers.activities;
 
 import android.content.Intent;
 import android.support.annotation.Nullable;
@@ -6,7 +6,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
+
+import com.example.admin.software_1.R;
+import com.example.admin.software_1.controllers.fragments.AddFragment;
+import com.example.admin.software_1.controllers.fragments.ShowTaskInfoFragmnet;
+import com.example.admin.software_1.controllers.fragments.TaskListFragment;
+import com.example.admin.software_1.models.Task;
 
 public class EditActivity extends AppCompatActivity {
 

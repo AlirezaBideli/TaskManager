@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:background="@color/Remove_dialog_red"
     android:padding="16dp"
-    tools:context="com.example.admin.software_1.RemoveDialogFragment"
+    tools:context="com.example.admin.software_1.controllers.fragments.RemoveDialogFragment"
     android:orientation="vertical">
 
     <!-- TODO: Update blank fragment layout -->

@@ -1,4 +1,4 @@
-package com.example.admin.software_1;
+package com.example.admin.software_1.controllers.fragments;
 
 
 import android.content.Intent;
@@ -16,6 +16,11 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.admin.software_1.R;
+import com.example.admin.software_1.controllers.activities.EditActivity;
+import com.example.admin.software_1.models.Task;
+import com.example.admin.software_1.models.TaskLab;
 
 import java.util.Date;
 import java.util.Objects;
