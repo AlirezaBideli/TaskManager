@@ -29,6 +29,9 @@ public class ShowTaskInfoFragmnet extends Fragment implements View.OnClickListen
 
     private Task mTask;
     public static final String REMOVE_TAG = "remove_tag";
+    public static final String ADD_FRAGMNET_TAG = "addFragment_tag";
+    public static final String EDIT_FRAGMENT_TAG = "editFragment_tag";
+
 
     public ShowTaskInfoFragmnet() {
         // Required empty public constructor
@@ -103,36 +106,50 @@ public class ShowTaskInfoFragmnet extends Fragment implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
-        FragmentManager fragmentManager = getFragmentManager();
+
 
         switch (v.getId()) {
             case R.id.add_button_ShowTaskInfoFragment:
-                goToAddFragment(fragmentManager);
+                goToAddFragment();
                 break;
             case R.id.remove_button_ShowTaskInfoFragment:
                 showRemoveDialog();
                 break;
             case R.id.edit_button_ShowTaskInfoFragment:
-                goToEditFragment(fragmentManager);
+                goToEditFragment();
 
                 break;
         }
     }
 
-    private void goToEditFragment(FragmentManager fragmentManager) {
-        fragmentManager.beginTransaction()
-                .replace(R.id.container_frame_EditFragment, EditFragment.newInstance(mTask))
-                .commit();
+    private void goToEditFragment() {
+        FragmentManager fragmentManager =  getFragmentManager();
+        fragmentManager.popBackStack();
+
+            fragmentManager.beginTransaction()
+                    .replace(R.id.container_frame_EditFragment, EditFragment.newInstance(mTask))
+                     .commit();
+
+
+
     }
 
-    private void goToAddFragment(FragmentManager fragmentManager) {
-        fragmentManager.beginTransaction()
-                .replace(R.id.container_frame_EditFragment, AddFragment.newInstance())
-                .commit();
+    private void goToAddFragment() {
+        FragmentManager fragmentManager =getFragmentManager();
+
+        fragmentManager.popBackStack();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.container_frame_EditFragment, AddFragment.newInstance())
+                    .commit();
+
+
     }
 
     private void showRemoveDialog() {
+
         RemoveDialogFragment removeDialogFragmnet = RemoveDialogFragment.newInstance(mTask);
         removeDialogFragmnet.show(getFragmentManager(), REMOVE_TAG);
     }
+
+
 }

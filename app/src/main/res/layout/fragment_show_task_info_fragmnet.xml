@@ -58,7 +58,8 @@
         android:id="@+id/taskType_checkbox_ShowTaskInfoFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/tab_name_Done" />
+        android:text="@string/tab_name_Done"
+        android:enabled="false"/>
 
 
 

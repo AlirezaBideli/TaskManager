@@ -34,9 +34,12 @@ public class EditActivity extends AppCompatActivity {
 
         Fragment fragment = setFragment(msavedState);
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction()
-                .replace(R.id.container_frame_EditFragment, fragment)
-                .commit();
+
+        if (fragmentManager.findFragmentById(R.id.container_frame_EditFragment)==null) {
+            fragmentManager.beginTransaction()
+                    .replace(R.id.container_frame_EditFragment, fragment)
+                    .commit();
+        }
 
 
     }

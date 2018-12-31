@@ -18,15 +18,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Date;
+import java.util.Objects;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class AddFragment extends Fragment implements View.OnClickListener {
 
-    private static final String BUNDLE_TITLE = "bundle_title";
-    private static final String BUNDLE_DESCRIPTION = "bundle_description";
-    private static final String BUNDLE_TASKTYPE = "bundle_taskType";
+
     //Widgets variables
     private EditText mTitle_EditText;
     private EditText mDescription_EditText;
@@ -35,6 +34,7 @@ public class AddFragment extends Fragment implements View.OnClickListener {
     private Button mSetTimeButton;
     private Button mSetDateButton;
     //simple variables
+    private static  String defaultValue;
     private static String mTitle;
     private static String mDescription;
     private static String mTime;
@@ -143,17 +143,17 @@ public class AddFragment extends Fragment implements View.OnClickListener {
                 temp_task.setDescription(mDescription);
 
             TaskLab.getInstance().addTask(mTaskType, temp_task);
-            getActivity().finish();
 
         }
 
     }
 
     private void resetData() {
+        defaultValue=getResources().getString(R.string.undefined);
         mTitle = "";
         mDescription = "";
-        mTime = "";
-        mDate = "";
+        mTime = defaultValue;
+        mDate = defaultValue;
         mTaskTypeChecked = false;
         sIsOrientationChanged = false;
         mTaskType = null;
@@ -195,6 +195,7 @@ public class AddFragment extends Fragment implements View.OnClickListener {
             case R.id.add_button_Addfragment:
                 getDatasFromUI();
                 resetData();
+                goToTaskManagerActivity();
                 break;
 
             case R.id.setTime_btn_AddFragment:
@@ -225,17 +226,22 @@ public class AddFragment extends Fragment implements View.OnClickListener {
         timePickerFragment.show(getFragmentManager(), DIALOG_TAG_TIME_PICKER);
     }
 
+    private void goToTaskManagerActivity()
+    {
+        Intent intent=((EditActivity)getActivity()).newIntent();
+        startActivity(intent);
+    }
 
     private void fillUIwidgets() {
 
         mTitle_EditText.setText(mTitle, TextView.BufferType.EDITABLE);
         mDescription_EditText.setText(mDescription, TextView.BufferType.EDITABLE);
         mTaskType_Checkbox.setChecked(mTaskTypeChecked);
-        if (mDate != null) {
+        if (!Objects.equals(mDate, defaultValue)) {
             String dateMessage = getResources().getString(R.string.taskDate_button_add, mDate);
             mSetDateButton.setText(dateMessage);
         }
-        if (mTitle != null) {
+        if (!Objects.equals(mTime, defaultValue)) {
             String timeMessage = getResources().getString(R.string.taskTime_button_add, mTime);
             mSetTimeButton.setText(timeMessage);
         }
@@ -245,8 +251,10 @@ public class AddFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onStart() {
         super.onStart();
-        if (sIsOrientationChanged)
+        if (sIsOrientationChanged) {
             fillUIwidgets();
+            sIsOrientationChanged=false;
+        }
     }
 
     @Override
@@ -257,4 +265,10 @@ public class AddFragment extends Fragment implements View.OnClickListener {
     }
 
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(!sIsOrientationChanged)
+            resetData();
+    }
 }

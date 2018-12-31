@@ -2,9 +2,11 @@ package com.example.admin.software_1;
 
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,9 +64,10 @@ public class EditFragment extends Fragment implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         mTask = getArgs();
         mDescription = getResources().getString(R.string.undefined);//set undefined because maybe the user delete it
-        mDate=mTask.getDate();
-        mTime =mTask.getHour();
-        undefined=getResources().getString(R.string.undefined);
+        mDate = mTask.getDate();
+        mTime = mTask.getHour();
+        undefined = getResources().getString(R.string.undefined);
+
     }
 
     @Override
@@ -99,15 +102,15 @@ public class EditFragment extends Fragment implements View.OnClickListener {
     }
 
     private void fillUiWidgets(Task task) {
-        mTitle=task.getTitle();
-        mDescription=task.getDescription();
-        mTaskType=task.getTaskType();
+        mTitle = task.getTitle();
+        mDescription = task.getDescription();
+        mTaskType = task.getTaskType();
         mTitle_EditText.setText(mTitle);
         mDescription_EditText.setText(mDescription);
         boolean reault = setTaskTypeChecked(mTaskType);
         mTaskType_checkbox.setChecked(reault);
-        mSetDate_Button.setText(getResources().getString(R.string.taskDate_button_edit,task.getDate()));
-        mSetTime_Button.setText(getResources().getString(R.string.taskTime_button_edit,task.getHour()));
+        mSetDate_Button.setText(getResources().getString(R.string.taskDate_button_edit, task.getDate()));
+        mSetTime_Button.setText(getResources().getString(R.string.taskTime_button_edit, task.getHour()));
     }
 
     private boolean setTaskTypeChecked(Task.TaskType taskType) {
@@ -141,9 +144,9 @@ public class EditFragment extends Fragment implements View.OnClickListener {
 
     private void setSendedTask() {
 
-        mTitle=mTitle_EditText.getText().toString();
-        mDescription=mDescription_EditText.getText().toString();
-        mTaskType=getTaskType(mTaskType_checkbox.isChecked());
+        mTitle = mTitle_EditText.getText().toString();
+        mDescription = mDescription_EditText.getText().toString();
+        mTaskType = getTaskType(mTaskType_checkbox.isChecked());
         Task.TaskType taskType = getTaskType(mTaskType_checkbox.isChecked());
         mTask.setTaskType(taskType);
         mTask.setTitle(mTitle);
@@ -152,23 +155,22 @@ public class EditFragment extends Fragment implements View.OnClickListener {
         mTask.setDate(mDate);
         mTask.setHour(mTime);
 
-        Intent intent=new Intent(getActivity(),TaskManagerActivity.class);
-        intent.putExtra(TaskManagerActivity.Tag_state,2);
+        Intent intent = new Intent(getActivity(), TaskManagerActivity.class);
+        intent.putExtra(TaskManagerActivity.Tag_state, 2);
         startActivity(intent);
 
-     }
-
+    }
 
 
     private void goToDatePickerFragment() {
-        Date date=stringToDate(mDate);
+        Date date = stringToDate(mDate);
         TaskDatePickerFragment taskDatePickerFragment = TaskDatePickerFragment.newInstance(date);
         taskDatePickerFragment.setTargetFragment(EditFragment.this, REQ_DATE_PICKER);
         taskDatePickerFragment.show(getFragmentManager(), DIALOG_TAG_DATE_PICKER);
     }
 
     private void goToTimePickerFragment() {
-        Date time=stringToTime(mTime);
+        Date time = stringToTime(mTime);
         TaskTimePickerFragment timePickerFragment = TaskTimePickerFragment.newInstance(time);
         timePickerFragment.setTargetFragment(EditFragment.this, REQ_TIME_PICKER);
         timePickerFragment.show(getFragmentManager(), DIALOG_TAG_TIME_PICKER);
@@ -203,22 +205,19 @@ public class EditFragment extends Fragment implements View.OnClickListener {
 
     }
 
-    private Date stringToDate(String strDate)
-    {
-        ParsePosition ps=new ParsePosition(0);
-        SimpleDateFormat simpleDateFormat=new SimpleDateFormat(TaskDatePickerFragment.FORMAT_DATE);
-        Date date=simpleDateFormat.parse(strDate,ps);
+    private Date stringToDate(String strDate) {
+        ParsePosition ps = new ParsePosition(0);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(TaskDatePickerFragment.FORMAT_DATE);
+        Date date = simpleDateFormat.parse(strDate, ps);
         return date;
     }
 
-    private Date stringToTime(String strTime)
-    {
-        ParsePosition ps=new ParsePosition(0);
-        SimpleDateFormat simpleDateFormat=new SimpleDateFormat(TaskTimePickerFragment.FORMAT_TIME);
-        Date time=simpleDateFormat.parse(strTime,ps);
+    private Date stringToTime(String strTime) {
+        ParsePosition ps = new ParsePosition(0);
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(TaskTimePickerFragment.FORMAT_TIME);
+        Date time = simpleDateFormat.parse(strTime, ps);
         return time;
     }
-
 
 
 }
