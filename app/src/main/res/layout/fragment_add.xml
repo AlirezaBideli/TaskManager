@@ -8,7 +8,7 @@
     tools:context="com.example.admin.software_1.AddFragment">
 
     <EditText
-        android:id="@+id/title_textView_Addfragment"
+        android:id="@+id/title_editText_Addfragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -17,7 +17,7 @@
         android:maxLength="30" />
 
     <EditText
-        android:id="@+id/description_textView_Addfragment"
+        android:id="@+id/description_editText_Addfragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"

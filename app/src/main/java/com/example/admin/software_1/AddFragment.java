@@ -2,18 +2,21 @@ package com.example.admin.software_1;
 
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -21,19 +24,24 @@ import java.util.Date;
  */
 public class AddFragment extends Fragment implements View.OnClickListener {
 
+    private static final String BUNDLE_TITLE = "bundle_title";
+    private static final String BUNDLE_DESCRIPTION = "bundle_description";
+    private static final String BUNDLE_TASKTYPE = "bundle_taskType";
     //Widgets variables
-    private TextView mTitle_textView;
-    private TextView mDescription_textView;
-    private CheckBox mTaskType_checkbox;
+    private EditText mTitle_EditText;
+    private EditText mDescription_EditText;
+    private CheckBox mTaskType_Checkbox;
     private Button mAddButton;
     private Button mSetTimeButton;
     private Button mSetDateButton;
     //simple variables
-    private String mTiltle;
-    private String mDescription;
-    private String mTime;
-    private String mDate;
+    private static String mTitle;
+    private static String mDescription;
+    private static String mTime;
+    private static String mDate;
+    private static boolean mTaskTypeChecked;
     private Task.TaskType mTaskType;
+    private static boolean sIsOrientationChanged = false;
     public static final String DIALOG_TAG_TIME_PICKER = "timePicker_tag";
     public static final String DIALOG_TAG_DATE_PICKER = "datePicker_tag";
     public static final int REQ_TIME_PICKER = 0;
@@ -65,14 +73,49 @@ public class AddFragment extends Fragment implements View.OnClickListener {
         mAddButton.setOnClickListener(this);
         mSetTimeButton.setOnClickListener(this);
         mSetDateButton.setOnClickListener(this);
+        mTaskType_Checkbox.setOnClickListener(this);
+        mTitle_EditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                mTitle = s.toString();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        mDescription_EditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                mDescription = s.toString();
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
+
+
         return view;
     }
 
 
     private void initilization(View view) {
-        mTitle_textView = view.findViewById(R.id.title_textView_Addfragment);
-        mDescription_textView = view.findViewById(R.id.description_textView_Addfragment);
-        mTaskType_checkbox = view.findViewById(R.id.taskType_checkbox_Addfragment);
+        mTitle_EditText = view.findViewById(R.id.title_editText_Addfragment);
+        mDescription_EditText = view.findViewById(R.id.description_editText_Addfragment);
+        mTaskType_Checkbox = view.findViewById(R.id.taskType_checkbox_Addfragment);
         mAddButton = view.findViewById(R.id.add_button_Addfragment);
         mSetTimeButton = view.findViewById(R.id.setTime_btn_AddFragment);
         mSetDateButton = view.findViewById(R.id.setDate_btn_AddFragment);
@@ -80,16 +123,18 @@ public class AddFragment extends Fragment implements View.OnClickListener {
 
     private void getDatasFromUI() {
         //check if the input are empty ,show a message
-        if (mTitle_textView.getText().length() == 0)
+        if (mTitle_EditText.getText().length() == 0)
             Toast.makeText(getActivity(), getResources().getString(R.string.input_error_message),
                     Toast.LENGTH_LONG).show();
         else {
-            mTiltle = mTitle_textView.getText().toString();
-            mDescription = mDescription_textView.getText().toString();
-            setTaskType();
+
+            mTitle = mTitle_EditText.getText().toString();
+            mDescription = mDescription_EditText.getText().toString();
+            mTaskType = setTaskType(mTaskType_Checkbox.isChecked());
             Task temp_task = new Task();
-            temp_task.setTitle(mTiltle);
+            temp_task.setTitle(mTitle);
             temp_task.setTaskType(mTaskType);
+
             if (mDate != null)
                 temp_task.setDate(mDate);
             if (mTime != null)
@@ -104,13 +149,22 @@ public class AddFragment extends Fragment implements View.OnClickListener {
 
     }
 
-    private void setTaskType() {
-        if (mTaskType_checkbox.isChecked())
-            mTaskType = Task.TaskType.DONE;
-        else
-            mTaskType = Task.TaskType.UNDONE;
+    private void resetData() {
+        mTitle = "";
+        mDescription = "";
+        mTime = "";
+        mDate = "";
+        mTaskTypeChecked = false;
+        sIsOrientationChanged = false;
+        mTaskType = null;
     }
 
+    private Task.TaskType setTaskType(boolean isChecked) {
+        if (isChecked)
+            return Task.TaskType.DONE;
+        else
+            return Task.TaskType.UNDONE;
+    }
 
 
     @Override
@@ -121,18 +175,15 @@ public class AddFragment extends Fragment implements View.OnClickListener {
             return;
         if (requestCode == REQ_TIME_PICKER) {
             mTime = data.getStringExtra(TaskTimePickerFragment.EXTRA_TIME);
-            String[] strTime=mTime.split(TaskTimePickerFragment.SEPARATOR_TIME);
-            int[] intTime=TaskTimePickerFragment.strToIntArray(strTime);//0: hour, 1: minute
-
-            String message = getResources().getString(R.string.taskTime_button_add, mTime);
-            mSetTimeButton.setText(message);
+            String timeMessage = getResources().getString(R.string.taskTime_button_add, mTime);
+            mSetTimeButton.setText(timeMessage);
         }
 
 
         if (requestCode == REQ_DATE_PICKER) {
             mDate = data.getStringExtra(TaskDatePickerFragment.EXTRA_DATE);
-            String message = getResources().getString(R.string.taskDate_button_add, mDate);
-            mSetDateButton.setText(message);
+            String dateMessage = getResources().getString(R.string.taskDate_button_add, mDate);
+            mSetDateButton.setText(dateMessage);
 
         }
     }
@@ -143,6 +194,7 @@ public class AddFragment extends Fragment implements View.OnClickListener {
 
             case R.id.add_button_Addfragment:
                 getDatasFromUI();
+                resetData();
                 break;
 
             case R.id.setTime_btn_AddFragment:
@@ -151,6 +203,11 @@ public class AddFragment extends Fragment implements View.OnClickListener {
 
             case R.id.setDate_btn_AddFragment:
                 goToDatePickerFragment();
+                break;
+
+            case R.id.taskType_checkbox_Addfragment:
+                mTaskType = setTaskType(true);
+                mTaskTypeChecked = true;
                 break;
 
         }
@@ -168,6 +225,36 @@ public class AddFragment extends Fragment implements View.OnClickListener {
         timePickerFragment.show(getFragmentManager(), DIALOG_TAG_TIME_PICKER);
     }
 
+
+    private void fillUIwidgets() {
+
+        mTitle_EditText.setText(mTitle, TextView.BufferType.EDITABLE);
+        mDescription_EditText.setText(mDescription, TextView.BufferType.EDITABLE);
+        mTaskType_Checkbox.setChecked(mTaskTypeChecked);
+        if (mDate != null) {
+            String dateMessage = getResources().getString(R.string.taskDate_button_add, mDate);
+            mSetDateButton.setText(dateMessage);
+        }
+        if (mTitle != null) {
+            String timeMessage = getResources().getString(R.string.taskTime_button_add, mTime);
+            mSetTimeButton.setText(timeMessage);
+        }
+    }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (sIsOrientationChanged)
+            fillUIwidgets();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        sIsOrientationChanged = true;
+
+    }
 
 
 }

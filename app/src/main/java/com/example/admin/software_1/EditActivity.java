@@ -14,6 +14,7 @@ public class EditActivity extends AppCompatActivity {
     private int msavedState;
     public static final int addButtonClicked = 0;
     public static final int itemTaskListClicked = 1;
+    private Fragment mContent;
 
 
     public  Intent newIntent() {
@@ -25,6 +26,7 @@ public class EditActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit);
+
 
 
         msavedState = getIntent().getIntExtra(TaskManagerActivity.Tag_state, 1);
@@ -52,4 +54,7 @@ public class EditActivity extends AppCompatActivity {
         }
         return new Fragment();
     }
+
+
+
 }
