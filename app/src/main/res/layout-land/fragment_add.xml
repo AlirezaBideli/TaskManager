@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:gravity="center">
+
+
+    <EditText
+        android:id="@+id/title_editText_Addfragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:ems="10"
+        android:hint="@string/title"
+        android:inputType="textPersonName"
+        android:maxLength="30"
+        android:layout_weight="1"/>
+
+    <EditText
+        android:id="@+id/description_editText_Addfragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:ems="10"
+        android:hint="@string/Desc"
+        android:inputType="textPersonName"
+        android:maxLength="200" />
+
+    <CheckBox
+        android:id="@+id/taskType_checkbox_Addfragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.4"
+        android:text="@string/tab_name_Done" />
+
+    <Button
+        android:id="@+id/setDate_btn_AddFragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.7"
+        android:text="@string/set_date"
+        android:textSize="10sp" />
+
+    <Button
+        android:id="@+id/setTime_btn_AddFragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.7"
+        android:text="@string/setTime_btn"
+        android:textSize="10sp" />
+
+    <Button
+        android:id="@+id/add_button_Addfragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.7"
+        android:text="@string/Add"
+        android:textSize="10sp" />
+</LinearLayout>

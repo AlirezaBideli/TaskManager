@@ -34,7 +34,7 @@ public class AddFragment extends Fragment implements View.OnClickListener {
     private Button mSetTimeButton;
     private Button mSetDateButton;
     //simple variables
-    private static  String defaultValue;
+    private static String defaultValue;
     private static String mTitle;
     private static String mDescription;
     private static String mTime;
@@ -46,7 +46,7 @@ public class AddFragment extends Fragment implements View.OnClickListener {
     public static final String DIALOG_TAG_DATE_PICKER = "datePicker_tag";
     public static final int REQ_TIME_PICKER = 0;
     public static final int REQ_DATE_PICKER = 1;
-
+    private boolean isInputValid;
 
     public AddFragment() {
         // Required empty public constructor
@@ -123,11 +123,13 @@ public class AddFragment extends Fragment implements View.OnClickListener {
 
     private void getDatasFromUI() {
         //check if the input are empty ,show a message
-        if (mTitle_EditText.getText().length() == 0)
+        if (mTitle_EditText.getText().length() == 0) {
             Toast.makeText(getActivity(), getResources().getString(R.string.input_error_message),
                     Toast.LENGTH_LONG).show();
+            isInputValid = false;
+        }
         else {
-
+            isInputValid = true;
             mTitle = mTitle_EditText.getText().toString();
             mDescription = mDescription_EditText.getText().toString();
             mTaskType = setTaskType(mTaskType_Checkbox.isChecked());
@@ -149,7 +151,7 @@ public class AddFragment extends Fragment implements View.OnClickListener {
     }
 
     private void resetData() {
-        defaultValue=getResources().getString(R.string.undefined);
+        defaultValue = getResources().getString(R.string.undefined);
         mTitle = "";
         mDescription = "";
         mTime = defaultValue;
@@ -195,7 +197,8 @@ public class AddFragment extends Fragment implements View.OnClickListener {
             case R.id.add_button_Addfragment:
                 getDatasFromUI();
                 resetData();
-                goToTaskManagerActivity();
+                if(isInputValid)
+                    goToTaskManagerActivity();
                 break;
 
             case R.id.setTime_btn_AddFragment:
@@ -226,9 +229,8 @@ public class AddFragment extends Fragment implements View.OnClickListener {
         timePickerFragment.show(getFragmentManager(), DIALOG_TAG_TIME_PICKER);
     }
 
-    private void goToTaskManagerActivity()
-    {
-        Intent intent=((EditActivity)getActivity()).newIntent();
+    private void goToTaskManagerActivity() {
+        Intent intent = ((EditActivity) getActivity()).newIntent();
         startActivity(intent);
     }
 
@@ -253,7 +255,7 @@ public class AddFragment extends Fragment implements View.OnClickListener {
         super.onStart();
         if (sIsOrientationChanged) {
             fillUIwidgets();
-            sIsOrientationChanged=false;
+            sIsOrientationChanged = false;
         }
     }
 
@@ -268,7 +270,7 @@ public class AddFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if(!sIsOrientationChanged)
+        if (!sIsOrientationChanged)
             resetData();
     }
 }
