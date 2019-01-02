@@ -14,7 +14,7 @@ import com.example.admin.software_1.controllers.fragments.TaskListFragment;
 import com.example.admin.software_1.models.Task;
 
 public class EditActivity extends AppCompatActivity {
-
+public static final int STATE_ADD = 0;
 
     private int msavedState;
     public static final int addButtonClicked = 0;

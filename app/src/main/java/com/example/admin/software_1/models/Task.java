@@ -10,13 +10,12 @@ import java.util.Date;
 public class Task implements Serializable {
 
 
-
     //Change optional variables to "Undefined" when these variables are "null"
     private int mPosition;
     private String mTitle;
-    private String mDescription="Undefined";
-    private String mDate="Undefined";
-    private String mHour="Undefined";
+    private String mDescription = "Undefined";
+    private String mDate = "Undefined";
+    private String mHour = "Undefined";
     private TaskType mTaskType;
 
 
@@ -29,8 +28,6 @@ public class Task implements Serializable {
     }
 
 
-
-
     public String getHour() {
         return mHour;
     }
@@ -38,7 +35,6 @@ public class Task implements Serializable {
     public void setHour(String hour) {
         mHour = hour;
     }
-
 
 
     public TaskType getTaskType() {
@@ -74,13 +70,38 @@ public class Task implements Serializable {
     }
 
 
+    public enum TaskType {
+        ALL(0),
+        DONE(1),
+        UNDONE(2);
 
-public enum TaskType
-{
-    ALL,
-    DONE,
-    UNDONE
-}
+        TaskType(int value){
+            this.value = value;
+        }
+
+
+        private int value;
+
+        public int getValue() {
+
+            return value;
+        }
+
+        public static TaskType getTaskType(int value){
+            switch (value)
+            {
+                case 0:
+                    return Task.TaskType.ALL;
+                case 1:
+                    return Task.TaskType.DONE;
+                default:
+                    return Task.TaskType.UNDONE;
+            }
+        }
+
+
+
+    }
 
 
 }
