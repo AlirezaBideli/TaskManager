@@ -126,8 +126,9 @@ public class AddFragment extends Fragment implements View.OnClickListener {
         mSetDateButton = view.findViewById(R.id.setDate_btn_AddFragment);
     }
 
-    private void getDatasFromUI() {
+    private void AddDate() {
         //check if the input are empty ,show a message
+
         if (mTitle_EditText.getText().length() == 0) {
             Toast.makeText(getActivity(), getResources().getString(R.string.input_error_message),
                     Toast.LENGTH_LONG).show();
@@ -145,11 +146,11 @@ public class AddFragment extends Fragment implements View.OnClickListener {
             if (mDate != null)
                 temp_task.setDate(mDate);
             if (mTime != null)
-                temp_task.setHour(mTime);
+                temp_task.setTime(mTime);
             if (mDescription != null)
                 temp_task.setDescription(mDescription);
 
-            TaskLab.getInstance().addTask(mTaskType, temp_task);
+            TaskLab.getInstance(getActivity()).addTask(temp_task);
 
         }
 
@@ -200,7 +201,7 @@ public class AddFragment extends Fragment implements View.OnClickListener {
         switch (v.getId()) {
 
             case R.id.add_button_Addfragment:
-                getDatasFromUI();
+                AddDate();
                 resetData();
                 if(isInputValid)
                     goToTaskManagerActivity();

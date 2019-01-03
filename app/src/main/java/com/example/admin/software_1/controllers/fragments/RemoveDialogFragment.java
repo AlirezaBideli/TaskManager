@@ -70,7 +70,7 @@ public class RemoveDialogFragment extends DialogFragment implements View.OnClick
         switch (v.getId())
         {
             case R.id.yes_btn_RemoveDialogFragment:
-                TaskLab.getInstance().removeTask(mTask);
+                TaskLab.getInstance(getActivity()).removeTask(mTask);
                 Intent intent=((EditActivity)getActivity()).newIntent();
                 startActivity(intent);
 

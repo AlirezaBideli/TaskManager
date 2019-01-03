@@ -1,22 +1,42 @@
 package com.example.admin.software_1.models;
 
+import android.app.AlertDialog;
+
 import java.io.Serializable;
-import java.util.Date;
+import java.util.UUID;
 
 /**
  * Created by ADMIN on 12/23/2018.
  */
 
+
 public class Task implements Serializable {
 
 
     //Change optional variables to "Undefined" when these variables are "null"
-    private int mPosition;
+    private UUID mId;
     private String mTitle;
     private String mDescription = "Undefined";
     private String mDate = "Undefined";
-    private String mHour = "Undefined";
+    private String mTime = "Undefined";
     private TaskType mTaskType;
+    private int userId;
+
+
+
+    public Task()
+    {
+        mId=UUID.randomUUID();
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
 
 
     public String getDate() {
@@ -28,12 +48,12 @@ public class Task implements Serializable {
     }
 
 
-    public String getHour() {
-        return mHour;
+    public String getTime() {
+        return mTime;
     }
 
-    public void setHour(String hour) {
-        mHour = hour;
+    public void setTime(String hour) {
+        mTime = hour;
     }
 
 
@@ -61,13 +81,16 @@ public class Task implements Serializable {
         mDescription = description;
     }
 
-    public int getPosition() {
-        return mPosition;
+
+    public UUID getId() {
+        return mId;
     }
 
-    public void setPosition(int position) {
-        mPosition = position;
+    public void setId(UUID id) {
+        mId = id;
     }
+
+
 
 
     public enum TaskType {
@@ -75,7 +98,7 @@ public class Task implements Serializable {
         DONE(1),
         UNDONE(2);
 
-        TaskType(int value){
+        TaskType(int value) {
             this.value = value;
         }
 
@@ -87,9 +110,8 @@ public class Task implements Serializable {
             return value;
         }
 
-        public static TaskType getTaskType(int value){
-            switch (value)
-            {
+        public static TaskType getTaskType(int value) {
+            switch (value) {
                 case 0:
                     return Task.TaskType.ALL;
                 case 1:
@@ -98,7 +120,6 @@ public class Task implements Serializable {
                     return Task.TaskType.UNDONE;
             }
         }
-
 
 
     }

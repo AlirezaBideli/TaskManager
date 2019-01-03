@@ -12,8 +12,12 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.example.admin.software_1.R;
+import com.example.admin.software_1.controllers.activities.EditActivity;
+import com.example.admin.software_1.controllers.activities.TaskManagerActivity;
 import com.example.admin.software_1.models.Task;
 import com.example.admin.software_1.models.TaskLab;
+
+import java.util.UUID;
 
 
 /**
@@ -42,10 +46,9 @@ public class ShowTaskInfoFragmnet extends Fragment implements View.OnClickListen
     }
 
 
-    public static ShowTaskInfoFragmnet newInstance(int taskPosition, Task.TaskType taskType) {
+    public static ShowTaskInfoFragmnet newInstance(UUID id) {
         Bundle bundle = new Bundle();
-        bundle.putInt(TaskListFragment.EXTRA_TASK_POSITION, taskPosition);
-        bundle.putSerializable(TaskListFragment.EXTRA_TASK_TYPE, taskType);
+        bundle.putSerializable(TaskManagerActivity.EXTRA_TASK_UUID,id);
         ShowTaskInfoFragmnet fragment = new ShowTaskInfoFragmnet();
         fragment.setArguments(bundle);
         return fragment;
@@ -82,9 +85,8 @@ public class ShowTaskInfoFragmnet extends Fragment implements View.OnClickListen
 
 
     private Task getTaskFromArgs() {
-        int taskPosition = getArguments().getInt(TaskListFragment.EXTRA_TASK_POSITION);
-        Task.TaskType taskType = (Task.TaskType) getArguments().getSerializable(TaskListFragment.EXTRA_TASK_TYPE);
-        Task task = TaskLab.getInstance().getTaskByPosition(taskPosition, taskType);
+        UUID taslId = (UUID) getArguments().getSerializable(TaskManagerActivity.EXTRA_TASK_UUID);
+        Task task = TaskLab.getInstance(getActivity()).getTask(taslId);
         return task;
     }
 
@@ -94,7 +96,7 @@ public class ShowTaskInfoFragmnet extends Fragment implements View.OnClickListen
         mTitle_textView.setText(task.getTitle());
         mDesc_textView.setText(task.getDescription());
         mDate_textView.setText(task.getDate());
-        mHour_textView.setText(task.getHour());
+        mHour_textView.setText(task.getTime());
         boolean isDoneTask = setChecked(task.getTaskType());
         mTaskType_CheckBox.setChecked(isDoneTask);
     }

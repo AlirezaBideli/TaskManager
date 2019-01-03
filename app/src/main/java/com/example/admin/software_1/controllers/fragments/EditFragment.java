@@ -17,6 +17,7 @@ import com.example.admin.software_1.R;
 import com.example.admin.software_1.controllers.activities.EditActivity;
 import com.example.admin.software_1.controllers.activities.TaskManagerActivity;
 import com.example.admin.software_1.models.Task;
+import com.example.admin.software_1.models.TaskLab;
 
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
@@ -68,7 +69,7 @@ public class EditFragment extends Fragment implements View.OnClickListener {
         mTask = getArgs();
         mDescription = getResources().getString(R.string.undefined);//set undefined because maybe the user delete it
         mDate = mTask.getDate();
-        mTime = mTask.getHour();
+        mTime = mTask.getTime();
         undefined = getResources().getString(R.string.undefined);
 
     }
@@ -113,7 +114,7 @@ public class EditFragment extends Fragment implements View.OnClickListener {
         boolean reault = setTaskTypeChecked(mTaskType);
         mTaskType_checkbox.setChecked(reault);
         mSetDate_Button.setText(getResources().getString(R.string.taskDate_button_edit, task.getDate()));
-        mSetTime_Button.setText(getResources().getString(R.string.taskTime_button_edit, task.getHour()));
+        mSetTime_Button.setText(getResources().getString(R.string.taskTime_button_edit, task.getTime()));
     }
 
     private boolean setTaskTypeChecked(Task.TaskType taskType) {
@@ -156,8 +157,9 @@ public class EditFragment extends Fragment implements View.OnClickListener {
         mTask.setDescription(mDescription);
         mTask.setTaskType(mTaskType);
         mTask.setDate(mDate);
-        mTask.setHour(mTime);
+        mTask.setTime(mTime);
 
+        TaskLab.getInstance(getActivity()).update(mTask);
         Intent intent = new Intent(getActivity(), TaskManagerActivity.class);
         intent.putExtra(TaskManagerActivity.Tag_state, 2);
         startActivity(intent);

@@ -13,6 +13,8 @@ import com.example.admin.software_1.controllers.fragments.ShowTaskInfoFragmnet;
 import com.example.admin.software_1.controllers.fragments.TaskListFragment;
 import com.example.admin.software_1.models.Task;
 
+import java.util.UUID;
+
 public class EditActivity extends AppCompatActivity {
 public static final int STATE_ADD = 0;
 
@@ -56,9 +58,9 @@ public static final int STATE_ADD = 0;
 
             case itemTaskListClicked://when user clicked on  recycler view items in TaskListFragment
 
-                int taskPostion = getIntent().getIntExtra(TaskListFragment.EXTRA_TASK_POSITION, -1);
-                Task.TaskType taskType = (Task.TaskType) getIntent().getSerializableExtra(TaskListFragment.EXTRA_TASK_TYPE);
-                return ShowTaskInfoFragmnet.newInstance(taskPostion, taskType);
+
+                UUID taskId= (UUID) getIntent().getSerializableExtra(TaskManagerActivity.EXTRA_TASK_UUID);
+                return ShowTaskInfoFragmnet.newInstance(taskId);
         }
         return new Fragment();
     }

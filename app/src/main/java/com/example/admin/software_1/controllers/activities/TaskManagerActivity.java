@@ -23,6 +23,7 @@ public class TaskManagerActivity extends AppCompatActivity {
     private TabLayout mTabLayout;
     private FloatingActionButton mAdd_fab;
     public static final String Tag_state = "om.example.admin.software_1_tag_tabPosition";
+    public static final String EXTRA_TASK_UUID ="task_uuid";
 
 
     public Intent newIntent(int state) {
@@ -94,6 +95,9 @@ public class TaskManagerActivity extends AppCompatActivity {
     private Task.TaskType getTaskType(int position) {
         return Task.TaskType.getTaskType(position);
     }
+
+
+
 
 
     private void initialization() {

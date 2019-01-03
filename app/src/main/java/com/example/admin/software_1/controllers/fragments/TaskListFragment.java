@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +19,7 @@ import com.example.admin.software_1.models.Task;
 import com.example.admin.software_1.models.TaskLab;
 
 import java.util.List;
+import java.util.UUID;
 
 
 /**
@@ -30,8 +30,8 @@ public class TaskListFragment extends Fragment {
 
     private RecyclerView mRecyclerView;
     private ImageView mNoTaskImageView;
-    public static final String EXTRA_TASK_POSITION ="taskPosition";
-    public static final String EXTRA_TASK_TYPE ="taskType";
+    private static final String EXTRA_TASK_TYPE = "taskType";
+
 
 
 
@@ -41,14 +41,14 @@ public class TaskListFragment extends Fragment {
     }
 
 
-    public Intent newIntent(int state,int position,Task.TaskType taskType)
+    public Intent newIntent(int state, UUID id)
     {
         Intent intent=new Intent(getActivity(),EditActivity.class);
         intent.putExtra(TaskManagerActivity.Tag_state,state);
-        intent.putExtra(EXTRA_TASK_POSITION,position);
-        intent.putExtra(EXTRA_TASK_TYPE,taskType);
+        intent.putExtra(TaskManagerActivity.EXTRA_TASK_UUID,id);
 
-        Log.i("Tag",state+" "+position+" "+taskType);
+
+
         return intent;
     }
 
@@ -77,7 +77,7 @@ public class TaskListFragment extends Fragment {
         super.onStart();
         mTaskType=(Task.TaskType)getArguments().getSerializable(EXTRA_TASK_TYPE);
 
-        List<Task>taskList= TaskLab.getInstance().getTasksList(mTaskType);
+        List<Task>taskList= TaskLab.getInstance(getActivity()).getTasks(mTaskType);
         if (taskList.size()>0) {
             mNoTaskImageView.setVisibility(View.INVISIBLE);
             TaskAdapter adapter = new TaskAdapter(taskList);
@@ -108,17 +108,20 @@ public class TaskListFragment extends Fragment {
         private TextView mTitile_textView;
         private TextView mDateandHour_textView;
         private TextView mTitleFirstLetter_textView;
+        List<Task> mTasks=TaskLab.getInstance(getActivity()).getTasks(TaskListFragment.this.mTaskType);
         public TaskHolder(View itemView) {
             super(itemView);
             mTitile_textView=itemView.findViewById(R.id.title_textView_TaskListfragment);
             mDateandHour_textView=itemView.findViewById(R.id.hourAndDate_textView_fragment);
             mTitleFirstLetter_textView=itemView.findViewById(R.id.firstLetter_textView_fragment);
 
+
             itemView.setOnClickListener(new View.OnClickListener(){
 
                 @Override
                 public void onClick(View v) {
-                    Intent intent=newIntent(1,getAdapterPosition(),mTaskType);
+                    Intent intent=newIntent(EditActivity.itemTaskListClicked//state : 1
+                            ,mTasks.get(getAdapterPosition()).getId());
                     startActivity(intent);
                 }
             });
@@ -129,8 +132,7 @@ public class TaskListFragment extends Fragment {
         {
             StringBuilder sb=new StringBuilder();
             sb.append(task.getTitle().charAt(0));
-            String date_time_format=getResources().getString(R.string.date_time_textView,task.getDate(),task.getHour());
-            task.setPosition(position);
+            String date_time_format=getResources().getString(R.string.date_time_textView,task.getDate(),task.getTime());
             mTitile_textView.setText(task.getTitle());
             mDateandHour_textView.setText(date_time_format);
             mTitleFirstLetter_textView.setText(sb.toString());
