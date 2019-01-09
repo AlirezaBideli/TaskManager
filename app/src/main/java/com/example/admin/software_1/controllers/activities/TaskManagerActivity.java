@@ -1,5 +1,6 @@
 package com.example.admin.software_1.controllers.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -11,10 +12,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
-
 import com.example.admin.software_1.R;
 import com.example.admin.software_1.controllers.fragments.TaskListFragment;
 import com.example.admin.software_1.models.Task;
+
+import java.util.UUID;
 
 public class TaskManagerActivity extends AppCompatActivity {
 
@@ -22,13 +24,11 @@ public class TaskManagerActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     private TabLayout mTabLayout;
     private FloatingActionButton mAdd_fab;
-    public static final String Tag_state = "om.example.admin.software_1_tag_tabPosition";
     public static final String EXTRA_TASK_UUID ="task_uuid";
 
 
-    public Intent newIntent(int state) {
-        Intent intent = new Intent(TaskManagerActivity.this, EditActivity.class);
-        intent.putExtra(Tag_state, state);
+    public Intent newIntent(Context context) {
+        Intent intent = new Intent(context, TaskManagerActivity.class);
         return intent;
     }
 
@@ -38,8 +38,6 @@ public class TaskManagerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_task_manager);
 
         initialization();//initialize Widgets ids
-
-
         mViewPager.setAdapter(new FragmentStatePagerAdapter(getSupportFragmentManager()) {
             @Override
             public Fragment getItem(int position) {
@@ -76,7 +74,10 @@ public class TaskManagerActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                Intent intent = newIntent(0);
+                Intent intent = new EditActivity().newIntent(
+                        TaskManagerActivity.this
+                        ,EditActivity.addButtonClicked
+                        , UUID.randomUUID());
                 startActivity(intent);
             }
         });

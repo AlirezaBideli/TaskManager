@@ -41,18 +41,9 @@ public class TaskListFragment extends Fragment {
     }
 
 
-    public Intent newIntent(int state, UUID id)
-    {
-        Intent intent=new Intent(getActivity(),EditActivity.class);
-        intent.putExtra(TaskManagerActivity.Tag_state,state);
-        intent.putExtra(TaskManagerActivity.EXTRA_TASK_UUID,id);
 
 
-
-        return intent;
-    }
-
-    public static Fragment newInstance(Task.TaskType taskType)
+    public static TaskListFragment newInstance(Task.TaskType taskType)
     {
         Bundle bundle=new Bundle();
         bundle.putSerializable(EXTRA_TASK_TYPE,taskType);
@@ -98,7 +89,6 @@ public class TaskListFragment extends Fragment {
 
 
 
-
     ///RecyclerView Classes
 
 
@@ -120,7 +110,8 @@ public class TaskListFragment extends Fragment {
 
                 @Override
                 public void onClick(View v) {
-                    Intent intent=newIntent(EditActivity.itemTaskListClicked//state : 1
+                    Intent intent=new EditActivity().newIntent(getActivity(),
+                            EditActivity.itemTaskListClicked//state : 1
                             ,mTasks.get(getAdapterPosition()).getId());
                     startActivity(intent);
                 }

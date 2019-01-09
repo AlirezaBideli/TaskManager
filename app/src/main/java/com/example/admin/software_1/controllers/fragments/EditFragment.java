@@ -36,11 +36,8 @@ public class EditFragment extends Fragment implements View.OnClickListener {
     private Button mDone_button;
     private Button mSetDate_Button;
     private Button mSetTime_Button;
-    public static final String DIALOG_TAG_TIME_PICKER = "timePicker_tag";
-    public static final String DIALOG_TAG_DATE_PICKER = "datePicker_tag";
-    public static final int REQ_TIME_PICKER = 0;
-    public static final int REQ_DATE_PICKER = 1;
-    public static final String ARGS_TASK = "taskObject";
+
+    //Simple variables
     private Task mTask;
     private String mTitle;
     private String mDescription;
@@ -50,7 +47,13 @@ public class EditFragment extends Fragment implements View.OnClickListener {
     private String undefined;
 
 
-    public static Fragment newInstance(Task task) {
+    public static final String DIALOG_TAG_TIME_PICKER = "timePicker_tag";
+    public static final String DIALOG_TAG_DATE_PICKER = "datePicker_tag";
+    public static final int REQ_TIME_PICKER = 0;
+    public static final int REQ_DATE_PICKER = 1;
+    public static final String ARGS_TASK = "taskObject";
+
+    public static EditFragment newInstance(Task task) {
         Bundle bundle = new Bundle();
         bundle.putSerializable(ARGS_TASK, task);
         EditFragment fragment = new EditFragment();
@@ -159,9 +162,8 @@ public class EditFragment extends Fragment implements View.OnClickListener {
         mTask.setDate(mDate);
         mTask.setTime(mTime);
 
-        TaskLab.getInstance(getActivity()).update(mTask);
-        Intent intent = new Intent(getActivity(), TaskManagerActivity.class);
-        intent.putExtra(TaskManagerActivity.Tag_state, 2);
+        TaskLab.getInstance(getActivity()).updateTask(mTask);
+        Intent intent = new TaskManagerActivity().newIntent(getActivity());
         startActivity(intent);
 
     }

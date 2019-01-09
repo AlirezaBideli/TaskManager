@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.example.admin.software_1.R;
 import com.example.admin.software_1.controllers.activities.EditActivity;
+import com.example.admin.software_1.controllers.activities.TaskManagerActivity;
 import com.example.admin.software_1.models.Task;
 import com.example.admin.software_1.models.TaskLab;
 
@@ -236,7 +237,7 @@ public class AddFragment extends Fragment implements View.OnClickListener {
     }
 
     private void goToTaskManagerActivity() {
-        Intent intent = ((EditActivity) getActivity()).newIntent();
+        Intent intent =new TaskManagerActivity().newIntent(getActivity());
         startActivity(intent);
     }
 

@@ -1,6 +1,7 @@
 package com.example.admin.software_1.controllers.fragments;
 
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -14,6 +15,7 @@ import android.widget.Button;
 
 import com.example.admin.software_1.R;
 import com.example.admin.software_1.controllers.activities.EditActivity;
+import com.example.admin.software_1.controllers.activities.TaskManagerActivity;
 import com.example.admin.software_1.models.Task;
 import com.example.admin.software_1.models.TaskLab;
 
@@ -70,8 +72,9 @@ public class RemoveDialogFragment extends DialogFragment implements View.OnClick
         switch (v.getId())
         {
             case R.id.yes_btn_RemoveDialogFragment:
-                TaskLab.getInstance(getActivity()).removeTask(mTask);
-                Intent intent=((EditActivity)getActivity()).newIntent();
+                Context context=getActivity();
+                TaskLab.getInstance(context).removeTask(mTask);
+                Intent intent=new TaskManagerActivity().newIntent(context);
                 startActivity(intent);
 
                 break;
