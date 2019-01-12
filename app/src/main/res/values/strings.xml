@@ -14,7 +14,7 @@
     <string name="Date">Date</string>
     <string name="Hour">hour</string>
     <string name="Add">Add</string>
-    <string name="Befor_button">Befor</string>
+    <string name="Before_button">Befor</string>
     <string name="Save">Save</string>
     <string name="Remove">Remove</string>
     <string name="setTime_btn">Set Time</string>
@@ -33,10 +33,23 @@
 
     <string name="date_time_textView">   Date= %1$s \n Hour= %2$s</string>
     <string name="time_string">%1$s:%2$s</string>
-
+    <string name="username">userName</string>
+    <string name="password">password</string>
+    <string name="confirmPassword">Confirm password</string>
     <string name="undefined">Undefined</string>
     <string name="taskTime_button_edit">Your task Time was %1$s</string>
     <string name="taskDate_button_edit">Your task Date was %1$s</string>
     <string name="action_search">Search</string>
+    <string name="btn_register">Register</string>
+    <string name="notEqualPassword">Your Confirm Pasword is not Equal to your Password</string>
+    <string name="registerMessage">You have registered successfully </string>
+    <string name="LoginMessage"> Welcome</string>
+    <string name="firstName">firstName</string>>
+    <string name="lastName">lastName</string>>
+    <string name="btn_login">login</string>
+
+    <string name="welcome_message">Welcome</string>
+    <string name="not_registered_message">I have not already registered</string>
+    <string name="invalidLogin">userName or Password is Invalid</string>
     />
 </resources>

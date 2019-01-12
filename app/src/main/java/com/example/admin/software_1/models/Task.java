@@ -1,6 +1,7 @@
 package com.example.admin.software_1.models;
 
 import android.app.AlertDialog;
+import android.util.Log;
 
 import java.io.Serializable;
 import java.util.UUID;
@@ -23,10 +24,8 @@ public class Task implements Serializable {
     private int userId;
 
 
-
-    public Task()
-    {
-        mId=UUID.randomUUID();
+    public Task() {
+        mId = UUID.randomUUID();
     }
 
     public int getUserId() {
@@ -36,7 +35,6 @@ public class Task implements Serializable {
     public void setUserId(int userId) {
         this.userId = userId;
     }
-
 
 
     public String getDate() {
@@ -89,8 +87,6 @@ public class Task implements Serializable {
     public void setId(UUID id) {
         mId = id;
     }
-
-
 
 
     public enum TaskType {

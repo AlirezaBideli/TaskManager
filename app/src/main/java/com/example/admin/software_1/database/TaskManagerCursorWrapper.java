@@ -5,6 +5,7 @@ import android.database.CursorWrapper;
 import android.util.Log;
 
 import com.example.admin.software_1.models.Task;
+import com.example.admin.software_1.models.User;
 
 import java.util.UUID;
 
@@ -56,6 +57,23 @@ public class TaskManagerCursorWrapper extends CursorWrapper {
         Log.i("Tag",id+","+title+","+description+","+date+","+time+","+taskType+"="+original_TaskType+","+userId);
         return task;
     }
+
+    public User getUser()
+    {
+        int user_id=getInt(getColumnIndex(TaskManagerDbSchema.UserTable.Cols._id));
+        String firstName=getString(getColumnIndex(TaskManagerDbSchema.UserTable.Cols.FIRST_NAME));
+        String lastName=getString(getColumnIndex(TaskManagerDbSchema.UserTable.Cols.LAST_NAME));
+        String userName=getString(getColumnIndex(TaskManagerDbSchema.UserTable.Cols.USERNAME));
+        String password=getString(getColumnIndex(TaskManagerDbSchema.UserTable.Cols.PASSWORD));
+        User user=new User(user_id);
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        user.setUserName(userName);
+        user.setPassword(password);
+
+        return user;
+    }
+
 
     private Task.TaskType getTaskType(int taskType_id)
     {

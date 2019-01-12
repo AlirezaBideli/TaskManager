@@ -22,6 +22,7 @@ import com.example.admin.software_1.controllers.activities.EditActivity;
 import com.example.admin.software_1.controllers.activities.TaskManagerActivity;
 import com.example.admin.software_1.models.Task;
 import com.example.admin.software_1.models.TaskLab;
+import com.example.admin.software_1.models.UserLab;
 
 import java.util.Date;
 import java.util.Objects;
@@ -47,6 +48,7 @@ public class AddFragment extends Fragment implements View.OnClickListener {
     private static String mDate;
     private static boolean mTaskTypeChecked;
     private Task.TaskType mTaskType;
+    private int mUserId;
     private static boolean sIsOrientationChanged = false;
     public static final String DIALOG_TAG_TIME_PICKER = "timePicker_tag";
     public static final String DIALOG_TAG_DATE_PICKER = "datePicker_tag";
@@ -151,6 +153,8 @@ public class AddFragment extends Fragment implements View.OnClickListener {
             if (mDescription != null)
                 temp_task.setDescription(mDescription);
 
+            mUserId= UserLab.getInstance(getActivity()).getCurrentUser().getUser_id();
+            temp_task.setUserId(mUserId);
             TaskLab.getInstance(getActivity()).addTask(temp_task);
 
         }

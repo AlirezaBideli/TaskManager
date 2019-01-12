@@ -48,7 +48,7 @@ public class ShowTaskInfoFragmnet extends Fragment implements View.OnClickListen
 
     public static ShowTaskInfoFragmnet newInstance(UUID id) {
         Bundle bundle = new Bundle();
-        bundle.putSerializable(TaskManagerActivity.EXTRA_TASK_UUID,id);
+        bundle.putSerializable(EditActivity.EXTRA_TASK_ID,id);
         ShowTaskInfoFragmnet fragment = new ShowTaskInfoFragmnet();
         fragment.setArguments(bundle);
         return fragment;
@@ -85,7 +85,7 @@ public class ShowTaskInfoFragmnet extends Fragment implements View.OnClickListen
 
 
     private Task getTaskFromArgs() {
-        UUID taslId = (UUID) getArguments().getSerializable(TaskManagerActivity.EXTRA_TASK_UUID);
+        UUID taslId = (UUID) getArguments().getSerializable(EditActivity.EXTRA_TASK_ID);
         Task task = TaskLab.getInstance(getActivity()).getTask(taslId);
         return task;
     }

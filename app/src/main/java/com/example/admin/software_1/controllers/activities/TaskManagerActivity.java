@@ -12,9 +12,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
+
 import com.example.admin.software_1.R;
 import com.example.admin.software_1.controllers.fragments.TaskListFragment;
 import com.example.admin.software_1.models.Task;
+import com.example.admin.software_1.models.UserLab;
 
 import java.util.UUID;
 
@@ -24,8 +26,9 @@ public class TaskManagerActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     private TabLayout mTabLayout;
     private FloatingActionButton mAdd_fab;
-    public static final String EXTRA_TASK_UUID ="task_uuid";
+    //simple variables
 
+    public static final String EXTRA_TASK_TYPE = "com.example.admin.software_1_taskType";
 
     public Intent newIntent(Context context) {
         Intent intent = new Intent(context, TaskManagerActivity.class);
@@ -38,6 +41,7 @@ public class TaskManagerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_task_manager);
 
         initialization();//initialize Widgets ids
+
         mViewPager.setAdapter(new FragmentStatePagerAdapter(getSupportFragmentManager()) {
             @Override
             public Fragment getItem(int position) {
@@ -76,8 +80,9 @@ public class TaskManagerActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new EditActivity().newIntent(
                         TaskManagerActivity.this
-                        ,EditActivity.addButtonClicked
-                        , UUID.randomUUID());
+                        , EditActivity.addButtonClicked,
+                        null
+                );
                 startActivity(intent);
             }
         });
@@ -96,9 +101,6 @@ public class TaskManagerActivity extends AppCompatActivity {
     private Task.TaskType getTaskType(int position) {
         return Task.TaskType.getTaskType(position);
     }
-
-
-
 
 
     private void initialization() {

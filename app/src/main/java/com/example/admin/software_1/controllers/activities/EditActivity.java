@@ -17,7 +17,7 @@ import com.example.admin.software_1.models.Task;
 import java.util.UUID;
 
 public class EditActivity extends AppCompatActivity {
-public static final int STATE_ADD = 0;
+    public static final int STATE_ADD = 0;
 
     private int mSavedState;
     private UUID mTaskId;
@@ -26,15 +26,14 @@ public static final int STATE_ADD = 0;
     public static final int nothingSelected = -1;
     private Fragment mContent;
     public static final String EXTRA_STATE = "com.example.admin.software_1_extra_state";
-    private static final String EXTRA_TASK_ID ="com.example.admin.software_1_extra_task_id" ;
+    public static final String EXTRA_TASK_ID = "com.example.admin.software_1_extra_task_id";
 
 
-
-
-    public  Intent newIntent(Context context,int state,UUID taskId) {
+    public Intent newIntent(Context context, int state, UUID taskId) {
         Intent intent = new Intent(context, EditActivity.class);
-        intent.putExtra(EXTRA_STATE,state);
-        intent.putExtra(EXTRA_TASK_ID,state);
+        intent.putExtra(EXTRA_STATE, state);
+        intent.putExtra(EXTRA_TASK_ID, taskId);
+
         return intent;
     }
 
@@ -44,13 +43,13 @@ public static final int STATE_ADD = 0;
         setContentView(R.layout.activity_edit);
 
 
-
-        mSavedState = getIntent().getIntExtra(EXTRA_STATE,nothingSelected);
-        mTaskId= (UUID) getIntent().getSerializableExtra(TaskManagerActivity.EXTRA_TASK_UUID);
-        Fragment fragment = setFragment(mSavedState);
+        mSavedState = getIntent().getIntExtra(EXTRA_STATE, nothingSelected);
+        if (mSavedState == itemTaskListClicked)
+            mTaskId = (UUID) getIntent().getSerializableExtra(EXTRA_TASK_ID);
+        Fragment fragment = setFragment();
         FragmentManager fragmentManager = getSupportFragmentManager();
 
-        if (fragmentManager.findFragmentById(R.id.container_frame_EditFragment)==null) {
+        if (fragmentManager.findFragmentById(R.id.container_frame_EditFragment) == null) {
             fragmentManager.beginTransaction()
                     .replace(R.id.container_frame_EditFragment, fragment)
                     .commit();
@@ -59,8 +58,8 @@ public static final int STATE_ADD = 0;
 
     }
 
-    private Fragment setFragment(int msavedState) {
-        switch (msavedState) {
+    private Fragment setFragment() {
+        switch (mSavedState) {
             case addButtonClicked://when user clicked on the fab button in TaskManager Activity
                 return AddFragment.newInstance();
 
@@ -71,7 +70,6 @@ public static final int STATE_ADD = 0;
         }
         return new Fragment();
     }
-
 
 
 }

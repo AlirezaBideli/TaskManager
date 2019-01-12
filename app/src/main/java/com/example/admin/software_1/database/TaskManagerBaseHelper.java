@@ -18,7 +18,7 @@ public class TaskManagerBaseHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
 
         createTaskTable(db);
-         createUserTable(db);
+        createUserTable(db);
 
     }
 
@@ -46,8 +46,11 @@ public class TaskManagerBaseHelper extends SQLiteOpenHelper {
     private void createUserTable(SQLiteDatabase db) {
         db.execSQL("Create Table " + TaskManagerDbSchema.UserTable.NAME + "(" +
                 TaskManagerDbSchema.UserTable.Cols._id + " integer primary key autoincrement," +
+                TaskManagerDbSchema.UserTable.Cols.FIRST_NAME + "," +
+                TaskManagerDbSchema.UserTable.Cols.LAST_NAME + "," +
                 TaskManagerDbSchema.UserTable.Cols.USERNAME + "," +
                 TaskManagerDbSchema.UserTable.Cols.PASSWORD +
+
 
                 ");"
         );

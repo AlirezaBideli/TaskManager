@@ -31,6 +31,8 @@ public class TaskManagerDbSchema {
         public static final class Cols
         {
             public static final String _id="user_id";//Primary Key
+            public static final String FIRST_NAME="firstName";
+            public static final String LAST_NAME="lastName";
             public static final String USERNAME="userName";
             public static final String PASSWORD="password";
         }

@@ -1,0 +1,39 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.admin.software_1.controllers.fragments.LoginFragment"
+    android:orientation="vertical"
+    android:gravity="center">
+
+
+
+    <EditText
+        android:id="@+id/username_edt_loginFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/username"/>
+
+    <EditText
+        android:id="@+id/password_edt_loginFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/password"
+        android:inputType="textPassword"/>
+
+    <Button
+        android:id="@+id/login_btn_loginFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_login"/>
+
+    <TextView
+        android:id="@+id/notRegister_txt_loginFragment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/not_registered_message"
+        android:textSize="20sp"
+        android:gravity="center"/>
+
+
+</LinearLayout>
