@@ -6,16 +6,20 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.example.admin.software_1.R;
 import com.example.admin.software_1.controllers.fragments.TaskListFragment;
 import com.example.admin.software_1.models.Task;
+import com.example.admin.software_1.models.TaskLab;
 import com.example.admin.software_1.models.UserLab;
 
 import java.util.UUID;
@@ -40,9 +44,10 @@ public class TaskManagerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_manager);
 
+
         initialization();//initialize Widgets ids
 
-        mViewPager.setAdapter(new FragmentStatePagerAdapter(getSupportFragmentManager()) {
+        mViewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
             public Fragment getItem(int position) {
                 Task.TaskType taskType = getTaskType(position);
@@ -71,6 +76,7 @@ public class TaskManagerActivity extends AppCompatActivity {
                 return result;
             }
         });
+
         mTabLayout.setupWithViewPager(mViewPager);
 
 
@@ -96,6 +102,29 @@ public class TaskManagerActivity extends AppCompatActivity {
         MenuInflater inflater = new MenuInflater(TaskManagerActivity.this);
         inflater.inflate(R.menu.fragment_task_manager, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+
+        switch (item.getItemId()) {
+            case R.id.app_bar_deleteAll:
+
+                int userId = UserLab.getInstance(TaskManagerActivity.this)
+                        .getCurrentUser().getUser_id();
+                TaskLab.getInstance(TaskManagerActivity.this).removeAllTasks(userId);
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                Task.TaskType taskType = getTaskType(mTabLayout.getSelectedTabPosition());
+                fragmentManager.beginTransaction()
+                        .add(R.id.container_viewPager_TaskManagerActivity, TaskListFragment.newInstance(taskType))
+                        .commit();
+
+                break;
+
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private Task.TaskType getTaskType(int position) {

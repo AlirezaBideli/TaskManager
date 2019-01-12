@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,23 +68,16 @@ public class TaskListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_task_list, container, false);
         initialization(view);
 
+
         return view;
     }
 
 
     @Override
-    public void onStart() {
-        super.onStart();
-
-
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
-
         List<Task> taskList = TaskLab.getInstance(getActivity()).getTasks(mTaskType, mUserId);
-
+        Log.d("Tag",taskList.size()+"");
 
         if (taskList.size() > 0) {
             mNoTaskImageView.setVisibility(View.INVISIBLE);
@@ -95,11 +89,8 @@ public class TaskListFragment extends Fragment {
         }
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
 
-    }
+
 
     private void initialization(View view) {
         mRecyclerView = view.findViewById(R.id.tasklist_recy_TaskListfragment);

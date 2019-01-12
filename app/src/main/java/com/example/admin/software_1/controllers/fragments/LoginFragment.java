@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,11 +24,15 @@ import com.example.admin.software_1.models.UserLab;
 public class LoginFragment extends Fragment implements View.OnClickListener {
 
 
+    public static final String BUNDLE_USER_NAME="bundle_userName";
+    public static final String BUNDLE_PASSWORD="bundle_password";
+
     //widgets variables
     private EditText mUserNameEdt;
     private EditText mPasswordEdt;
     private Button mLoginBtn;
     private TextView mNotRegisteredTxt;
+    private TextView mErrorTxt;
     //simple variables
     private String mUserName;
     private String mPassword;
@@ -94,6 +97,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         mPasswordEdt = view.findViewById(R.id.password_edt_loginFragment);
         mLoginBtn = view.findViewById(R.id.login_btn_loginFragment);
         mNotRegisteredTxt = view.findViewById(R.id.notRegister_txt_loginFragment);
+        mErrorTxt=view.findViewById(R.id.error_txt_LoginFragment);
     }
 
     @Override
@@ -117,16 +121,14 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         String message;
         if (user != null)//when username and password are equal
         {
-            Log.i("Tag", "firstName: "+user.getFirstName() + " lastName: " + user.getLastName()
-                    + "userName: " + user.getUserName() + "password : " + user.getPassword()+"user_id: "+user.getUser_id());
 
             UserLab.getInstance(getActivity()).setCurrentUser(user);
             message = getResources().getString(R.string.welcome_message);
             Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
             gotToTaskManagerActivity();
+            mErrorTxt.setVisibility(View.INVISIBLE);
         } else {
-            message = getResources().getString(R.string.invalidLogin);
-            Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+            mErrorTxt.setVisibility(View.VISIBLE);
         }
     }
 
@@ -142,5 +144,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                 .replace(R.id.container_root_userActivity, RegisterFragment.newInstance())
                 .commit();
     }
+
 
 }

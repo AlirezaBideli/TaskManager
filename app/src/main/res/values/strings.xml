@@ -51,5 +51,6 @@
     <string name="welcome_message">Welcome</string>
     <string name="not_registered_message">I have not already registered</string>
     <string name="invalidLogin">userName or Password is Invalid</string>
+    <string name="delete_item">Delete ALL</string>
     />
 </resources>

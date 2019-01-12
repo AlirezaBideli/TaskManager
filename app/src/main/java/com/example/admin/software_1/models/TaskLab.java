@@ -41,7 +41,7 @@ public class TaskLab {
         return mInstance;
     }
 
-    //Remove specified Task in mSQLiteDatabase
+    //Remove  Task/s in mSQLiteDatabase
     public void removeTask(Task task) {
         String whereClause = TaskManagerDbSchema.TaskTable.Cols.UUID + "=\'" + task.getId() + "\'";
         ContentValues contentValues = getTaskColumns(task);
@@ -49,6 +49,12 @@ public class TaskLab {
                 whereClause,
                 null);
 
+    }
+    public void removeAllTasks(int userId)
+    {
+        String whereCaulse= TaskManagerDbSchema.TaskTable.Cols.USER_ID+"="+userId;
+
+        mSQLiteDatabase.delete(TaskManagerDbSchema.TaskTable.NAME,whereCaulse,null);
     }
 
     //Update specified Task in mSQLiteDatabase
