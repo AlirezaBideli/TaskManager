@@ -2,30 +2,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.admin.software_1.controllers.fragments.LoginFragment"
+    android:gravity="center"
     android:orientation="vertical"
-    android:gravity="center">
-
+    android:padding="16dp"
+    tools:context="com.example.admin.software_1.controllers.fragments.LoginFragment">
 
 
     <EditText
         android:id="@+id/username_edt_loginFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/username"/>
+        android:hint="@string/username" />
 
     <EditText
         android:id="@+id/password_edt_loginFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/password"
-        android:inputType="textPassword"/>
+        android:inputType="textPassword" />
 
     <Button
         android:id="@+id/login_btn_loginFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/btn_login"/>
+        android:text="@string/btn_login" />
+
 
     <TextView
         android:id="@+id/notRegister_txt_loginFragment"
@@ -40,9 +41,20 @@
         android:id="@+id/error_txt_LoginFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="?attr/colorError"
         android:text="@string/invalidLogin"
-        android:visibility="invisible"/>
+        android:textColor="?attr/colorError"
+        android:visibility="invisible" />
+
+
+    <Button
+        android:id="@+id/test_btn_LoginFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/Green"
+        android:padding="5dp"
+        android:text="@string/noLoginButton"
+        android:textSize="12sp"
+    />
 
 
 </LinearLayout>

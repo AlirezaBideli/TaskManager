@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.example.admin.software_1.database.TaskManagerBaseHelper;
@@ -78,20 +79,28 @@ public class UserLab {
 
     //Insert to  UserDatabase;
     public void addUser(User user) {
-        ContentValues contentValues = getUserColumns(user);
-        mSQLiteDatabase.insert(TaskManagerDbSchema.UserTable.NAME, null, contentValues);
+        insertUser(user);
 
+        TaskManagerCursorWrapper cursorWrapper = getUserId(user);
+
+        setCurrentUser(cursorWrapper);
+        Log.i("Tag", "user ID : "+getCurrentUser().getUser_id()+"");
+    }
+
+    @NonNull
+    private TaskManagerCursorWrapper getUserId(User user) {
         String whereClause = TaskManagerDbSchema.UserTable.Cols.USERNAME + "= \'" + user.getUserName() + "\'"
                 + " and " + TaskManagerDbSchema.UserTable.Cols.PASSWORD + "=\'" + user.getPassword() + "\'";
 
         String[] whereArgs = {user.getUserName(), user.getPassword()};
 
 
-        TaskManagerCursorWrapper cursorWrapper =
-                userQuery(whereClause, whereArgs);
+        return userQuery(whereClause, whereArgs);
+    }
 
-        setCurrentUser(cursorWrapper);
-
+    private void insertUser(User user) {
+        ContentValues contentValues = getUserColumns(user);
+        mSQLiteDatabase.insert(TaskManagerDbSchema.UserTable.NAME, null, contentValues);
     }
 
     private void setCurrentUser(TaskManagerCursorWrapper cursorWrapper) {

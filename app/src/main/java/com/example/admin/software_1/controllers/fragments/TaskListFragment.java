@@ -6,10 +6,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -38,6 +42,7 @@ public class TaskListFragment extends Fragment {
     //simple Variables
     private Task.TaskType mTaskType;
     private int mUserId;
+    private List<Task> mTaskLsit;
 
     public TaskListFragment() {
         // Required empty public constructor
@@ -57,8 +62,10 @@ public class TaskListFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
         mTaskType = (Task.TaskType) getArguments().getSerializable(TaskManagerActivity.EXTRA_TASK_TYPE);
-        mUserId= UserLab.getInstance(getActivity()).getCurrentUser().getUser_id();
+        mUserId = UserLab.getInstance(getActivity()).getCurrentUser().getUser_id();
+        mTaskLsit = TaskLab.getInstance(getActivity()).getTasks(mTaskType, mUserId);
     }
 
     @Override
@@ -68,7 +75,6 @@ public class TaskListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_task_list, container, false);
         initialization(view);
 
-
         return view;
     }
 
@@ -76,12 +82,9 @@ public class TaskListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        List<Task> taskList = TaskLab.getInstance(getActivity()).getTasks(mTaskType, mUserId);
-        Log.d("Tag",taskList.size()+"");
-
-        if (taskList.size() > 0) {
+        if (mTaskLsit.size() > 0) {
             mNoTaskImageView.setVisibility(View.INVISIBLE);
-            TaskAdapter adapter = new TaskAdapter(taskList);
+            TaskAdapter adapter = new TaskAdapter(mTaskLsit);
             mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
             mRecyclerView.setAdapter(adapter);
         } else {
@@ -90,12 +93,11 @@ public class TaskListFragment extends Fragment {
     }
 
 
-
-
     private void initialization(View view) {
         mRecyclerView = view.findViewById(R.id.tasklist_recy_TaskListfragment);
         mNoTaskImageView = view.findViewById(R.id.noTask_img_taskListFragment);
     }
+
 
 
     ///RecyclerView Classes
@@ -106,7 +108,7 @@ public class TaskListFragment extends Fragment {
         private TextView mTitile_textView;
         private TextView mDateandHour_textView;
         private TextView mTitleFirstLetter_textView;
-        List<Task> mTasks = TaskLab.getInstance(getActivity()).getTasks(TaskListFragment.this.mTaskType,mUserId);
+        List<Task> mTasks = TaskLab.getInstance(getActivity()).getTasks(TaskListFragment.this.mTaskType, mUserId);
 
         public TaskHolder(View itemView) {
             super(itemView);

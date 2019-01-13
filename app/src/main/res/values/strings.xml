@@ -52,5 +52,8 @@
     <string name="not_registered_message">I have not already registered</string>
     <string name="invalidLogin">userName or Password is Invalid</string>
     <string name="delete_item">Delete ALL</string>
+    <string name="noLoginButton">Use program for test</string>
+    <string name="without_login_message">Your tasks will be lost \n Do you want to register?</string>
+    <string name="delete_message">Delete message</string>
     />
 </resources>

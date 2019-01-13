@@ -24,15 +24,16 @@ import com.example.admin.software_1.models.UserLab;
 public class LoginFragment extends Fragment implements View.OnClickListener {
 
 
-    public static final String BUNDLE_USER_NAME="bundle_userName";
-    public static final String BUNDLE_PASSWORD="bundle_password";
-
+    public static final String BUNDLE_USER_NAME = "bundle_userName";
+    public static final String BUNDLE_PASSWORD = "bundle_password";
+    public static final byte DEFAULT_USER_ID = 0;
     //widgets variables
     private EditText mUserNameEdt;
     private EditText mPasswordEdt;
     private Button mLoginBtn;
     private TextView mNotRegisteredTxt;
     private TextView mErrorTxt;
+    private Button mTestProgrammBtn;
     //simple variables
     private String mUserName;
     private String mPassword;
@@ -54,6 +55,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         View view = inflater.inflate(R.layout.fragment_login, container, false);
         initialization(view);
         mLoginBtn.setOnClickListener(this);
+        mTestProgrammBtn.setOnClickListener(this);
         mNotRegisteredTxt.setOnClickListener(this);
         mUserNameEdt.addTextChangedListener(new TextWatcher() {
             @Override
@@ -97,7 +99,8 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         mPasswordEdt = view.findViewById(R.id.password_edt_loginFragment);
         mLoginBtn = view.findViewById(R.id.login_btn_loginFragment);
         mNotRegisteredTxt = view.findViewById(R.id.notRegister_txt_loginFragment);
-        mErrorTxt=view.findViewById(R.id.error_txt_LoginFragment);
+        mErrorTxt = view.findViewById(R.id.error_txt_LoginFragment);
+        mTestProgrammBtn = view.findViewById(R.id.test_btn_LoginFragment);
     }
 
     @Override
@@ -109,6 +112,17 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
             case R.id.notRegister_txt_loginFragment:
                 goToRegisterFragment();
+                break;
+
+            case R.id.test_btn_LoginFragment:
+                String undefined = getResources().getString(R.string.undefined);
+
+                User user = new User(DEFAULT_USER_ID);
+                //FirstName and LastName set to undefined as default
+                user.setFirstName(undefined);
+                user.setLastName(undefined);
+                UserLab.getInstance(getActivity()).setCurrentUser(user);
+                gotToTaskManagerActivity();
                 break;
         }
     }
@@ -144,6 +158,9 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                 .replace(R.id.container_root_userActivity, RegisterFragment.newInstance())
                 .commit();
     }
+
+
+
 
 
 }

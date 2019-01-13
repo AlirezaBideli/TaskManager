@@ -11,12 +11,15 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.example.admin.software_1.R;
+import com.example.admin.software_1.controllers.fragments.LoginFragment;
+import com.example.admin.software_1.controllers.fragments.NoLoginDialog;
 import com.example.admin.software_1.controllers.fragments.TaskListFragment;
 import com.example.admin.software_1.models.Task;
 import com.example.admin.software_1.models.TaskLab;
@@ -26,13 +29,15 @@ import java.util.UUID;
 
 public class TaskManagerActivity extends AppCompatActivity {
 
+    private static final String DIALOG_TAG = "noLogin_task";
     //Widget variables
     private ViewPager mViewPager;
     private TabLayout mTabLayout;
     private FloatingActionButton mAdd_fab;
     //simple variables
-
     public static final String EXTRA_TASK_TYPE = "com.example.admin.software_1_taskType";
+    private int mUserId;
+
 
     public Intent newIntent(Context context) {
         Intent intent = new Intent(context, TaskManagerActivity.class);
@@ -44,7 +49,7 @@ public class TaskManagerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_manager);
 
-
+        mUserId = UserLab.getInstance(TaskManagerActivity.this).getCurrentUser().getUser_id();
         initialization();//initialize Widgets ids
 
         mViewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
@@ -77,6 +82,7 @@ public class TaskManagerActivity extends AppCompatActivity {
             }
         });
 
+
         mTabLayout.setupWithViewPager(mViewPager);
 
 
@@ -84,12 +90,15 @@ public class TaskManagerActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
+
                 Intent intent = new EditActivity().newIntent(
                         TaskManagerActivity.this
                         , EditActivity.addButtonClicked,
                         null
                 );
+
                 startActivity(intent);
+
             }
         });
 
@@ -106,25 +115,25 @@ public class TaskManagerActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
-
         switch (item.getItemId()) {
             case R.id.app_bar_deleteAll:
 
                 int userId = UserLab.getInstance(TaskManagerActivity.this)
                         .getCurrentUser().getUser_id();
                 TaskLab.getInstance(TaskManagerActivity.this).removeAllTasks(userId);
+                int tabPostion=mViewPager.getCurrentItem();
+                Task.TaskType taskType=getTaskType(tabPostion);
                 FragmentManager fragmentManager = getSupportFragmentManager();
-                Task.TaskType taskType = getTaskType(mTabLayout.getSelectedTabPosition());
-                fragmentManager.beginTransaction()
-                        .add(R.id.container_viewPager_TaskManagerActivity, TaskListFragment.newInstance(taskType))
+                fragmentManager.beginTransaction().
+                        replace(R.id.container_viewPager_TaskManagerActivity,
+                                TaskListFragment.newInstance(taskType))
                         .commit();
 
                 break;
-
+            case R.id.app_bar_search:
+                break;
         }
-
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 
     private Task.TaskType getTaskType(int position) {
@@ -136,6 +145,23 @@ public class TaskManagerActivity extends AppCompatActivity {
         mViewPager = findViewById(R.id.container_viewPager_TaskManagerActivity);
         mTabLayout = findViewById(R.id.tasktab_tab_Activity);
         mAdd_fab = findViewById(R.id.add_fab_TaskManagerActivity);
+    }
+
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        if (keyCode == KeyEvent.KEYCODE_BACK && mUserId == UserActivity.NOT_REGISTERED_USER) {
+
+            NoLoginDialog noLoginDialog = new NoLoginDialog();
+            noLoginDialog.show(getSupportFragmentManager(), DIALOG_TAG);
+
+        } else if (keyCode == KeyEvent.KEYCODE_BACK) {
+            super.onBackPressed();
+        }
+
+        return true;
+
     }
 
 

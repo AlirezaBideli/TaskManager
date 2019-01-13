@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.example.admin.software_1.controllers.activities.UserActivity;
+import com.example.admin.software_1.controllers.fragments.RegisterFragment;
 import com.example.admin.software_1.database.TaskManagerBaseHelper;
 import com.example.admin.software_1.database.TaskManagerCursorWrapper;
 import com.example.admin.software_1.database.TaskManagerDbSchema;
@@ -50,22 +52,13 @@ public class TaskLab {
                 null);
 
     }
-    public void removeAllTasks(int userId)
-    {
-        String whereCaulse= TaskManagerDbSchema.TaskTable.Cols.USER_ID+"="+userId;
 
-        mSQLiteDatabase.delete(TaskManagerDbSchema.TaskTable.NAME,whereCaulse,null);
+    public void removeAllTasks(int userId) {
+        String whereCaulse = TaskManagerDbSchema.TaskTable.Cols.USER_ID + "=" + userId;
+
+        mSQLiteDatabase.delete(TaskManagerDbSchema.TaskTable.NAME, whereCaulse, null);
     }
 
-    //Update specified Task in mSQLiteDatabase
-    public void updateTask(Task task) {
-        String whereClause = TaskManagerDbSchema.TaskTable.Cols.UUID + "=\'" + task.getId() + "\'";
-        ContentValues contentValues = getTaskColumns(task);
-        mSQLiteDatabase.update(TaskManagerDbSchema.TaskTable.NAME,
-                contentValues,
-                whereClause,
-                null);
-    }
 
 
     public void addTask(Task task) {
@@ -87,6 +80,36 @@ public class TaskLab {
         return contentValues;
     }
 
+
+
+
+    //Update specified Task in mSQLiteDatabase
+    public void updateTask(Task task) {
+        String whereClause = TaskManagerDbSchema.TaskTable.Cols.UUID + "=\'" + task.getId() + "\'";
+        ContentValues contentValues = getTaskColumns(task);
+        mSQLiteDatabase.update(TaskManagerDbSchema.TaskTable.NAME,
+                contentValues,
+                whereClause,
+                null);
+    }
+    //Update tasks
+    //this is user when we want to save the task of user that has not registered yet
+    public void updateTasks(int userId) {
+       // int userId=UserLab.getInstance(mContext).getCurrentUser().getUser_id();
+        String whereClause = TaskManagerDbSchema.TaskTable.Cols.USER_ID + "="+ UserActivity.NOT_REGISTERED_USER;
+        ContentValues user_idColumn = getUserIdColumn(userId);
+        mSQLiteDatabase.update(TaskManagerDbSchema.TaskTable.NAME,
+                user_idColumn,
+                whereClause ,
+                null);
+
+    }
+
+    private ContentValues getUserIdColumn(int userId) {
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(TaskManagerDbSchema.TaskTable.Cols.USER_ID, userId);
+        return contentValues;
+    }
 
     //Select  list of task from mSQLiteDatabase
     public List<Task> getTasks(Task.TaskType taskType, int userId) {

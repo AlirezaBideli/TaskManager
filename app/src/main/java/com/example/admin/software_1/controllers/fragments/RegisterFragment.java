@@ -20,6 +20,7 @@ import com.example.admin.software_1.R;
 import com.example.admin.software_1.controllers.activities.TaskManagerActivity;
 import com.example.admin.software_1.controllers.activities.UserActivity;
 import com.example.admin.software_1.database.TaskManagerBaseHelper;
+import com.example.admin.software_1.models.TaskLab;
 import com.example.admin.software_1.models.User;
 import com.example.admin.software_1.models.UserLab;
 
@@ -177,8 +178,9 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                     if (isPasswordTrue) {
                         User user = makeUser();
                         UserLab.getInstance(getActivity()).addUser(user);
-                        Log.i("Tag", "firstName: "+user.getFirstName() + " lastName: " + user.getLastName()
-                                + "userName: " + user.getUserName() + "password : " + user.getPassword()+"user_id: "+user.getUser_id());
+                        int userId=UserLab.getInstance(getActivity()).getCurrentUser().getUser_id();
+                        TaskLab.getInstance(getActivity()).updateTasks(userId);
+
                         String toastMessage = getResources().getString(R.string.registerMessage);
                         showToast(toastMessage);
                         goToTaskManagerActivity();
