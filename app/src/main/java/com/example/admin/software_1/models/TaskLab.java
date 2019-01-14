@@ -4,10 +4,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import com.example.admin.software_1.controllers.activities.UserActivity;
-import com.example.admin.software_1.controllers.fragments.RegisterFragment;
 import com.example.admin.software_1.database.TaskManagerBaseHelper;
 import com.example.admin.software_1.database.TaskManagerCursorWrapper;
 import com.example.admin.software_1.database.TaskManagerDbSchema;
@@ -96,7 +94,7 @@ public class TaskLab {
     //this is user when we want to save the task of user that has not registered yet
     public void updateTasks(int userId) {
        // int userId=UserLab.getInstance(mContext).getCurrentUser().getUser_id();
-        String whereClause = TaskManagerDbSchema.TaskTable.Cols.USER_ID + "="+ UserActivity.NOT_REGISTERED_USER;
+        String whereClause = TaskManagerDbSchema.TaskTable.Cols.USER_ID + "="+ UserActivity.USER_NEEDS_REGISTER;
         ContentValues user_idColumn = getUserIdColumn(userId);
         mSQLiteDatabase.update(TaskManagerDbSchema.TaskTable.NAME,
                 user_idColumn,

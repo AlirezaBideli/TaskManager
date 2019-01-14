@@ -9,8 +9,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 
 import com.example.admin.software_1.R;
-import com.example.admin.software_1.controllers.activities.EditActivity;
-import com.example.admin.software_1.controllers.activities.TaskManagerActivity;
 import com.example.admin.software_1.controllers.activities.UserActivity;
 import com.example.admin.software_1.models.TaskLab;
 import com.example.admin.software_1.models.UserLab;
@@ -25,14 +23,13 @@ public class NoLoginDialog extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AlertDialog alertDialog=new AlertDialog.Builder(getActivity())
+        AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
                 .setTitle(R.string.delete_message)
                 .setMessage(R.string.without_login_message)
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Intent intent=new UserActivity().newIntent(getActivity(),UserActivity.NOT_REGISTERED_USER);
-                        startActivity(intent);
+                        gotToRegisterFragment();
                     }
                 })
                 .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
@@ -41,7 +38,7 @@ public class NoLoginDialog extends DialogFragment {
                         int userId = UserLab.getInstance(getActivity()).getCurrentUser().getUser_id();
                         if (userId == LoginFragment.DEFAULT_USER_ID) {
                             TaskLab.getInstance(getActivity()).removeAllTasks(userId);
-                            gotToLoginFragment();
+                            getActivity().finish();
                         }
                     }
                 })
@@ -52,9 +49,13 @@ public class NoLoginDialog extends DialogFragment {
     }
 
 
-    private void gotToLoginFragment()
-    {
-        Intent intent=new UserActivity().newIntent(getActivity(), UserActivity.NOT_REGISTERED_USER);
+    private void gotToRegisterFragment() {
+        Intent intent = new UserActivity().newIntent(getActivity(), UserActivity.USER_NEEDS_REGISTER);
+        startActivity(intent);
+    }
+
+    private void goToLoginFragent() {
+        Intent intent = new UserActivity().newIntent(getActivity(), UserActivity.USER_NEEDS_LOGIN);
         startActivity(intent);
     }
 }

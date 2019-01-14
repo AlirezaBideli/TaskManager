@@ -34,12 +34,13 @@ public class TaskManagerActivity extends AppCompatActivity {
     private FloatingActionButton mAdd_fab;
     //simple variables
     public static final String EXTRA_TASK_TYPE = "com.example.admin.software_1_taskType";
-    public static final String TAG_ADD_FRAGMENT = "tag_add fragmnet";
+    public static final String TAG_ADD_FRAGMENT = "tag_add fragment";
     private int mUserId;
 
 
     public Intent newIntent(Context context) {
         Intent intent = new Intent(context, TaskManagerActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         return intent;
     }
 
@@ -149,7 +150,8 @@ public class TaskManagerActivity extends AppCompatActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
 
-        if (keyCode == KeyEvent.KEYCODE_BACK && mUserId == UserActivity.NOT_REGISTERED_USER) {
+        if (keyCode == KeyEvent.KEYCODE_BACK
+                && mUserId == UserActivity.USER_NEEDS_REGISTER) {
 
             NoLoginDialog noLoginDialog = new NoLoginDialog();
             noLoginDialog.show(getSupportFragmentManager(), DIALOG_TAG);

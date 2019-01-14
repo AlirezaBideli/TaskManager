@@ -15,8 +15,8 @@ import com.example.admin.software_1.controllers.fragments.RegisterFragment;
 public class UserActivity extends AppCompatActivity {
 
 
-    public static final int NOT_REGISTERED_USER=0;
-    public static final int REGISTERED_USER=1;
+    public static final int USER_NEEDS_REGISTER =0;
+    public static final int USER_NEEDS_LOGIN =1;
     public static final String EXTRA_STATE="com.example.admin.software_1.controllers.activities_extra_state";
 
     public Intent newIntent(Context context,int state) {
@@ -37,13 +37,13 @@ public class UserActivity extends AppCompatActivity {
     private void setCurrentFragment() {
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment sourceFragmnet=null;
-        int state=getIntent().getIntExtra(EXTRA_STATE,REGISTERED_USER);
+        int state=getIntent().getIntExtra(EXTRA_STATE, USER_NEEDS_LOGIN);
         switch (state)
         {
-            case NOT_REGISTERED_USER:
+            case USER_NEEDS_REGISTER:
                 sourceFragmnet= RegisterFragment.newInstance();
                 break;
-            case REGISTERED_USER:
+            case USER_NEEDS_LOGIN:
                 sourceFragmnet= LoginFragment.newInstance();
                 break;
         }
