@@ -4,6 +4,7 @@ package com.example.admin.software_1.controllers.fragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,7 +28,7 @@ import java.util.Date;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class EditFragment extends Fragment implements View.OnClickListener {
+public class EditFragment extends DialogFragment implements View.OnClickListener {
 
     //Widgets variables
     private EditText mTitle_EditText;

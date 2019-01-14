@@ -43,6 +43,7 @@ public class TaskListFragment extends Fragment {
     private Task.TaskType mTaskType;
     private int mUserId;
     private List<Task> mTaskLsit;
+    public static final String TAG_SHOW_TASK_INFO = "tag_showTaskInfo";
 
     public TaskListFragment() {
         // Required empty public constructor
@@ -99,7 +100,6 @@ public class TaskListFragment extends Fragment {
     }
 
 
-
     ///RecyclerView Classes
 
 
@@ -121,10 +121,15 @@ public class TaskListFragment extends Fragment {
 
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new EditActivity().newIntent(getActivity(),
+                   /* Intent intent = new EditActivity().newIntent(getActivity(),
                             EditActivity.itemTaskListClicked//state : 1
                             , mTasks.get(getAdapterPosition()).getId());
-                    startActivity(intent);
+                    startActivity(intent);*/
+
+                    ShowTaskInfoFragmnet showTaskInfoFragmnet = ShowTaskInfoFragmnet.newInstance
+                            (mTasks.get(getAdapterPosition()).getId());
+                    showTaskInfoFragmnet.show(getFragmentManager(),TAG_SHOW_TASK_INFO );
+
                 }
             });
         }

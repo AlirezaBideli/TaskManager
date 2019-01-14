@@ -2,6 +2,7 @@ package com.example.admin.software_1.controllers.fragments;
 
 
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
@@ -13,7 +14,6 @@ import android.widget.TextView;
 
 import com.example.admin.software_1.R;
 import com.example.admin.software_1.controllers.activities.EditActivity;
-import com.example.admin.software_1.controllers.activities.TaskManagerActivity;
 import com.example.admin.software_1.models.Task;
 import com.example.admin.software_1.models.TaskLab;
 
@@ -23,7 +23,7 @@ import java.util.UUID;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ShowTaskInfoFragmnet extends Fragment implements View.OnClickListener {
+public class ShowTaskInfoFragmnet extends DialogFragment implements View.OnClickListener {
 
 
     private Button mAdd_Button;
@@ -36,7 +36,10 @@ public class ShowTaskInfoFragmnet extends Fragment implements View.OnClickListen
     private CheckBox mTaskType_CheckBox;
 
     private Task mTask;
-    public static final String REMOVE_TAG = "remove_tag";
+    public static final String TAG_REMOVE = "tag_remove";
+    public static final String TAG_EDIT = "tag_edit";
+    public static final String TAG_ADD = "tag_add";
+
     public static final String ADD_FRAGMNET_TAG = "addFragment_tag";
     public static final String EDIT_FRAGMENT_TAG = "editFragment_tag";
 
@@ -129,24 +132,17 @@ public class ShowTaskInfoFragmnet extends Fragment implements View.OnClickListen
     }
 
     private void goToEditFragment() {
-        FragmentManager fragmentManager =  getFragmentManager();
-        fragmentManager.popBackStack();
 
-            fragmentManager.beginTransaction()
-                    .replace(R.id.container_frame_EditFragment, EditFragment.newInstance(mTask))
-                     .commit();
 
+            EditFragment editFragment=EditFragment.newInstance(mTask);
+            editFragment.show(getFragmentManager(),TAG_EDIT);
 
 
     }
 
     private void goToAddFragment() {
-        FragmentManager fragmentManager =getFragmentManager();
-
-        fragmentManager.popBackStack();
-            fragmentManager.beginTransaction()
-                    .replace(R.id.container_frame_EditFragment, AddFragment.newInstance())
-                    .commit();
+        AddFragment editFragment=AddFragment.newInstance();
+        editFragment.show(getFragmentManager(),TAG_ADD);
 
 
     }
@@ -154,7 +150,7 @@ public class ShowTaskInfoFragmnet extends Fragment implements View.OnClickListen
     private void showRemoveDialog() {
 
         RemoveDialogFragment removeDialogFragmnet = RemoveDialogFragment.newInstance(mTask);
-        removeDialogFragmnet.show(getFragmentManager(), REMOVE_TAG);
+        removeDialogFragmnet.show(getFragmentManager(), TAG_REMOVE);
     }
 
 

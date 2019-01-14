@@ -64,6 +64,7 @@ public class UserLab {
     }
 
     private TaskManagerCursorWrapper queryUser(String whereCluase, String[] whereArgs) {
+
         Cursor cursor = mSQLiteDatabase.query(
                 TaskManagerDbSchema.UserTable.NAME,
                 null,

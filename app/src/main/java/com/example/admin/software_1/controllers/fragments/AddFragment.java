@@ -1,9 +1,12 @@
 package com.example.admin.software_1.controllers.fragments;
 
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 
 import android.text.Editable;
@@ -30,7 +33,7 @@ import java.util.Objects;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class AddFragment extends Fragment implements View.OnClickListener {
+public class AddFragment extends DialogFragment implements View.OnClickListener {
 
 
     //Widgets variables
@@ -120,6 +123,8 @@ public class AddFragment extends Fragment implements View.OnClickListener {
     }
 
 
+
+
     private void initilization(View view) {
         mTitle_EditText = view.findViewById(R.id.title_editText_Addfragment);
         mDescription_EditText = view.findViewById(R.id.description_editText_Addfragment);
@@ -179,6 +184,12 @@ public class AddFragment extends Fragment implements View.OnClickListener {
             return Task.TaskType.UNDONE;
     }
 
+
+    @NonNull
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        return super.onCreateDialog(savedInstanceState);
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
