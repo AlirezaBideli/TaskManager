@@ -174,14 +174,14 @@ public class EditFragment extends DialogFragment implements View.OnClickListener
         Date date = stringToDate(mDate);
         TaskDatePickerFragment taskDatePickerFragment = TaskDatePickerFragment.newInstance(date);
         taskDatePickerFragment.setTargetFragment(EditFragment.this, REQ_DATE_PICKER);
-        taskDatePickerFragment.show(getFragmentManager(), DIALOG_TAG_DATE_PICKER);
+       // taskDatePickerFragment.show(getFragmentManager(), DIALOG_TAG_DATE_PICKER);
     }
 
     private void goToTimePickerFragment() {
         Date time = stringToTime(mTime);
         TaskTimePickerFragment timePickerFragment = TaskTimePickerFragment.newInstance(time);
         timePickerFragment.setTargetFragment(EditFragment.this, REQ_TIME_PICKER);
-        timePickerFragment.show(getFragmentManager(), DIALOG_TAG_TIME_PICKER);
+        //timePickerFragment.show(getFragmentManager(), DIALOG_TAG_TIME_PICKER);
     }
 
 

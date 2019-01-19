@@ -55,5 +55,9 @@
     <string name="noLoginButton">Use program for test</string>
     <string name="without_login_message">Your tasks will be lost \n Do you want to register?</string>
     <string name="delete_message">Delete message</string>
+    <string name="Cancel">cancel</string>
+    <string name="TaskTime">Task Time</string>
+    <string name="TaskDate">Task Date</string>
+    <string name="setTimeAndDate">set Time and date</string>
     />
 </resources>

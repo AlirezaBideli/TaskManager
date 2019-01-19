@@ -12,6 +12,8 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.DatePicker;
 
 import com.example.admin.software_1.R;
@@ -24,18 +26,19 @@ import java.util.Date;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class TaskDatePickerFragment extends DialogFragment {
+public class TaskDatePickerFragment extends DialogFragment  {
+    //widgets variables
+    private DatePicker mDatePicker;
 
 
+    //simple variables
     public static final String FORMAT_DATE = "yyyy/MM/dd";
     public static final String EXTRA_DATE = "com.example.admin.software_1_extra_date";
     public static final String ARG_DATE = "args_date";
     public static final String SEPARATOR_DATE = "/";
-
-    private DatePicker mDatePicker;
     private Date mDate;
     private static int[] sIntDate;
-    private static boolean sIsFirstTime =true;
+    private static boolean sIsFirstTime = true;
     private static int sYear;
     private static int sMonth;
     private static int sDay;
@@ -55,11 +58,6 @@ public class TaskDatePickerFragment extends DialogFragment {
     }
 
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-    }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -74,12 +72,11 @@ public class TaskDatePickerFragment extends DialogFragment {
                 .setPositiveButton(getResources().getString(R.string.OK), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
-
                         String date = getDate();
                         Intent intent = new Intent();
                         intent.putExtra(EXTRA_DATE, date);
                         getTargetFragment().onActivityResult(AddFragment.REQ_DATE_PICKER, Activity.RESULT_OK, intent);
+
 
                     }
                 })
@@ -93,17 +90,15 @@ public class TaskDatePickerFragment extends DialogFragment {
     private void datePickerInitialization() {
         mDate = (Date) getArguments().getSerializable(ARG_DATE);
 
-        if (mDate!=null) {//it means that if the mDate is equal to Undefined
+        if (mDate != null) {//it means that if the mDate is equal to Undefined
             if (sIsFirstTime) {
                 sIntDate = dateToInteger(mDate, FORMAT_DATE);//0: Year, 1: Month, 2: day
-                sIsFirstTime =false;
-            }
-            else
-            {
+                sIsFirstTime = false;
+            } else {
                 //set the last date user has selected before
-                sIntDate[0]= sYear;
-                sIntDate[1]= sMonth;
-                sIntDate[2]= sDay;
+                sIntDate[0] = sYear;
+                sIntDate[1] = sMonth;
+                sIntDate[2] = sDay;
             }
             int year = sIntDate[0];
             int month = sIntDate[1];
@@ -129,10 +124,11 @@ public class TaskDatePickerFragment extends DialogFragment {
 
     private void initilization(View view) {
         mDatePicker = view.findViewById(R.id.taskDate_dap_TaskDatePickerFragment);
+
     }
 
 
-    public  static int[] dateToInteger(Date date, String aFormat) {
+    public static int[] dateToInteger(Date date, String aFormat) {
 
         if (date == null) return null;
         SimpleDateFormat simpledateformat = new SimpleDateFormat(aFormat);
@@ -141,9 +137,7 @@ public class TaskDatePickerFragment extends DialogFragment {
         int[] intDate = strToIntArray(strDate);//0: Year, 1: Month, 2: day
         return intDate;
     }
-
-
-    public  static int[] strToIntArray(String[] strArray) {
+    public static int[] strToIntArray(String[] strArray) {
         int[] temp = new int[strArray.length];
         for (byte i = 0; i < strArray.length; i++) {
             temp[i] = Integer.parseInt(strArray[i]);
@@ -151,5 +145,6 @@ public class TaskDatePickerFragment extends DialogFragment {
 
         return temp;
     }
+
 
 }

@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -95,8 +96,9 @@ public class TaskManagerActivity extends AppCompatActivity {
                 switch (v.getId()) {
                     case R.id.add_fab_TaskManagerActivity:
 
-                        AddFragment addFragment =AddFragment.newInstance();
-                        addFragment.show(getSupportFragmentManager(),TAG_ADD_FRAGMENT);
+
+                        AddFragment addFragment = AddFragment.newInstance();
+                        addFragment.show(getSupportFragmentManager(), TAG_ADD_FRAGMENT);
 
 
                 }
@@ -149,14 +151,15 @@ public class TaskManagerActivity extends AppCompatActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-
+        int userId = UserLab.getInstance(TaskManagerActivity.this).getCurrentUser().getUser_id();
+        int size = TaskLab.getInstance(TaskManagerActivity.this).getTasks(Task.TaskType.ALL,userId).size();
         if (keyCode == KeyEvent.KEYCODE_BACK
-                && mUserId == UserActivity.USER_NEEDS_REGISTER) {
+                && mUserId == UserActivity.USER_NEEDS_REGISTER && size>0) {
 
             NoLoginDialog noLoginDialog = new NoLoginDialog();
             noLoginDialog.show(getSupportFragmentManager(), DIALOG_TAG);
 
-        }else if(keyCode==KeyEvent.KEYCODE_BACK)
+        } else if (keyCode == KeyEvent.KEYCODE_BACK)
             super.onBackPressed();
 
         return true;

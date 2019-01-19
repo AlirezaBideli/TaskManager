@@ -177,6 +177,7 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                     boolean isPasswordTrue = isPasswordTrue();
                     if (isPasswordTrue) {
                         User user = makeUser();
+
                         UserLab.getInstance(getActivity()).addUser(user);
                         int userId=UserLab.getInstance(getActivity()).getCurrentUser().getUser_id();
                         TaskLab.getInstance(getActivity()).updateTasks(userId);

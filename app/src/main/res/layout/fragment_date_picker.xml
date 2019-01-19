@@ -1,14 +1,19 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
     tools:context="com.example.admin.software_1.controllers.fragments.TaskDatePickerFragment">
 
-<DatePicker
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/taskDate_dap_TaskDatePickerFragment">
+    <DatePicker
+        android:id="@+id/taskDate_dap_TaskDatePickerFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
 
-</DatePicker>
+    </DatePicker>
 
-</FrameLayout>
+
+
+</LinearLayout>

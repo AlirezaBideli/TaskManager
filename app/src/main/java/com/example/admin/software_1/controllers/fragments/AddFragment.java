@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.example.admin.software_1.R;
 import com.example.admin.software_1.controllers.activities.EditActivity;
 import com.example.admin.software_1.controllers.activities.TaskManagerActivity;
+import com.example.admin.software_1.controllers.activities.UserActivity;
 import com.example.admin.software_1.models.Task;
 import com.example.admin.software_1.models.TaskLab;
 import com.example.admin.software_1.models.UserLab;
@@ -34,6 +35,7 @@ import java.util.Objects;
  * A simple {@link Fragment} subclass.
  */
 public class AddFragment extends DialogFragment implements View.OnClickListener {
+
 
 
     //Widgets variables
@@ -55,6 +57,8 @@ public class AddFragment extends DialogFragment implements View.OnClickListener 
     private static boolean sIsOrientationChanged = false;
     public static final String DIALOG_TAG_TIME_PICKER = "timePicker_tag";
     public static final String DIALOG_TAG_DATE_PICKER = "datePicker_tag";
+    private static final String DIALOG_TAG_DT ="time_date_picker_tag" ;
+
     public static final int REQ_TIME_PICKER = 0;
     public static final int REQ_DATE_PICKER = 1;
     private boolean isInputValid;
@@ -79,12 +83,18 @@ public class AddFragment extends DialogFragment implements View.OnClickListener 
 
         View view = inflater.inflate(R.layout.fragment_add, container, false);
         initilization(view);
+        setListeners();
 
+        return view;
+    }
+
+    private void setListeners() {
 
         mAddButton.setOnClickListener(this);
         mSetTimeButton.setOnClickListener(this);
         mSetDateButton.setOnClickListener(this);
         mTaskType_Checkbox.setOnClickListener(this);
+
         mTitle_EditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -117,12 +127,7 @@ public class AddFragment extends DialogFragment implements View.OnClickListener 
             public void afterTextChanged(Editable s) {
             }
         });
-
-
-        return view;
     }
-
-
 
 
     private void initilization(View view) {
@@ -141,8 +146,7 @@ public class AddFragment extends DialogFragment implements View.OnClickListener 
             Toast.makeText(getActivity(), getResources().getString(R.string.input_error_message),
                     Toast.LENGTH_LONG).show();
             isInputValid = false;
-        }
-        else {
+        } else {
             isInputValid = true;
             mTitle = mTitle_EditText.getText().toString();
             mDescription = mDescription_EditText.getText().toString();
@@ -158,7 +162,7 @@ public class AddFragment extends DialogFragment implements View.OnClickListener 
             if (mDescription != null)
                 temp_task.setDescription(mDescription);
 
-            mUserId= UserLab.getInstance(getActivity()).getCurrentUser().getUser_id();
+            mUserId = UserLab.getInstance(getActivity()).getCurrentUser().getUser_id();
             temp_task.setUserId(mUserId);
             TaskLab.getInstance(getActivity()).addTask(temp_task);
 
@@ -219,7 +223,7 @@ public class AddFragment extends DialogFragment implements View.OnClickListener 
             case R.id.add_button_Addfragment:
                 AddDate();
                 resetData();
-                if(isInputValid)
+                if (isInputValid)
                     goToTaskManagerActivity();
                 break;
 
@@ -236,23 +240,25 @@ public class AddFragment extends DialogFragment implements View.OnClickListener 
                 mTaskTypeChecked = true;
                 break;
 
+
         }
     }
+
 
     private void goToDatePickerFragment() {
         TaskDatePickerFragment taskDatePickerFragment = TaskDatePickerFragment.newInstance(new Date());//Date
         taskDatePickerFragment.setTargetFragment(AddFragment.this, REQ_DATE_PICKER);
-        taskDatePickerFragment.show(getFragmentManager(), DIALOG_TAG_DATE_PICKER);
+        taskDatePickerFragment.show(getFragmentManager(),DIALOG_TAG_DATE_PICKER);
     }
 
     private void goToTimePickerFragment() {
-        TaskTimePickerFragment timePickerFragment = TaskTimePickerFragment.newInstance(new Date());//Time
+       TaskTimePickerFragment timePickerFragment = TaskTimePickerFragment.newInstance(new Date());//Time
         timePickerFragment.setTargetFragment(AddFragment.this, REQ_TIME_PICKER);
-        timePickerFragment.show(getFragmentManager(), DIALOG_TAG_TIME_PICKER);
+        timePickerFragment.show(getFragmentManager(),DIALOG_TAG_TIME_PICKER);
     }
 
     private void goToTaskManagerActivity() {
-        Intent intent =new TaskManagerActivity().newIntent(getActivity());
+        Intent intent = new TaskManagerActivity().newIntent(getActivity());
         startActivity(intent);
     }
 

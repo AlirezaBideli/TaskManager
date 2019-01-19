@@ -8,11 +8,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TimePicker;
 
 import com.example.admin.software_1.R;
@@ -26,14 +29,17 @@ import java.util.Date;
  */
 public class TaskTimePickerFragment extends DialogFragment {
 
+    //widgets variables
+    private TimePicker mTimePicker;
+
+    //simple variables
     public static final String EXTRA_TIME = "com.example.admin.software_1_date_time";
     public static final String ARG_TIME = "arg_time";
     public static final String FORMAT_TIME = "hh:mm";
     public static final String SEPARATOR_TIME = ":";
     private Date mTime;
-    private TimePicker mTimePicker;
     private static int[] sIntTime;//0: hour , 1: minute
-    private static boolean sIsFirstTime =true;
+    private static boolean sIsFirstTime = true;
     private static int sHour;
     private static int sMinute;
 
@@ -51,8 +57,10 @@ public class TaskTimePickerFragment extends DialogFragment {
     }
 
 
+
+
     @NonNull
-    @Override
+
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
 
@@ -84,18 +92,17 @@ public class TaskTimePickerFragment extends DialogFragment {
         mTime = (Date) getArguments().getSerializable(ARG_TIME);
 
         if (mTime != null) {//it means that if the mTime is equal to Undefined
-            if(sIsFirstTime) {
+            if (sIsFirstTime) {
                 sIntTime = timeToInteger(mTime, FORMAT_TIME);
-                sIsFirstTime =false;
-            }
-            else {
+                sIsFirstTime = false;
+            } else {
                 //set the last time user has selected before
-                sIntTime[0]= sHour;
-                sIntTime[1]= sMinute;
+                sIntTime[0] = sHour;
+                sIntTime[1] = sMinute;
             }
             int hour = sIntTime[0];
             int minute = sIntTime[1];
-            Log.i("Tag", sIntTime[0]+":"+ sIntTime[1]);
+            Log.i("Tag", sIntTime[0] + ":" + sIntTime[1]);
             mTimePicker.setHour(hour);
             mTimePicker.setMinute(minute);
         }

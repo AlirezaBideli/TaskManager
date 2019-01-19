@@ -13,12 +13,7 @@
             android:name=".controllers.activities.EditActivity"
             android:parentActivityName=".controllers.activities.TaskManagerActivity" />
 
-        <activity android:name=".controllers.activities.TaskManagerActivity" >
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".controllers.activities.TaskManagerActivity" />
         <activity android:name=".controllers.activities.UserActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
