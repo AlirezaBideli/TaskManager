@@ -30,12 +30,12 @@ import com.example.admin.software_1.models.UserLab;
 
 import java.util.Date;
 import java.util.Objects;
+import java.util.UUID;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class AddFragment extends DialogFragment implements View.OnClickListener {
-
 
 
     //Widgets variables
@@ -53,11 +53,11 @@ public class AddFragment extends DialogFragment implements View.OnClickListener 
     private static String mDate;
     private static boolean mTaskTypeChecked;
     private Task.TaskType mTaskType;
-    private int mUserId;
+    private Long mUserId;
     private static boolean sIsOrientationChanged = false;
     public static final String DIALOG_TAG_TIME_PICKER = "timePicker_tag";
     public static final String DIALOG_TAG_DATE_PICKER = "datePicker_tag";
-    private static final String DIALOG_TAG_DT ="time_date_picker_tag" ;
+    private static final String DIALOG_TAG_DT = "time_date_picker_tag";
 
     public static final int REQ_TIME_PICKER = 0;
     public static final int REQ_DATE_PICKER = 1;
@@ -147,27 +147,30 @@ public class AddFragment extends DialogFragment implements View.OnClickListener 
                     Toast.LENGTH_LONG).show();
             isInputValid = false;
         } else {
-            isInputValid = true;
-            mTitle = mTitle_EditText.getText().toString();
-            mDescription = mDescription_EditText.getText().toString();
-            mTaskType = setTaskType(mTaskType_Checkbox.isChecked());
-            Task temp_task = new Task();
-            temp_task.setTitle(mTitle);
-            temp_task.setTaskType(mTaskType);
-
-            if (mDate != null)
-                temp_task.setDate(mDate);
-            if (mTime != null)
-                temp_task.setTime(mTime);
-            if (mDescription != null)
-                temp_task.setDescription(mDescription);
-
-            mUserId = UserLab.getInstance(getActivity()).getCurrentUser().getUser_id();
-            temp_task.setUserId(mUserId);
-            TaskLab.getInstance(getActivity()).addTask(temp_task);
+            addTask();
 
         }
 
+    }
+
+    private void addTask() {
+        mUserId = UserLab.getInstance().getCurrentUser().get_id();
+        isInputValid = true;
+        mTitle = mTitle_EditText.getText().toString();
+        mDescription = mDescription_EditText.getText().toString();
+        mTaskType = setTaskType(mTaskType_Checkbox.isChecked());
+        Task temp_task = new Task();
+        temp_task.setUuId(UUID.randomUUID());
+        temp_task.setTitle(mTitle);
+        temp_task.setTaskType(mTaskType);
+        if (mDate != null)
+            temp_task.setDate(mDate);
+        if (mTime != null)
+            temp_task.setTime(mTime);
+        if (mDescription != null)
+            temp_task.setDescription(mDescription);
+        temp_task.setUser_id(mUserId);
+        TaskLab.getInstance().addTask(temp_task);
     }
 
     private void resetData() {
@@ -248,13 +251,13 @@ public class AddFragment extends DialogFragment implements View.OnClickListener 
     private void goToDatePickerFragment() {
         TaskDatePickerFragment taskDatePickerFragment = TaskDatePickerFragment.newInstance(new Date());//Date
         taskDatePickerFragment.setTargetFragment(AddFragment.this, REQ_DATE_PICKER);
-        taskDatePickerFragment.show(getFragmentManager(),DIALOG_TAG_DATE_PICKER);
+        taskDatePickerFragment.show(getFragmentManager(), DIALOG_TAG_DATE_PICKER);
     }
 
     private void goToTimePickerFragment() {
-       TaskTimePickerFragment timePickerFragment = TaskTimePickerFragment.newInstance(new Date());//Time
+        TaskTimePickerFragment timePickerFragment = TaskTimePickerFragment.newInstance(new Date());//Time
         timePickerFragment.setTargetFragment(AddFragment.this, REQ_TIME_PICKER);
-        timePickerFragment.show(getFragmentManager(),DIALOG_TAG_TIME_PICKER);
+        timePickerFragment.show(getFragmentManager(), DIALOG_TAG_TIME_PICKER);
     }
 
     private void goToTaskManagerActivity() {

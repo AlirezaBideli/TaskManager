@@ -35,11 +35,11 @@ public class ShowTaskInfoFragmnet extends DialogFragment implements View.OnClick
     private TextView mHour_textView;
     private CheckBox mTaskType_CheckBox;
 
-    private Task mTask;
+    private UUID mTaskId;
     public static final String TAG_REMOVE = "tag_remove";
     public static final String TAG_EDIT = "tag_edit";
     public static final String TAG_ADD = "tag_add";
-
+    public static final String EXTRA_TASK_ID = "com.example.admin.software_1_extra_task_id";
     public static final String ADD_FRAGMNET_TAG = "addFragment_tag";
     public static final String EDIT_FRAGMENT_TAG = "editFragment_tag";
 
@@ -51,7 +51,7 @@ public class ShowTaskInfoFragmnet extends DialogFragment implements View.OnClick
 
     public static ShowTaskInfoFragmnet newInstance(UUID id) {
         Bundle bundle = new Bundle();
-        bundle.putSerializable(EditActivity.EXTRA_TASK_ID,id);
+        bundle.putSerializable(EXTRA_TASK_ID,id);
         ShowTaskInfoFragmnet fragment = new ShowTaskInfoFragmnet();
         fragment.setArguments(bundle);
         return fragment;
@@ -63,14 +63,19 @@ public class ShowTaskInfoFragmnet extends DialogFragment implements View.OnClick
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_show_task_info_fragmnet, container, false);
         initialization(view);
-        mTask = getTaskFromArgs();
-        fillUIWidgets(mTask);
-        mAdd_Button.setOnClickListener(this);
-        mRemove_Button.setOnClickListener(this);
-        mEdit_Button.setOnClickListener(this);
+        mTaskId = (UUID) getArguments().getSerializable(EXTRA_TASK_ID);
+        Task task=TaskLab.getInstance().getTask(mTaskId);
+        fillUIWidgets(task);
+        setListeners();
 
 
         return view;
+    }
+
+    private void setListeners() {
+        mAdd_Button.setOnClickListener(this);
+        mRemove_Button.setOnClickListener(this);
+        mEdit_Button.setOnClickListener(this);
     }
 
 
@@ -87,11 +92,7 @@ public class ShowTaskInfoFragmnet extends DialogFragment implements View.OnClick
     }
 
 
-    private Task getTaskFromArgs() {
-        UUID taslId = (UUID) getArguments().getSerializable(EditActivity.EXTRA_TASK_ID);
-        Task task = TaskLab.getInstance(getActivity()).getTask(taslId);
-        return task;
-    }
+
 
     private void fillUIWidgets(Task task) {
 
@@ -134,7 +135,7 @@ public class ShowTaskInfoFragmnet extends DialogFragment implements View.OnClick
     private void goToEditFragment() {
 
 
-            EditFragment editFragment=EditFragment.newInstance(mTask);
+            EditFragment editFragment=EditFragment.newInstance(mTaskId);
             editFragment.show(getFragmentManager(),TAG_EDIT);
 
 
@@ -149,7 +150,7 @@ public class ShowTaskInfoFragmnet extends DialogFragment implements View.OnClick
 
     private void showRemoveDialog() {
 
-        RemoveDialogFragment removeDialogFragmnet = RemoveDialogFragment.newInstance(mTask);
+        RemoveDialogFragment removeDialogFragmnet = RemoveDialogFragment.newInstance(mTaskId);
         removeDialogFragmnet.show(getFragmentManager(), TAG_REMOVE);
     }
 

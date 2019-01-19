@@ -26,7 +26,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
     public static final String BUNDLE_USER_NAME = "bundle_userName";
     public static final String BUNDLE_PASSWORD = "bundle_password";
-    public static final byte DEFAULT_USER_ID = 0;
+    public static final long DEFAULT_USER_ID = 0;
     //widgets variables
     private EditText mUserNameEdt;
     private EditText mPasswordEdt;
@@ -117,26 +117,23 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
             case R.id.test_btn_LoginFragment:
                 String undefined = getResources().getString(R.string.undefined);
 
-                User user = new User(DEFAULT_USER_ID);
+                User user = new User();
                 //FirstName and LastName set to undefined as default
                 user.setFirstName(undefined);
                 user.setLastName(undefined);
-                UserLab.getInstance(getActivity()).setCurrentUser(user);
+                user.set_id(DEFAULT_USER_ID);
+                UserLab.getInstance().setCurrentUser(user);
                 gotToTaskManagerActivity();
                 break;
         }
     }
 
     private void checkLoginOrNot() {
-        User unAuthorizedUser = new User();
-        unAuthorizedUser.setUserName(mUserName);
-        unAuthorizedUser.setPassword(mPassword);
-        User user = UserLab.getInstance(getActivity()).login(unAuthorizedUser);
-        String message;
-        if (user != null)//when username and password are equal
-        {
 
-            UserLab.getInstance(getActivity()).setCurrentUser(user);
+        boolean isKnown = UserLab.getInstance().login(mUserName, mPassword);
+        String message;
+        if (isKnown)//when username and password are equal
+        {
             message = getResources().getString(R.string.welcome_message);
             Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
             gotToTaskManagerActivity();
@@ -148,6 +145,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
 
     private void gotToTaskManagerActivity() {
+        getActivity().finish();
         Intent intent = new TaskManagerActivity().newIntent(getActivity());
         startActivity(intent);
     }
@@ -158,9 +156,6 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
                 .replace(R.id.container_root_userActivity, RegisterFragment.newInstance())
                 .commit();
     }
-
-
-
 
 
 }

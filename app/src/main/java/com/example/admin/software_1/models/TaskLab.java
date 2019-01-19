@@ -1,15 +1,9 @@
 package com.example.admin.software_1.models;
 
-import android.content.ContentValues;
-import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 
-import com.example.admin.software_1.controllers.activities.UserActivity;
-import com.example.admin.software_1.database.TaskManagerBaseHelper;
-import com.example.admin.software_1.database.TaskManagerCursorWrapper;
-import com.example.admin.software_1.database.TaskManagerDbSchema;
 
+import com.example.admin.software_1.ORM.App;
+import com.example.admin.software_1.controllers.fragments.LoginFragment;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -23,158 +17,89 @@ import java.util.UUID;
 public class TaskLab {
 
 
-    private static TaskLab mInstance;
+    private static TaskLab mInstance = new TaskLab();
+    private TaskDao mTaskDao = (App.getApp()).getDaoSession().getTaskDao();
 
-    private SQLiteDatabase mSQLiteDatabase;
-    private Context mContext;
-
-
-    private TaskLab(Context context) {
-        mContext = context.getApplicationContext();
-        mSQLiteDatabase = new TaskManagerBaseHelper(mContext).getWritableDatabase();
+    private TaskLab() {
     }
 
-    public static TaskLab getInstance(Context context) {
-        if (mInstance == null)
-            mInstance = new TaskLab(context);
-
+    public static TaskLab getInstance() {
         return mInstance;
     }
 
     //Remove  Task/s in mSQLiteDatabase
-    public void removeTask(Task task) {
-        String whereClause = TaskManagerDbSchema.TaskTable.Cols.UUID + "=\'" + task.getId() + "\'";
-        ContentValues contentValues = getTaskColumns(task);
-        mSQLiteDatabase.delete(TaskManagerDbSchema.TaskTable.NAME,
-                whereClause,
-                null);
-
+    public void removeTask(UUID taskId) {
+        Task task = getTask(taskId);
+        mTaskDao.delete(task);
     }
 
-    public void removeAllTasks(int userId) {
-        String whereCaulse = TaskManagerDbSchema.TaskTable.Cols.USER_ID + "=" + userId;
+    public void removeAllTasks(Long userId) {
 
-        mSQLiteDatabase.delete(TaskManagerDbSchema.TaskTable.NAME, whereCaulse, null);
+
+        List<Task> tasks = mTaskDao.queryBuilder()
+                .where(TaskDao.Properties.User_id.eq(userId))
+                .list();
+        mTaskDao.deleteInTx(tasks);
+
     }
-
 
 
     public void addTask(Task task) {
-        ContentValues contentValues = getTaskColumns(task);
-        mSQLiteDatabase.insert(TaskManagerDbSchema.TaskTable.NAME, null, contentValues);
+        //Set UUId for each os task just once they added
+        mTaskDao.insert(task);
 
     }
-
-    private ContentValues getTaskColumns(Task task) {
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(TaskManagerDbSchema.TaskTable.Cols.UUID, task.getId().toString());
-        contentValues.put(TaskManagerDbSchema.TaskTable.Cols.TITLE, task.getTitle());
-        contentValues.put(TaskManagerDbSchema.TaskTable.Cols.DESCRIPTION, task.getDescription());
-        contentValues.put(TaskManagerDbSchema.TaskTable.Cols.DATE, task.getDate());
-        contentValues.put(TaskManagerDbSchema.TaskTable.Cols.TIME, task.getTime());
-        contentValues.put(TaskManagerDbSchema.TaskTable.Cols.TASK_TYPE, task.getTaskType().getValue());
-        contentValues.put(TaskManagerDbSchema.TaskTable.Cols.USER_ID, task.getUserId());
-
-        return contentValues;
-    }
-
-
 
 
     //Update specified Task in mSQLiteDatabase
     public void updateTask(Task task) {
-        String whereClause = TaskManagerDbSchema.TaskTable.Cols.UUID + "=\'" + task.getId() + "\'";
-        ContentValues contentValues = getTaskColumns(task);
-        mSQLiteDatabase.update(TaskManagerDbSchema.TaskTable.NAME,
-                contentValues,
-                whereClause,
-                null);
+        mTaskDao.update(task);
     }
+
     //Update tasks
     //this is user when we want to save the task of user that has not registered yet
-    public void updateTasks(int userId) {
-       // int userId=UserLab.getInstance(mContext).getCurrentUser().getUser_id();
-        String whereClause = TaskManagerDbSchema.TaskTable.Cols.USER_ID + "="+ UserActivity.USER_NEEDS_REGISTER;
-        ContentValues user_idColumn = getUserIdColumn(userId);
-        mSQLiteDatabase.update(TaskManagerDbSchema.TaskTable.NAME,
-                user_idColumn,
-                whereClause ,
-                null);
+    public void updateTasks(Long userId) {
+
+        List<Task> tasks = mTaskDao.queryBuilder()
+                .where(TaskDao.Properties.User_id.eq(LoginFragment.DEFAULT_USER_ID))
+                .list();
+        for (Task task : tasks)
+            task.setUser_id(userId);
+        mTaskDao.updateInTx(tasks);
 
     }
 
-    private ContentValues getUserIdColumn(int userId) {
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(TaskManagerDbSchema.TaskTable.Cols.USER_ID, userId);
-        return contentValues;
-    }
 
     //Select  list of task from mSQLiteDatabase
-    public List<Task> getTasks(Task.TaskType taskType, int userId) {
-
-        List<Task> tasks = new ArrayList<>();
-        String strTaskType = taskType.getValue() + "";
+    public List<Task> getTasks(Task.TaskType taskType, Long userId) {
 
 
-        String whereClause;
-        whereClause = TaskManagerDbSchema.TaskTable.Cols.TASK_TYPE + "=" + strTaskType +
-                " and " + TaskManagerDbSchema.TaskTable.Cols.USER_ID + "=" + userId;
+        List<Task> tasks;
 
         if (taskType == Task.TaskType.ALL) {
-            whereClause = TaskManagerDbSchema.TaskTable.Cols.USER_ID + "=" + userId;
+
+            tasks = mTaskDao.queryBuilder().where(TaskDao.Properties.User_id.eq(userId))
+                    .list();
+        } else {
+            tasks = mTaskDao.queryBuilder().where(TaskDao.Properties.TaskType.eq(taskType.getValue())
+                    , TaskDao.Properties.User_id.eq(userId))
+                    .list();
         }
 
 
-        TaskManagerCursorWrapper cursorWrapper = queryTask(whereClause);
-        cursorWrapper.moveToFirst();
-        if (cursorWrapper.getCount() == 0)
+        if (tasks.size() > 0)
             return tasks;
-        try {
-            while (!cursorWrapper.isAfterLast()) {
-                tasks.add(cursorWrapper.getTask());
-                cursorWrapper.moveToNext();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            cursorWrapper.close();
-        }
-        return tasks;
+
+        else return new ArrayList<>();
     }
 
-    public Task getTask(UUID id) {
+    public Task getTask(UUID taskId) {
 
-        Task task = new Task();
-        String whereClause = TaskManagerDbSchema.TaskTable.Cols.UUID + "=\'" + id + "\'";
-
-        TaskManagerCursorWrapper cursorWrapper = queryTask(whereClause);
-
-
-        cursorWrapper.moveToFirst();
-        if (cursorWrapper.getCount() == 0)
-            return null;
-        try {
-            task = cursorWrapper.getTask();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            cursorWrapper.close();
-        }
+        Task task = mTaskDao.queryBuilder()
+                .where(TaskDao.Properties.UuId.eq(taskId.toString()))
+                .uniqueOrThrow();
 
         return task;
-    }
-
-    private TaskManagerCursorWrapper queryTask(String whereClause) {
-
-        Cursor cursor = mSQLiteDatabase.query(TaskManagerDbSchema.TaskTable.NAME,
-                null,
-                whereClause,
-                null,
-                null,
-                null,
-                null,
-                null);
-        return new TaskManagerCursorWrapper(cursor);
     }
 
 

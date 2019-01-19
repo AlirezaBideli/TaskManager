@@ -19,21 +19,23 @@ import com.example.admin.software_1.controllers.activities.TaskManagerActivity;
 import com.example.admin.software_1.models.Task;
 import com.example.admin.software_1.models.TaskLab;
 
+import java.util.UUID;
+
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class RemoveDialogFragment extends DialogFragment implements View.OnClickListener {
 
-    public static  String ARGS_TASK="rgs_task";
-    private Task mTask;//this is used for the get this fragment args
+    public static  String ARGS_TASK_ID="task_id";
+    private UUID mTaskId;//this is used for the get this fragment args
     private Button mYesButton;
     private Button mNoButton;
 
-    public static RemoveDialogFragment newInstance(Task task) {
+    public static RemoveDialogFragment newInstance(UUID taskId) {
 
         Bundle args = new Bundle();
-        args.putSerializable(ARGS_TASK,task);
+        args.putSerializable(ARGS_TASK_ID,taskId);
         RemoveDialogFragment fragment = new RemoveDialogFragment();
         fragment.setArguments(args);
         return fragment;
@@ -51,11 +53,15 @@ public class RemoveDialogFragment extends DialogFragment implements View.OnClick
         View view=inflater.inflate(R.layout.fragment_remove_dialog_fragmnet, container, false);
         initilization(view);
         getArgs();
-        mYesButton.setOnClickListener(this);
-        mNoButton.setOnClickListener(this);
+        setListeners();
 
 
         return view;
+    }
+
+    private void setListeners() {
+        mYesButton.setOnClickListener(this);
+        mNoButton.setOnClickListener(this);
     }
 
 
@@ -73,7 +79,7 @@ public class RemoveDialogFragment extends DialogFragment implements View.OnClick
         {
             case R.id.yes_btn_RemoveDialogFragment:
                 Context context=getActivity();
-                TaskLab.getInstance(context).removeTask(mTask);
+                TaskLab.getInstance().removeTask(mTaskId);
                 Intent intent=new TaskManagerActivity().newIntent(context);
                 startActivity(intent);
 
@@ -89,6 +95,6 @@ public class RemoveDialogFragment extends DialogFragment implements View.OnClick
 
     private void getArgs()
     {
-        mTask=(Task) getArguments().getSerializable(ARGS_TASK);
+        mTaskId=(UUID) getArguments().getSerializable(ARGS_TASK_ID);
     }
 }

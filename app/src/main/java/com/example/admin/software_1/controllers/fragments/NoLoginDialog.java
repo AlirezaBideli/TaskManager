@@ -35,9 +35,9 @@ public class NoLoginDialog extends DialogFragment {
                 .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        int userId = UserLab.getInstance(getActivity()).getCurrentUser().getUser_id();
+                        Long userId = UserLab.getInstance().getCurrentUser().get_id();
                         if (userId == LoginFragment.DEFAULT_USER_ID) {
-                            TaskLab.getInstance(getActivity()).removeAllTasks(userId);
+                            TaskLab.getInstance().removeAllTasks(userId);
                             getActivity().finish();
                         }
                     }

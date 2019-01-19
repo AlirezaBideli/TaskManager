@@ -19,10 +19,12 @@ import com.example.admin.software_1.controllers.activities.EditActivity;
 import com.example.admin.software_1.controllers.activities.TaskManagerActivity;
 import com.example.admin.software_1.models.Task;
 import com.example.admin.software_1.models.TaskLab;
+import com.example.admin.software_1.models.UserLab;
 
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.UUID;
 
 
 /**
@@ -37,8 +39,8 @@ public class EditFragment extends DialogFragment implements View.OnClickListener
     private Button mDone_button;
     private Button mSetDate_Button;
     private Button mSetTime_Button;
-
     //Simple variables
+    private UUID mTaskId;
     private Task mTask;
     private String mTitle;
     private String mDescription;
@@ -46,17 +48,16 @@ public class EditFragment extends DialogFragment implements View.OnClickListener
     private String mDate;
     private Task.TaskType mTaskType;
     private String undefined;
-
-
     public static final String DIALOG_TAG_TIME_PICKER = "timePicker_tag";
     public static final String DIALOG_TAG_DATE_PICKER = "datePicker_tag";
     public static final int REQ_TIME_PICKER = 0;
     public static final int REQ_DATE_PICKER = 1;
-    public static final String ARGS_TASK = "taskObject";
+    public static final String ARGS_TASK_Id = "taskId";
 
-    public static EditFragment newInstance(Task task) {
+
+    public static EditFragment newInstance(UUID taskId) {
         Bundle bundle = new Bundle();
-        bundle.putSerializable(ARGS_TASK, task);
+        bundle.putSerializable(ARGS_TASK_Id, taskId);
         EditFragment fragment = new EditFragment();
         fragment.setArguments(bundle);
         return fragment;
@@ -70,11 +71,17 @@ public class EditFragment extends DialogFragment implements View.OnClickListener
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mTask = getArgs();
-        mDescription = getResources().getString(R.string.undefined);//set undefined because maybe the user delete it
+        getArgs();
+        setFields();
+
+    }
+
+    private void setFields() {
+        mTask=TaskLab.getInstance().getTask(mTaskId);
         mDate = mTask.getDate();
         mTime = mTask.getTime();
         undefined = getResources().getString(R.string.undefined);
+        mDescription = getResources().getString(R.string.undefined);//set undefined because maybe the user delete it
 
     }
 
@@ -86,10 +93,14 @@ public class EditFragment extends DialogFragment implements View.OnClickListener
         initialization(view);
 
         fillUiWidgets(mTask);
+        setListeners();
+        return view;
+    }
+
+    private void setListeners() {
         mDone_button.setOnClickListener(this);
         mSetDate_Button.setOnClickListener(this);
         mSetTime_Button.setOnClickListener(this);
-        return view;
     }
 
 
@@ -102,11 +113,8 @@ public class EditFragment extends DialogFragment implements View.OnClickListener
         mSetTime_Button = view.findViewById(R.id.setTime_btn_EditFragment);
     }
 
-    private Task getArgs() {
-
-
-        Task task = (Task) getArguments().getSerializable(ARGS_TASK);
-        return task;
+    private void getArgs() {
+        mTaskId = (UUID) getArguments().getSerializable(ARGS_TASK_Id);
     }
 
     private void fillUiWidgets(Task task) {
@@ -152,18 +160,17 @@ public class EditFragment extends DialogFragment implements View.OnClickListener
 
     private void setSendedTask() {
 
+        Long userId = UserLab.getInstance().getCurrentUser().get_id();
         mTitle = mTitle_EditText.getText().toString();
         mDescription = mDescription_EditText.getText().toString();
         mTaskType = getTaskType(mTaskType_checkbox.isChecked());
-        Task.TaskType taskType = getTaskType(mTaskType_checkbox.isChecked());
-        mTask.setTaskType(taskType);
         mTask.setTitle(mTitle);
         mTask.setDescription(mDescription);
         mTask.setTaskType(mTaskType);
         mTask.setDate(mDate);
         mTask.setTime(mTime);
-
-        TaskLab.getInstance(getActivity()).updateTask(mTask);
+        mTask.setUser_id(userId);
+        TaskLab.getInstance().updateTask(mTask);
         Intent intent = new TaskManagerActivity().newIntent(getActivity());
         startActivity(intent);
 
@@ -174,14 +181,14 @@ public class EditFragment extends DialogFragment implements View.OnClickListener
         Date date = stringToDate(mDate);
         TaskDatePickerFragment taskDatePickerFragment = TaskDatePickerFragment.newInstance(date);
         taskDatePickerFragment.setTargetFragment(EditFragment.this, REQ_DATE_PICKER);
-       // taskDatePickerFragment.show(getFragmentManager(), DIALOG_TAG_DATE_PICKER);
+         taskDatePickerFragment.show(getFragmentManager(), DIALOG_TAG_DATE_PICKER);
     }
 
     private void goToTimePickerFragment() {
         Date time = stringToTime(mTime);
         TaskTimePickerFragment timePickerFragment = TaskTimePickerFragment.newInstance(time);
         timePickerFragment.setTargetFragment(EditFragment.this, REQ_TIME_PICKER);
-        //timePickerFragment.show(getFragmentManager(), DIALOG_TAG_TIME_PICKER);
+        timePickerFragment.show(getFragmentManager(), DIALOG_TAG_TIME_PICKER);
     }
 
 

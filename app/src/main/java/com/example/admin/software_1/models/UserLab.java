@@ -7,9 +7,15 @@ import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.example.admin.software_1.ORM.App;
 import com.example.admin.software_1.database.TaskManagerBaseHelper;
 import com.example.admin.software_1.database.TaskManagerCursorWrapper;
 import com.example.admin.software_1.database.TaskManagerDbSchema;
+
+import org.greenrobot.greendao.query.WhereCondition;
+
+import java.util.List;
+import java.util.Properties;
 
 /**
  * Created by ADMIN on 1/9/2019.
@@ -18,21 +24,16 @@ import com.example.admin.software_1.database.TaskManagerDbSchema;
 public class UserLab {
 
 
-    private SQLiteDatabase mSQLiteDatabase;
-    private Context mContext;
-    private static UserLab ourInstance;
+    private static final UserLab ourInstance = new UserLab();
     private User mCurrentUser;
+    private UserDao mUserDao = (App.getApp()).getDaoSession().getUserDao();
 
-    public static UserLab getInstance(Context context) {
-
-        if (ourInstance == null)
-            ourInstance = new UserLab(context);
+    public static UserLab getInstance() {
         return ourInstance;
     }
 
-    private UserLab(Context context) {
-        mContext = context.getApplicationContext();
-        mSQLiteDatabase = new TaskManagerBaseHelper(mContext).getWritableDatabase();
+    private UserLab() {
+
     }
 
 
@@ -41,78 +42,18 @@ public class UserLab {
     }
 
     //get User from UserDataBase
-    public User login(User unAuthorizedUser) {
-
-        String whereClause = TaskManagerDbSchema.UserTable.Cols.USERNAME +
-                "=? and " + TaskManagerDbSchema.UserTable.Cols.PASSWORD + "=?";
-        String[] whereArgs = {unAuthorizedUser.getUserName(), unAuthorizedUser.getPassword()};
-
-        TaskManagerCursorWrapper userCursorWrapper = queryUser(whereClause, whereArgs);
-        if (userCursorWrapper.getCount() == 0)
-            return null;
+    public boolean login(String userName, String password) {
 
 
-        User user = null;
-        userCursorWrapper.moveToFirst();
-        try {
-            user = userCursorWrapper.getUser();
-        } finally {
-            userCursorWrapper.close();
+        List<User> users = mUserDao.queryBuilder().where(UserDao.Properties.UserName.eq(userName),
+                UserDao.Properties.Password.eq(password))
+                .list();
+
+        if (users.size()==1) {
+            setCurrentUser(users.get(0));
+            return true;
         }
-
-        return user;
-    }
-
-    private TaskManagerCursorWrapper queryUser(String whereCluase, String[] whereArgs) {
-
-        Cursor cursor = mSQLiteDatabase.query(
-                TaskManagerDbSchema.UserTable.NAME,
-                null,
-                whereCluase,
-                whereArgs,
-                null,
-                null,
-                null,
-                null);
-
-        return new TaskManagerCursorWrapper(cursor);
-    }
-
-    //Insert to  UserDatabase;
-    public void addUser(User user) {
-        insertUser(user);
-
-        TaskManagerCursorWrapper cursorWrapper = getUserId(user);
-
-        setCurrentUser(cursorWrapper);
-        Log.i("Tag", "user ID : "+getCurrentUser().getUser_id()+"");
-    }
-
-    @NonNull
-    private TaskManagerCursorWrapper getUserId(User user) {
-        String whereClause = TaskManagerDbSchema.UserTable.Cols.USERNAME + "= \'" + user.getUserName() + "\'"
-                + " and " + TaskManagerDbSchema.UserTable.Cols.PASSWORD + "=\'" + user.getPassword() + "\'";
-
-        String[] whereArgs = {user.getUserName(), user.getPassword()};
-
-
-        return userQuery(whereClause, whereArgs);
-    }
-
-    private void insertUser(User user) {
-        ContentValues contentValues = getUserColumns(user);
-        mSQLiteDatabase.insert(TaskManagerDbSchema.UserTable.NAME, null, contentValues);
-    }
-
-    private void setCurrentUser(TaskManagerCursorWrapper cursorWrapper) {
-
-        try {
-            cursorWrapper.moveToFirst();
-            mCurrentUser = cursorWrapper.getUser();
-        } finally {
-            cursorWrapper.close();
-        }
-        cursorWrapper.close();
+        return false;
     }
 
     public void setCurrentUser(User user) {
@@ -120,27 +61,14 @@ public class UserLab {
         mCurrentUser = user;
     }
 
-    private TaskManagerCursorWrapper userQuery(String whereClause, String[] whereArgs) {
-        Cursor cursor = mSQLiteDatabase.query(TaskManagerDbSchema.UserTable.NAME,
-                null,
-                whereClause,
-                null,
-                null,
-                null,
-                null,
-                null);
+    //Insert to  UserDatabase;
+    public void addUser(User user) {
+        //insert user in database without id and get its id too.
+        long id=mUserDao.insert(user);
+        //after insert our user to database we set its id
+        user.set_id(id);
+        setCurrentUser(user);
 
-        return new TaskManagerCursorWrapper(cursor);
-    }
-
-    private ContentValues getUserColumns(User user) {
-
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(TaskManagerDbSchema.UserTable.Cols.FIRST_NAME, user.getFirstName());
-        contentValues.put(TaskManagerDbSchema.UserTable.Cols.LAST_NAME, user.getLastName());
-        contentValues.put(TaskManagerDbSchema.UserTable.Cols.USERNAME, user.getUserName());
-        contentValues.put(TaskManagerDbSchema.UserTable.Cols.PASSWORD, user.getPassword());
-        return contentValues;
     }
 
 

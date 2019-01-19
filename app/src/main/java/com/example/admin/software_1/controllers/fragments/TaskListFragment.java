@@ -41,7 +41,7 @@ public class TaskListFragment extends Fragment {
 
     //simple Variables
     private Task.TaskType mTaskType;
-    private int mUserId;
+    private Long mUserId;
     private List<Task> mTaskLsit;
     public static final String TAG_SHOW_TASK_INFO = "tag_showTaskInfo";
 
@@ -65,8 +65,8 @@ public class TaskListFragment extends Fragment {
 
 
         mTaskType = (Task.TaskType) getArguments().getSerializable(TaskManagerActivity.EXTRA_TASK_TYPE);
-        mUserId = UserLab.getInstance(getActivity()).getCurrentUser().getUser_id();
-        mTaskLsit = TaskLab.getInstance(getActivity()).getTasks(mTaskType, mUserId);
+        mUserId = UserLab.getInstance().getCurrentUser().get_id();
+        mTaskLsit = TaskLab.getInstance().getTasks(mTaskType, mUserId);
     }
 
     @Override
@@ -108,7 +108,7 @@ public class TaskListFragment extends Fragment {
         private TextView mTitile_textView;
         private TextView mDateandHour_textView;
         private TextView mTitleFirstLetter_textView;
-        List<Task> mTasks = TaskLab.getInstance(getActivity()).getTasks(TaskListFragment.this.mTaskType, mUserId);
+        List<Task> mTasks = TaskLab.getInstance().getTasks(TaskListFragment.this.mTaskType, mUserId);
 
         public TaskHolder(View itemView) {
             super(itemView);
@@ -121,13 +121,11 @@ public class TaskListFragment extends Fragment {
 
                 @Override
                 public void onClick(View v) {
-                   /* Intent intent = new EditActivity().newIntent(getActivity(),
-                            EditActivity.itemTaskListClicked//state : 1
-                            , mTasks.get(getAdapterPosition()).getId());
-                    startActivity(intent);*/
+
+
 
                     ShowTaskInfoFragmnet showTaskInfoFragmnet = ShowTaskInfoFragmnet.newInstance
-                            (mTasks.get(getAdapterPosition()).getId());
+                            (mTasks.get(getAdapterPosition()).getUuId());
                     showTaskInfoFragmnet.show(getFragmentManager(),TAG_SHOW_TASK_INFO );
 
                 }

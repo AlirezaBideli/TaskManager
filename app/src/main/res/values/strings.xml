@@ -30,7 +30,6 @@
     <string name="no_button">No</string>
     <string name="input_error_message">Invalid input please try again !!!</string>
     <string name="Done">Done</string>
-
     <string name="date_time_textView">   Date= %1$s \n Hour= %2$s</string>
     <string name="time_string">%1$s:%2$s</string>
     <string name="username">userName</string>
@@ -47,7 +46,6 @@
     <string name="firstName">firstName</string>>
     <string name="lastName">lastName</string>>
     <string name="btn_login">login</string>
-
     <string name="welcome_message">Welcome</string>
     <string name="not_registered_message">I have not already registered</string>
     <string name="invalidLogin">userName or Password is Invalid</string>
@@ -59,5 +57,7 @@
     <string name="TaskTime">Task Time</string>
     <string name="TaskDate">Task Date</string>
     <string name="setTimeAndDate">set Time and date</string>
+    <string name="reapeatative_UserName_text"> This UserName has been Selected please Try again</string>
+
     />
 </resources>

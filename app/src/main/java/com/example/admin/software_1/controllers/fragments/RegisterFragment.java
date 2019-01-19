@@ -65,6 +65,13 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_register, container, false);
         initilization(view);
+        setListeners();
+
+
+        return view;
+    }
+
+    private void setListeners() {
         mFirstNameEdt.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -146,9 +153,6 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
             }
         });
         mRegisterBtn.setOnClickListener(this);
-
-
-        return view;
     }
 
 
@@ -174,17 +178,23 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
                 if (!isInputsValid) {
                     message.append(getResources().getString(R.string.input_error_message) + "\n");
                 } else {
+                    String toastMessage;
                     boolean isPasswordTrue = isPasswordTrue();
                     if (isPasswordTrue) {
                         User user = makeUser();
+                        try {
+                            UserLab.getInstance().addUser(user);
+                            updateTasks();
+                            toastMessage= getResources().getString(R.string.registerMessage);
+                            showToast(toastMessage);
+                            goToTaskManagerActivity();
+                        }
+                        catch (Exception e)
+                        {
+                            toastMessage=getString(R.string.reapeatative_UserName_text);
+                            showToast(toastMessage);
+                        }
 
-                        UserLab.getInstance(getActivity()).addUser(user);
-                        int userId=UserLab.getInstance(getActivity()).getCurrentUser().getUser_id();
-                        TaskLab.getInstance(getActivity()).updateTasks(userId);
-
-                        String toastMessage = getResources().getString(R.string.registerMessage);
-                        showToast(toastMessage);
-                        goToTaskManagerActivity();
 
                     } else {
                         message.append(getResources().getString(R.string.notEqualPassword));
@@ -194,6 +204,11 @@ public class RegisterFragment extends Fragment implements View.OnClickListener {
 
                 break;
         }
+    }
+
+    private void updateTasks() {
+        Long userId= UserLab.getInstance().getCurrentUser().get_id();
+        TaskLab.getInstance().updateTasks(userId);
     }
 
     private boolean isInputsValid() {

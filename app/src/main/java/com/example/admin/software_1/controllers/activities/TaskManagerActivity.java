@@ -36,7 +36,7 @@ public class TaskManagerActivity extends AppCompatActivity {
     //simple variables
     public static final String EXTRA_TASK_TYPE = "com.example.admin.software_1_taskType";
     public static final String TAG_ADD_FRAGMENT = "tag_add fragment";
-    private int mUserId;
+    private Long mUserId;
 
 
     public Intent newIntent(Context context) {
@@ -50,7 +50,7 @@ public class TaskManagerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_manager);
 
-        mUserId = UserLab.getInstance(TaskManagerActivity.this).getCurrentUser().getUser_id();
+        mUserId = UserLab .getInstance().getCurrentUser().get_id();
         initialization();//initialize Widgets ids
 
         mViewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
@@ -119,9 +119,9 @@ public class TaskManagerActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.app_bar_deleteAll:
 
-                int userId = UserLab.getInstance(TaskManagerActivity.this)
-                        .getCurrentUser().getUser_id();
-                TaskLab.getInstance(TaskManagerActivity.this).removeAllTasks(userId);
+                Long userId = UserLab.getInstance()
+                        .getCurrentUser().get_id();
+                TaskLab.getInstance().removeAllTasks(userId);
                 int tabPostion = mViewPager.getCurrentItem();
                 Task.TaskType taskType = getTaskType(tabPostion);
                 FragmentManager fragmentManager = getSupportFragmentManager();
@@ -151,8 +151,8 @@ public class TaskManagerActivity extends AppCompatActivity {
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        int userId = UserLab.getInstance(TaskManagerActivity.this).getCurrentUser().getUser_id();
-        int size = TaskLab.getInstance(TaskManagerActivity.this).getTasks(Task.TaskType.ALL,userId).size();
+        Long userId = UserLab.getInstance().getCurrentUser().get_id();
+        int size = TaskLab.getInstance().getTasks(Task.TaskType.ALL,userId).size();
         if (keyCode == KeyEvent.KEYCODE_BACK
                 && mUserId == UserActivity.USER_NEEDS_REGISTER && size>0) {
 

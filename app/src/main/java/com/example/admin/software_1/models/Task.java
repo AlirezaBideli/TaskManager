@@ -3,91 +3,240 @@ package com.example.admin.software_1.models;
 import android.app.AlertDialog;
 import android.util.Log;
 
+import org.greenrobot.greendao.annotation.Convert;
+import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.ToOne;
+import org.greenrobot.greendao.converter.PropertyConverter;
+
 import java.io.Serializable;
 import java.util.UUID;
 
-/**
- * Created by ADMIN on 12/23/2018.
- */
+import org.greenrobot.greendao.annotation.Generated;
+import org.greenrobot.greendao.DaoException;
 
 
-public class Task implements Serializable {
+@Entity()
+public class Task {
 
 
     //Change optional variables to "Undefined" when these variables are "null"
-    private UUID mId;
-    private String mTitle;
-    private String mDescription = "Undefined";
-    private String mDate = "Undefined";
-    private String mTime = "Undefined";
-    private TaskType mTaskType;
-    private int userId;
+
+    @Id(autoincrement = true)
+    private Long _id;
+    @Convert(converter = UUIDConverter.class, columnType = String.class)
+    private UUID uuId;
+    private String title;
+    private String description = "Undefined";
+    private String date = "Undefined";
+    private String time = "Undefined";
+    @Convert(converter = TaskTypeConverter.class, columnType = Integer.class)
+    private TaskType taskType;
+    private Long user_id;
+    @ToOne(joinProperty = "user_id")
+    private User user;
 
 
+
+
+
+
+
+
+
+
+    /** Used to resolve relations */
+    @Generated(hash = 2040040024)
+    private transient DaoSession daoSession;
+    /** Used for active entity operations. */
+    @Generated(hash = 1469429066)
+    private transient TaskDao myDao;
+    @Generated(hash = 251390918)
+    private transient Long user__resolvedKey;
+
+    @Generated(hash = 1019615428)
+    public Task(Long _id, UUID uuId, String title, String description, String date,
+            String time, TaskType taskType, Long user_id) {
+        this._id = _id;
+        this.uuId = uuId;
+        this.title = title;
+        this.description = description;
+        this.date = date;
+        this.time = time;
+        this.taskType = taskType;
+        this.user_id = user_id;
+    }
+
+    @Generated(hash = 733837707)
     public Task() {
-        mId = UUID.randomUUID();
     }
 
-    public int getUserId() {
-        return userId;
+    public Long get_id() {
+        return this._id;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void set_id(Long _id) {
+        this._id = _id;
     }
 
-
-    public String getDate() {
-        return mDate;
+    public UUID getUuId() {
+        return this.uuId;
     }
 
-    public void setDate(String date) {
-        mDate = date;
-    }
-
-
-    public String getTime() {
-        return mTime;
-    }
-
-    public void setTime(String hour) {
-        mTime = hour;
-    }
-
-
-    public TaskType getTaskType() {
-        return mTaskType;
-    }
-
-    public void setTaskType(TaskType taskType) {
-        mTaskType = taskType;
+    public void setUuId(UUID uuId) {
+        this.uuId = uuId;
     }
 
     public String getTitle() {
-        return mTitle;
+        return this.title;
     }
 
     public void setTitle(String title) {
-        mTitle = title;
+        this.title = title;
     }
 
     public String getDescription() {
-        return mDescription;
+        return this.description;
     }
 
     public void setDescription(String description) {
-        mDescription = description;
+        this.description = description;
+    }
+
+    public String getDate() {
+        return this.date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getTime() {
+        return this.time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public TaskType getTaskType() {
+        return this.taskType;
+    }
+
+    public void setTaskType(TaskType taskType) {
+        this.taskType = taskType;
+    }
+
+    public Long getUser_id() {
+        return this.user_id;
+    }
+
+    public void setUser_id(Long user_id) {
+        this.user_id = user_id;
+    }
+
+    /** To-one relationship, resolved on first access. */
+    @Generated(hash = 2126679178)
+    public User getUser() {
+        Long __key = this.user_id;
+        if (user__resolvedKey == null || !user__resolvedKey.equals(__key)) {
+            final DaoSession daoSession = this.daoSession;
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            UserDao targetDao = daoSession.getUserDao();
+            User userNew = targetDao.load(__key);
+            synchronized (this) {
+                user = userNew;
+                user__resolvedKey = __key;
+            }
+        }
+        return user;
+    }
+
+    /** called by internal mechanisms, do not call yourself. */
+    @Generated(hash = 972586207)
+    public void setUser(User user) {
+        synchronized (this) {
+            this.user = user;
+            user_id = user == null ? null : user.get_id();
+            user__resolvedKey = user_id;
+        }
+    }
+
+    /**
+     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#delete(Object)}.
+     * Entity must attached to an entity context.
+     */
+    @Generated(hash = 128553479)
+    public void delete() {
+        if (myDao == null) {
+            throw new DaoException("Entity is detached from DAO context");
+        }
+        myDao.delete(this);
+    }
+
+    /**
+     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#refresh(Object)}.
+     * Entity must attached to an entity context.
+     */
+    @Generated(hash = 1942392019)
+    public void refresh() {
+        if (myDao == null) {
+            throw new DaoException("Entity is detached from DAO context");
+        }
+        myDao.refresh(this);
+    }
+
+    /**
+     * Convenient call for {@link org.greenrobot.greendao.AbstractDao#update(Object)}.
+     * Entity must attached to an entity context.
+     */
+    @Generated(hash = 713229351)
+    public void update() {
+        if (myDao == null) {
+            throw new DaoException("Entity is detached from DAO context");
+        }
+        myDao.update(this);
+    }
+
+    /** called by internal mechanisms, do not call yourself. */
+    @Generated(hash = 1442741304)
+    public void __setDaoSession(DaoSession daoSession) {
+        this.daoSession = daoSession;
+        myDao = daoSession != null ? daoSession.getTaskDao() : null;
     }
 
 
-    public UUID getId() {
-        return mId;
+    public static class TaskTypeConverter implements PropertyConverter<TaskType, Integer> {
+
+        @Override
+        public TaskType convertToEntityProperty(Integer databaseValue) {
+            for (TaskType taskType : TaskType.values()) {
+                if (taskType.getValue() == databaseValue)
+                    return taskType;
+            }
+            return null;
+        }
+
+        @Override
+        public Integer convertToDatabaseValue(TaskType entityProperty) {
+            return entityProperty.getValue();
+        }
     }
 
-    public void setId(UUID id) {
-        mId = id;
-    }
+    public static class UUIDConverter implements PropertyConverter<UUID, String> {
 
+        @Override
+        public UUID convertToEntityProperty(String databaseValue) {
+            return UUID.fromString(databaseValue);
+        }
+
+        @Override
+        public String convertToDatabaseValue(UUID entityProperty) {
+            return entityProperty.toString();
+        }
+    }
 
     public enum TaskType {
         ALL(0),
