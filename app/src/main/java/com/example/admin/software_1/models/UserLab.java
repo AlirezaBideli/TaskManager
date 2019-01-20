@@ -1,16 +1,9 @@
 package com.example.admin.software_1.models;
 
-import android.content.ContentValues;
-import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.support.annotation.NonNull;
-import android.util.Log;
+
 
 import com.example.admin.software_1.ORM.App;
-import com.example.admin.software_1.database.TaskManagerBaseHelper;
-import com.example.admin.software_1.database.TaskManagerCursorWrapper;
-import com.example.admin.software_1.database.TaskManagerDbSchema;
+
 
 import org.greenrobot.greendao.query.WhereCondition;
 

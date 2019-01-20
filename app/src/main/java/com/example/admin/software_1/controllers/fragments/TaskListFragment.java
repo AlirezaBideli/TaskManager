@@ -16,6 +16,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -108,6 +109,7 @@ public class TaskListFragment extends Fragment {
         private TextView mTitile_textView;
         private TextView mDateandHour_textView;
         private TextView mTitleFirstLetter_textView;
+        private Button share_Button;
         List<Task> mTasks = TaskLab.getInstance().getTasks(TaskListFragment.this.mTaskType, mUserId);
 
         public TaskHolder(View itemView) {
@@ -115,18 +117,38 @@ public class TaskListFragment extends Fragment {
             mTitile_textView = itemView.findViewById(R.id.title_textView_TaskListfragment);
             mDateandHour_textView = itemView.findViewById(R.id.hourAndDate_textView_fragment);
             mTitleFirstLetter_textView = itemView.findViewById(R.id.firstLetter_textView_fragment);
+            share_Button = itemView.findViewById(R.id.share_btn_taskListFragmnet);
 
 
+
+
+
+
+            share_Button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Task task = mTaskLsit.get(getAdapterPosition());
+                    String textMessage = getString(R.string.share_text,task.getTitle(),task.getDescription(),task.getDate(),
+                            task.getTaskType());
+                    // Create the text message with a string
+                    Intent sendIntent = new Intent();
+                    sendIntent.setAction(Intent.ACTION_SEND);
+                    sendIntent.putExtra(Intent.EXTRA_TEXT, textMessage);
+                    sendIntent.setType("text/plain");
+
+                    // Verify that the intent will resolvale to an activity
+                    if (sendIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+                        startActivity(sendIntent);
+                    }
+                }
+            });
             itemView.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View v) {
-
-
-
                     ShowTaskInfoFragmnet showTaskInfoFragmnet = ShowTaskInfoFragmnet.newInstance
                             (mTasks.get(getAdapterPosition()).getUuId());
-                    showTaskInfoFragmnet.show(getFragmentManager(),TAG_SHOW_TASK_INFO );
+                    showTaskInfoFragmnet.show(getFragmentManager(), TAG_SHOW_TASK_INFO);
 
                 }
             });

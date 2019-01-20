@@ -59,5 +59,9 @@
     <string name="setTimeAndDate">set Time and date</string>
     <string name="reapeatative_UserName_text"> This UserName has been Selected please Try again</string>
 
+    <string name="share_text">Task Title: %1$s \n
+        Task Description: %2$s
+        \n Date of Task : %3$s
+        \n The task state is %4$s</string>
     />
 </resources>

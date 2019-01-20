@@ -18,8 +18,7 @@ import android.widget.Toast;
 
 import com.example.admin.software_1.R;
 import com.example.admin.software_1.controllers.activities.TaskManagerActivity;
-import com.example.admin.software_1.controllers.activities.UserActivity;
-import com.example.admin.software_1.database.TaskManagerBaseHelper;
+
 import com.example.admin.software_1.models.TaskLab;
 import com.example.admin.software_1.models.User;
 import com.example.admin.software_1.models.UserLab;
