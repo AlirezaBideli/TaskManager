@@ -64,6 +64,7 @@
         \n Date of Task : %3$s
         \n The task state is %4$s</string>
     <string name="take_Photo">Take a photo</string>
+    <string name="search_message">Search your task</string>
     <string name="choose_Photo">Choose from Device</string>
     />
 </resources>

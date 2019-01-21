@@ -80,6 +80,8 @@ public class ShowTaskInfoFragmnet extends DialogFragment implements View.OnClick
         return view;
     }
 
+    
+
     private void setListeners() {
         mAdd_Button.setOnClickListener(this);
         mRemove_Button.setOnClickListener(this);

@@ -2,10 +2,14 @@ package com.example.admin.software_1.models;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Environment;
-
 import com.example.admin.software_1.ORM.App;
+import com.example.admin.software_1.R;
 import com.example.admin.software_1.controllers.fragments.LoginFragment;
+
+import org.greenrobot.greendao.query.WhereCondition;
+import org.greenrobot.greendao.query.QueryBuilder;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -34,7 +38,7 @@ public class TaskLab {
 
     public File getTaskPicture(Context context, Task task) {
 
-        return new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES),task.getPictureName());
+        return new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES), task.getPictureName());
     }
 
 
@@ -113,5 +117,38 @@ public class TaskLab {
         return task;
     }
 
+
+    //Search Tasks according to the Task Title and Task Descriptioin
+    public List<Task> searchTask(String title, String description) {
+
+
+        Long user_id = UserLab.getInstance().getCurrentUser().get_id();
+
+        org.greenrobot.greendao.query.QueryBuilder qb=mTaskDao.queryBuilder();
+        qb.where(TaskDao.Properties.User_id.eq(user_id),qb.
+                or(TaskDao.Properties.Title.like(title),
+                TaskDao.Properties.Description.like(description)));
+        List<Task> tasks = qb.list();
+        return tasks;
+    }
+
+
+    public void shareTask(Context context, Task task) {
+
+        String textMessage = (context.getResources().getString(R.string.share_text,
+                task.getTitle(), task.getDescription(), task.getDate(),
+                task.getTaskType()));
+
+        // Create the text message with a string
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, textMessage);
+        sendIntent.setType("text/plain");
+
+        // Verify that the intent will resolvale to an activity
+        if (sendIntent.resolveActivity(context.getPackageManager()) != null) {
+            context.startActivity(sendIntent);
+        }
+    }
 
 }

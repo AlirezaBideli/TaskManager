@@ -9,6 +9,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -21,6 +22,7 @@ import android.view.View;
 import com.example.admin.software_1.R;
 import com.example.admin.software_1.controllers.fragments.AddFragment;
 import com.example.admin.software_1.controllers.fragments.NoLoginDialog;
+import com.example.admin.software_1.controllers.fragments.SearchDialog;
 import com.example.admin.software_1.controllers.fragments.TaskListFragment;
 import com.example.admin.software_1.models.Task;
 import com.example.admin.software_1.models.TaskLab;
@@ -37,6 +39,7 @@ public class TaskManagerActivity extends AppCompatActivity {
     public static final String EXTRA_TASK_TYPE = "com.example.admin.software_1_taskType";
     public static final String TAG_ADD_FRAGMENT = "tag_add fragment";
     private Long mUserId;
+    private String Tag_SEARCH="tag_search";
 
 
     public Intent newIntent(Context context) {
@@ -53,7 +56,7 @@ public class TaskManagerActivity extends AppCompatActivity {
         mUserId = UserLab .getInstance().getCurrentUser().get_id();
         initialization();//initialize Widgets ids
 
-        mViewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
+        mViewPager.setAdapter(new FragmentStatePagerAdapter(getSupportFragmentManager()) {
             @Override
             public Fragment getItem(int position) {
                 Task.TaskType taskType = getTaskType(position);
@@ -132,6 +135,9 @@ public class TaskManagerActivity extends AppCompatActivity {
 
                 break;
             case R.id.app_bar_search:
+
+                SearchDialog searchDialog=SearchDialog.newInstance();
+                searchDialog.show(getSupportFragmentManager(),Tag_SEARCH);
                 break;
         }
         return true;

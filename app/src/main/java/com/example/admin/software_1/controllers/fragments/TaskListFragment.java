@@ -128,18 +128,8 @@ public class TaskListFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     Task task = mTaskLsit.get(getAdapterPosition());
-                    String textMessage = getString(R.string.share_text, task.getTitle(), task.getDescription(), task.getDate(),
-                            task.getTaskType());
-                    // Create the text message with a string
-                    Intent sendIntent = new Intent();
-                    sendIntent.setAction(Intent.ACTION_SEND);
-                    sendIntent.putExtra(Intent.EXTRA_TEXT, textMessage);
-                    sendIntent.setType("text/plain");
 
-                    // Verify that the intent will resolvale to an activity
-                    if (sendIntent.resolveActivity(getActivity().getPackageManager()) != null) {
-                        startActivity(sendIntent);
-                    }
+                    TaskLab.getInstance().shareTask(getActivity(),task);
                 }
             });
             itemView.setOnClickListener(new View.OnClickListener() {
