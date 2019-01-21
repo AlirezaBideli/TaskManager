@@ -1,6 +1,7 @@
 package com.example.admin.software_1.controllers.fragments;
 
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -10,13 +11,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.admin.software_1.R;
 import com.example.admin.software_1.controllers.activities.EditActivity;
 import com.example.admin.software_1.models.Task;
 import com.example.admin.software_1.models.TaskLab;
+import com.example.admin.software_1.utils.PictureUtils;
 
+import java.io.File;
 import java.util.UUID;
 
 
@@ -34,6 +38,7 @@ public class ShowTaskInfoFragmnet extends DialogFragment implements View.OnClick
     private TextView mDate_textView;
     private TextView mHour_textView;
     private CheckBox mTaskType_CheckBox;
+    private ImageView mTask_ImageView;
 
     private UUID mTaskId;
     public static final String TAG_REMOVE = "tag_remove";
@@ -42,6 +47,8 @@ public class ShowTaskInfoFragmnet extends DialogFragment implements View.OnClick
     public static final String EXTRA_TASK_ID = "com.example.admin.software_1_extra_task_id";
     public static final String ADD_FRAGMNET_TAG = "addFragment_tag";
     public static final String EDIT_FRAGMENT_TAG = "editFragment_tag";
+    private File mTaskPicFile;
+    private Task mTask;
 
 
     public ShowTaskInfoFragmnet() {
@@ -51,7 +58,7 @@ public class ShowTaskInfoFragmnet extends DialogFragment implements View.OnClick
 
     public static ShowTaskInfoFragmnet newInstance(UUID id) {
         Bundle bundle = new Bundle();
-        bundle.putSerializable(EXTRA_TASK_ID,id);
+        bundle.putSerializable(EXTRA_TASK_ID, id);
         ShowTaskInfoFragmnet fragment = new ShowTaskInfoFragmnet();
         fragment.setArguments(bundle);
         return fragment;
@@ -64,8 +71,9 @@ public class ShowTaskInfoFragmnet extends DialogFragment implements View.OnClick
         View view = inflater.inflate(R.layout.fragment_show_task_info_fragmnet, container, false);
         initialization(view);
         mTaskId = (UUID) getArguments().getSerializable(EXTRA_TASK_ID);
-        Task task=TaskLab.getInstance().getTask(mTaskId);
-        fillUIWidgets(task);
+        mTask = TaskLab.getInstance().getTask(mTaskId);
+        mTaskPicFile = TaskLab.getInstance().getTaskPicture(getActivity(), mTask);
+        fillUIWidgets(mTask);
         setListeners();
 
 
@@ -76,6 +84,7 @@ public class ShowTaskInfoFragmnet extends DialogFragment implements View.OnClick
         mAdd_Button.setOnClickListener(this);
         mRemove_Button.setOnClickListener(this);
         mEdit_Button.setOnClickListener(this);
+
     }
 
 
@@ -89,9 +98,9 @@ public class ShowTaskInfoFragmnet extends DialogFragment implements View.OnClick
         mAdd_Button = view.findViewById(R.id.add_button_ShowTaskInfoFragment);
         mEdit_Button = view.findViewById(R.id.edit_button_ShowTaskInfoFragment);
         mRemove_Button = view.findViewById(R.id.remove_button_ShowTaskInfoFragment);
+        mTask_ImageView = view.findViewById(R.id.chooseImage_img_ShowTaskInfo);
+
     }
-
-
 
 
     private void fillUIWidgets(Task task) {
@@ -103,6 +112,7 @@ public class ShowTaskInfoFragmnet extends DialogFragment implements View.OnClick
         mHour_textView.setText(task.getTime());
         boolean isDoneTask = setChecked(task.getTaskType());
         mTaskType_CheckBox.setChecked(isDoneTask);
+        PictureUtils.updatePhotoView(getActivity(), mTask,mTask_ImageView);
     }
 
 
@@ -135,15 +145,15 @@ public class ShowTaskInfoFragmnet extends DialogFragment implements View.OnClick
     private void goToEditFragment() {
 
 
-            EditFragment editFragment=EditFragment.newInstance(mTaskId);
-            editFragment.show(getFragmentManager(),TAG_EDIT);
+        EditFragment editFragment = EditFragment.newInstance(mTaskId);
+        editFragment.show(getFragmentManager(), TAG_EDIT);
 
 
     }
 
     private void goToAddFragment() {
-        AddFragment editFragment=AddFragment.newInstance();
-        editFragment.show(getFragmentManager(),TAG_ADD);
+        AddFragment editFragment = AddFragment.newInstance();
+        editFragment.show(getFragmentManager(), TAG_ADD);
 
 
     }

@@ -1,60 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
     android:layout_height="match_parent"
+    android:gravity="center"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:gravity="center">
+    android:padding="16dp">
 
 
     <EditText
         android:id="@+id/title_editText_Addfragment"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_width="405dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:layout_marginStart="22dp"
+        android:layout_marginTop="32dp"
+        android:layout_weight="1"
         android:ems="10"
         android:hint="@string/title"
         android:inputType="textPersonName"
         android:maxLength="30"
-        android:layout_weight="1"/>
+        app:layout_constraintBottom_toTopOf="@+id/description_editText_Addfragment"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/description_editText_Addfragment"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
         android:ems="10"
         android:hint="@string/Desc"
         android:inputType="textPersonName"
-        android:maxLength="200" />
+        android:maxLength="200"
+        app:layout_constraintEnd_toEndOf="@+id/title_editText_Addfragment"
+        app:layout_constraintStart_toStartOf="@+id/title_editText_Addfragment"
+        tools:layout_editor_absoluteY="67dp" />
 
     <CheckBox
         android:id="@+id/taskType_checkbox_Addfragment"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_width="408dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="1dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="6dp"
         android:layout_weight="0.4"
-        android:text="@string/tab_name_Done" />
+        android:text="@string/tab_name_Done"
+        app:layout_constraintBottom_toTopOf="@+id/setDate_btn_AddFragment"
+        app:layout_constraintEnd_toStartOf="@+id/choose_image_btn_AddFragment"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/description_editText_Addfragment" />
+
+    <ImageView
+        android:id="@+id/chooseImage_img_AddFrgment"
+        android:layout_width="83dp"
+        android:layout_height="85dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:scaleType="fitXY"
+        android:src="@mipmap/camera"
+        app:layout_constraintBottom_toTopOf="@+id/choose_image_btn_AddFragment"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/title_editText_Addfragment"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="spread_inside" />
+
+    <Button
+        android:id="@+id/choose_image_btn_AddFragment"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="2dp"
+        android:background="@android:drawable/gallery_thumb"
+        android:text="@string/take_Photo"
+        app:layout_constraintBottom_toTopOf="@+id/setDate_btn_AddFragment"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/taskType_checkbox_Addfragment"
+        app:layout_constraintTop_toBottomOf="@+id/chooseImage_img_AddFrgment" />
 
     <Button
         android:id="@+id/setDate_btn_AddFragment"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_weight="0.7"
         android:text="@string/set_date"
-        android:textSize="10sp" />
+        android:textSize="10sp"
+        app:layout_constraintBottom_toTopOf="@+id/setTime_btn_AddFragment"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/choose_image_btn_AddFragment" />
 
     <Button
         android:id="@+id/setTime_btn_AddFragment"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_weight="0.7"
         android:text="@string/setTime_btn"
-        android:textSize="10sp" />
+        android:textSize="10sp"
+        app:layout_constraintBottom_toTopOf="@+id/add_button_Addfragment"
+        app:layout_constraintEnd_toEndOf="@+id/setDate_btn_AddFragment"
+        app:layout_constraintStart_toStartOf="@+id/setDate_btn_AddFragment"
+        app:layout_constraintTop_toBottomOf="@+id/setDate_btn_AddFragment" />
 
     <Button
         android:id="@+id/add_button_Addfragment"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:layout_weight="0.7"
         android:text="@string/Add"
-        android:textSize="10sp" />
-</LinearLayout>
+        android:textSize="10sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/setTime_btn_AddFragment" />
+</android.support.constraint.ConstraintLayout>

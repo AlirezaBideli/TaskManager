@@ -3,6 +3,8 @@ package com.example.admin.software_1.models;
 import android.app.AlertDialog;
 import android.util.Log;
 
+import com.example.admin.software_1.R;
+
 import org.greenrobot.greendao.annotation.Convert;
 import org.greenrobot.greendao.annotation.Entity;
 import org.greenrobot.greendao.annotation.Id;
@@ -35,28 +37,30 @@ public class Task {
     private Long user_id;
     @ToOne(joinProperty = "user_id")
     private User user;
+    private String imagePath;
+
+    public String getPictureName() {
+
+        return "IMG_"+getUser_id()+getUuId()+".jpg";
+    }
 
 
-
-
-
-
-
-
-
-
-    /** Used to resolve relations */
+    /**
+     * Used to resolve relations
+     */
     @Generated(hash = 2040040024)
     private transient DaoSession daoSession;
-    /** Used for active entity operations. */
+    /**
+     * Used for active entity operations.
+     */
     @Generated(hash = 1469429066)
     private transient TaskDao myDao;
     @Generated(hash = 251390918)
     private transient Long user__resolvedKey;
 
-    @Generated(hash = 1019615428)
+    @Generated(hash = 1400693316)
     public Task(Long _id, UUID uuId, String title, String description, String date,
-            String time, TaskType taskType, Long user_id) {
+            String time, TaskType taskType, Long user_id, String imagePath) {
         this._id = _id;
         this.uuId = uuId;
         this.title = title;
@@ -65,6 +69,7 @@ public class Task {
         this.time = time;
         this.taskType = taskType;
         this.user_id = user_id;
+        this.imagePath = imagePath;
     }
 
     @Generated(hash = 733837707)
@@ -135,7 +140,9 @@ public class Task {
         this.user_id = user_id;
     }
 
-    /** To-one relationship, resolved on first access. */
+    /**
+     * To-one relationship, resolved on first access.
+     */
     @Generated(hash = 2126679178)
     public User getUser() {
         Long __key = this.user_id;
@@ -154,7 +161,9 @@ public class Task {
         return user;
     }
 
-    /** called by internal mechanisms, do not call yourself. */
+    /**
+     * called by internal mechanisms, do not call yourself.
+     */
     @Generated(hash = 972586207)
     public void setUser(User user) {
         synchronized (this) {
@@ -198,6 +207,14 @@ public class Task {
             throw new DaoException("Entity is detached from DAO context");
         }
         myDao.update(this);
+    }
+
+    public String getImagePath() {
+        return this.imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
     }
 
     /** called by internal mechanisms, do not call yourself. */

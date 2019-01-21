@@ -1,9 +1,13 @@
 package com.example.admin.software_1.models;
 
 
+import android.content.Context;
+import android.os.Environment;
 
 import com.example.admin.software_1.ORM.App;
 import com.example.admin.software_1.controllers.fragments.LoginFragment;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -26,6 +30,13 @@ public class TaskLab {
     public static TaskLab getInstance() {
         return mInstance;
     }
+
+
+    public File getTaskPicture(Context context, Task task) {
+
+        return new File(context.getExternalFilesDir(Environment.DIRECTORY_PICTURES),task.getPictureName());
+    }
+
 
     //Remove  Task/s in mSQLiteDatabase
     public void removeTask(UUID taskId) {

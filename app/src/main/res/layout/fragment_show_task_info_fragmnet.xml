@@ -14,6 +14,17 @@
     tools:context="com.example.admin.software_1.controllers.fragments.ShowTaskInfoFragmnet">
 
 
+
+
+    <ImageView
+        android:id="@+id/chooseImage_img_ShowTaskInfo"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="8dp"
+        android:scaleType="fitXY"
+        android:src="@mipmap/camera" />
+
+
     <TextView
         style="@style/show_detail_textView"
         android:layout_width="match_parent"

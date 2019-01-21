@@ -3,6 +3,8 @@ package com.example.admin.software_1.controllers.fragments;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -26,7 +28,9 @@ import com.example.admin.software_1.controllers.activities.TaskManagerActivity;
 import com.example.admin.software_1.models.Task;
 import com.example.admin.software_1.models.TaskLab;
 import com.example.admin.software_1.models.UserLab;
+import com.example.admin.software_1.utils.PictureUtils;
 
+import java.io.File;
 import java.util.List;
 import java.util.UUID;
 
@@ -108,7 +112,7 @@ public class TaskListFragment extends Fragment {
 
         private TextView mTitile_textView;
         private TextView mDateandHour_textView;
-        private TextView mTitleFirstLetter_textView;
+        private ImageView mTaskImageView;
         private Button share_Button;
         List<Task> mTasks = TaskLab.getInstance().getTasks(TaskListFragment.this.mTaskType, mUserId);
 
@@ -116,19 +120,15 @@ public class TaskListFragment extends Fragment {
             super(itemView);
             mTitile_textView = itemView.findViewById(R.id.title_textView_TaskListfragment);
             mDateandHour_textView = itemView.findViewById(R.id.hourAndDate_textView_fragment);
-            mTitleFirstLetter_textView = itemView.findViewById(R.id.firstLetter_textView_fragment);
             share_Button = itemView.findViewById(R.id.share_btn_taskListFragmnet);
-
-
-
-
+            mTaskImageView = itemView.findViewById(R.id.taskImage_img_sample);
 
 
             share_Button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Task task = mTaskLsit.get(getAdapterPosition());
-                    String textMessage = getString(R.string.share_text,task.getTitle(),task.getDescription(),task.getDate(),
+                    String textMessage = getString(R.string.share_text, task.getTitle(), task.getDescription(), task.getDate(),
                             task.getTaskType());
                     // Create the text message with a string
                     Intent sendIntent = new Intent();
@@ -156,14 +156,16 @@ public class TaskListFragment extends Fragment {
 
 
         public void bind(Task task, int position) {
-            StringBuilder sb = new StringBuilder();
-            sb.append(task.getTitle().charAt(0));
+
             String date_time_format = getResources().getString(R.string.date_time_textView, task.getDate(), task.getTime());
             mTitile_textView.setText(task.getTitle());
             mDateandHour_textView.setText(date_time_format);
-            mTitleFirstLetter_textView.setText(sb.toString());
+
+
+            PictureUtils.updatePhotoView(getActivity(),task,mTaskImageView);
         }
     }
+
 
 
     private class TaskAdapter extends RecyclerView.Adapter<TaskHolder> {
@@ -191,6 +193,8 @@ public class TaskListFragment extends Fragment {
             return mTasks.size();
         }
     }
+
+
 
 
 }
