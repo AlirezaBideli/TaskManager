@@ -3,8 +3,10 @@ package com.example.admin.software_1.controllers.fragments;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -54,6 +56,12 @@ public class SearchDialog extends DialogFragment implements View.OnClickListener
     }
 
 
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -68,7 +76,8 @@ public class SearchDialog extends DialogFragment implements View.OnClickListener
         AlertDialog alertDialog = new AlertDialog.Builder(getActivity())
                 .setView(view)
                 .setTitle(title)
-                .create();
+
+                .show();
         return alertDialog;
     }
 
@@ -101,13 +110,13 @@ public class SearchDialog extends DialogFragment implements View.OnClickListener
     private void search() {
         mTitle = mTitleEdt.getText().toString();
         mDescription = mDescriptionEdt.getText().toString();
-        mTaskList =TaskLab.getInstance().searchTask(mTitle,mDescription);
-
-        TaskAdapter adapter=new TaskAdapter(mTaskList);
-        LinearLayoutManager linearLayoutManager=new LinearLayoutManager(getActivity());
+        mTaskList = TaskLab.getInstance().searchTask(mTitle, mDescription);
+        TaskAdapter adapter = new TaskAdapter(getActivity(),mTaskList);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         mTaskRecyclerView.setLayoutManager(linearLayoutManager);
+        mTaskRecyclerView.setHasFixedSize(true);
         mTaskRecyclerView.setAdapter(adapter);
-        mTaskRecyclerView.getAdapter().notifyDataSetChanged();
+
 
     }
 
@@ -124,6 +133,7 @@ public class SearchDialog extends DialogFragment implements View.OnClickListener
         private ImageView mTaskImageView;
         private Button share_Button;
 
+
         public TaskHolder(View itemView) {
             super(itemView);
             mTitile_textView = itemView.findViewById(R.id.title_textView_TaskListfragment);
@@ -136,7 +146,7 @@ public class SearchDialog extends DialogFragment implements View.OnClickListener
                 @Override
                 public void onClick(View v) {
                     Task task = mTaskList.get(getAdapterPosition());
-                    TaskLab.getInstance().shareTask(getActivity(),task);
+                    TaskLab.getInstance().shareTask(getActivity(), task);
 
                 }
             });
@@ -152,31 +162,30 @@ public class SearchDialog extends DialogFragment implements View.OnClickListener
             });
         }
 
-        public void bind(Task task)
-        {
+        public void bind(Task task) {
             String date_time_format = getResources().getString(R.string.date_time_textView, task.getDate(), task.getTime());
             mTitile_textView.setText(task.getTitle());
             mDateandHour_textView.setText(date_time_format);
-            PictureUtils.updatePhotoView(getActivity(),task,mTaskImageView);
+            PictureUtils.updatePhotoView(getActivity(), task, mTaskImageView);
         }
 
 
     }
 
 
-
     private class TaskAdapter extends RecyclerView.Adapter<TaskHolder> {
 
-        List<Task> mTasks;
-
-        public TaskAdapter(List<Task> tasks)
-        {
+        private Context mContext;
+        private List<Task> mTasks;
+        TaskAdapter(Context context,List<Task> tasks) {
+            this.mContext=context;
             this.mTasks=tasks;
         }
+
         @Override
         public TaskHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            LayoutInflater inflater=LayoutInflater.from(getActivity());
-            View view=inflater.inflate(R.layout.sample_task_list,parent,false);
+            LayoutInflater inflater = LayoutInflater.from(mContext);
+            View view = inflater.inflate(R.layout.sample_task_list, parent, false);
             return new TaskHolder(view);
         }
 

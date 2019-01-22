@@ -1,6 +1,8 @@
 package com.example.admin.software_1.controllers.fragments;
 
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -10,12 +12,14 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 
 import android.support.v4.content.FileProvider;
 import android.text.Editable;
+import android.text.Layout;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -113,15 +117,16 @@ public class AddFragment extends DialogFragment implements View.OnClickListener 
         mTaskPhoto = TaskLab.getInstance().getTaskPicture(getActivity(), mTask);
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_add, container, false);
+
+    @NonNull
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        LayoutInflater inflater= LayoutInflater.from(getActivity());
+        View view = inflater.inflate(R.layout.fragment_add, null);
         initilization(view);
         setListeners();
-
-        return view;
+        return new AlertDialog.Builder(getActivity()).setView(view).create();
     }
 
     private void setListeners() {

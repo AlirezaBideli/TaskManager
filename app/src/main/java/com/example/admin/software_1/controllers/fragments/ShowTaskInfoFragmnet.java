@@ -1,8 +1,11 @@
 package com.example.admin.software_1.controllers.fragments;
 
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -64,11 +67,15 @@ public class ShowTaskInfoFragmnet extends DialogFragment implements View.OnClick
         return fragment;
     }
 
+
+
+
+    @NonNull
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_show_task_info_fragmnet, container, false);
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+
+        LayoutInflater inflater=LayoutInflater.from(getActivity());
+        View view = inflater.inflate(R.layout.fragment_show_task_info_fragmnet, null);
         initialization(view);
         mTaskId = (UUID) getArguments().getSerializable(EXTRA_TASK_ID);
         mTask = TaskLab.getInstance().getTask(mTaskId);
@@ -76,11 +83,9 @@ public class ShowTaskInfoFragmnet extends DialogFragment implements View.OnClick
         fillUIWidgets(mTask);
         setListeners();
 
-
-        return view;
+        AlertDialog alertDialog=new AlertDialog.Builder(getActivity()).setView(view).create();
+        return alertDialog;
     }
-
-    
 
     private void setListeners() {
         mAdd_Button.setOnClickListener(this);
