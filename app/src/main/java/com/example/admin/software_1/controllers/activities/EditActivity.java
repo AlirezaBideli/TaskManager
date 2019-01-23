@@ -10,9 +10,7 @@ import android.os.Bundle;
 
 import com.example.admin.software_1.R;
 import com.example.admin.software_1.controllers.fragments.AddFragment;
-import com.example.admin.software_1.controllers.fragments.ShowTaskInfoFragmnet;
-import com.example.admin.software_1.controllers.fragments.TaskListFragment;
-import com.example.admin.software_1.models.Task;
+import com.example.admin.software_1.controllers.fragments.DetailFragment;
 
 import java.util.UUID;
 
@@ -66,7 +64,7 @@ public class EditActivity extends AppCompatActivity {
             case itemTaskListClicked://when user clicked on  recycler view items in TaskListFragment
 
 
-                return ShowTaskInfoFragmnet.newInstance(mTaskId);
+                return DetailFragment.newInstance(mTaskId);
         }
         return new Fragment();
     }

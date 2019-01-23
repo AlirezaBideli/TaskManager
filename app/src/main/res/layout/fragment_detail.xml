@@ -11,13 +11,11 @@
     android:paddingRight="16dp"
     android:paddingStart="8dp"
     android:paddingTop="8dp"
-    tools:context="com.example.admin.software_1.controllers.fragments.ShowTaskInfoFragmnet">
-
-
+    tools:context="com.example.admin.software_1.controllers.fragments.DetailFragment">
 
 
     <ImageView
-        android:id="@+id/chooseImage_img_ShowTaskInfo"
+        android:id="@+id/chooseImage_img_detailFragment"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_marginTop="8dp"
@@ -33,7 +31,7 @@
         android:text="@string/title" />
 
     <TextView
-        android:id="@+id/title_textView_ShowTaskInfoFragment"
+        android:id="@+id/title_textView_detailFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
@@ -47,7 +45,7 @@
         android:text="@string/Desc" />
 
     <TextView
-        android:id="@+id/description_textView_ShowTaskInfoFragment"
+        android:id="@+id/description_textView_detailFragmnet"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
@@ -61,7 +59,7 @@
         android:text="@string/Date" />
 
     <TextView
-        android:id="@+id/date_textView_ShowTaskInfoFragment"
+        android:id="@+id/date_textView_detailFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
@@ -74,17 +72,16 @@
         android:text="@string/Hour" />
 
     <TextView
-        android:id="@+id/hour_textView_ShowTaskInfoFragment"
+        android:id="@+id/hour_textView_detailFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1" />
 
     <CheckBox
-        android:id="@+id/taskType_checkbox_ShowTaskInfoFragment"
+        android:id="@+id/taskType_checkbox_detailFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:enabled="false"
         android:text="@string/tab_name_Done" />
 
 
@@ -95,21 +92,14 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/add_button_ShowTaskInfoFragment"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/Add" />
-
-        <Button
-            android:id="@+id/edit_button_ShowTaskInfoFragment"
+            android:id="@+id/edit_button_detailFragment"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/edit" />
 
         <Button
-            android:id="@+id/remove_button_ShowTaskInfoFragment"
+            android:id="@+id/remove_button_detailFragment"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"

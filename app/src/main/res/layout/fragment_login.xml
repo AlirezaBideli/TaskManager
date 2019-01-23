@@ -12,14 +12,16 @@
         android:id="@+id/username_edt_loginFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/username" />
+        android:hint="@string/username"
+        android:singleLine="true" />
 
     <EditText
         android:id="@+id/password_edt_loginFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/password"
-        android:inputType="textPassword" />
+        android:inputType="textPassword"
+        android:singleLine="true" />
 
     <Button
         android:id="@+id/login_btn_loginFragment"

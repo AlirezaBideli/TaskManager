@@ -16,14 +16,11 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-
 import android.support.v4.content.FileProvider;
 import android.text.Editable;
-import android.text.Layout;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -55,6 +52,23 @@ import java.util.UUID;
 public class AddFragment extends DialogFragment implements View.OnClickListener {
 
 
+    public static final String DIALOG_TAG_TIME_PICKER = "timePicker_tag";
+    public static final String DIALOG_TAG_DATE_PICKER = "datePicker_tag";
+    public static final String AUTHORITY = "com.example.admin.software_1.FileProvider";
+    public static final int REQ_TIME_PICKER = 0;
+    public static final int REQ_DATE_PICKER = 1;
+    private static final String DIALOG_TAG_DT = "time_date_picker_tag";
+    private static final int REQ_CAMERA = 2;
+    private static final int REQ_DEVICE_STORAGE = 3;
+    private static String defaultValue;
+    //simple variables
+    private static String mTitle;
+    private static String mDescription;
+    private static String mTime;
+    private static String mDate;
+    private static boolean mTaskTypeChecked;
+    private static boolean sIsOrientationChanged = false;
+    File mTaskPhoto;
     //Widgets variables
     private EditText mTitle_EditText;
     private EditText mDescription_EditText;
@@ -64,32 +78,10 @@ public class AddFragment extends DialogFragment implements View.OnClickListener 
     private Button mSetDateButton;
     private Button mTakePhoto;
     private Button mChoosePhoto;
-
     private ImageView mTaskPicture_imageView;
-    //simple variables
-
     private Task mTask;
-    private static String defaultValue;
-    private static String mTitle;
-    private static String mDescription;
-    private static String mTime;
-    private static String mDate;
-    private static boolean mTaskTypeChecked;
     private Task.TaskType mTaskType;
     private Long mUserId;
-    File mTaskPhoto;
-    private static boolean sIsOrientationChanged = false;
-    public static final String DIALOG_TAG_TIME_PICKER = "timePicker_tag";
-    public static final String DIALOG_TAG_DATE_PICKER = "datePicker_tag";
-    private static final String DIALOG_TAG_DT = "time_date_picker_tag";
-    public static final String AUTHORITY = "com.example.admin.software_1.FileProvider";
-
-    public static final int REQ_TIME_PICKER = 0;
-    public static final int REQ_DATE_PICKER = 1;
-    private static final int REQ_CAMERA = 2;
-    private static final int REQ_DEVICE_STORAGE = 3;
-
-
     private boolean isInputValid;
 
     public AddFragment() {
@@ -118,11 +110,10 @@ public class AddFragment extends DialogFragment implements View.OnClickListener 
     }
 
 
-
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        LayoutInflater inflater= LayoutInflater.from(getActivity());
+        LayoutInflater inflater = LayoutInflater.from(getActivity());
         View view = inflater.inflate(R.layout.fragment_add, null);
         initilization(view);
         setListeners();
@@ -254,7 +245,7 @@ public class AddFragment extends DialogFragment implements View.OnClickListener 
         try {
 
             ByteArrayOutputStream Bytestream = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, Bytestream);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 20, Bytestream);
             byte[] byteArray = Bytestream.toByteArray();
 
             stream = new FileOutputStream(path);
@@ -432,6 +423,9 @@ public class AddFragment extends DialogFragment implements View.OnClickListener 
         copyToImageLocations(selectedImage);
         mTaskPicture_imageView.setImageBitmap(selectedImage);
     }
+
+
+
 
 
 }

@@ -53,8 +53,10 @@
 
         android:ems="10"
         android:hint="@string/Desc"
-        android:inputType="textPersonName"
-        android:maxLength="70" />
+        android:inputType="textMultiLine|textPersonName"
+        android:maxLength="70"
+        android:minLines="3"
+        android:singleLine="false" />
 
     <CheckBox
         android:id="@+id/taskType_checkbox_Addfragment"

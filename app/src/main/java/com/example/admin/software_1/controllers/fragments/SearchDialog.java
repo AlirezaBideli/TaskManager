@@ -24,8 +24,6 @@ import com.example.admin.software_1.models.Task;
 import com.example.admin.software_1.models.TaskLab;
 import com.example.admin.software_1.utils.PictureUtils;
 
-import org.greenrobot.greendao.query.WhereCondition;
-
 import java.util.List;
 
 import static com.example.admin.software_1.controllers.fragments.TaskListFragment.TAG_SHOW_TASK_INFO;
@@ -154,9 +152,9 @@ public class SearchDialog extends DialogFragment implements View.OnClickListener
 
                 @Override
                 public void onClick(View v) {
-                    ShowTaskInfoFragmnet showTaskInfoFragmnet = ShowTaskInfoFragmnet.newInstance
+                    DetailFragment detailFragment = DetailFragment.newInstance
                             (mTaskList.get(getAdapterPosition()).getUuId());
-                    showTaskInfoFragmnet.show(getFragmentManager(), TAG_SHOW_TASK_INFO);
+                    detailFragment.show(getFragmentManager(), TAG_SHOW_TASK_INFO);
 
                 }
             });

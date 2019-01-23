@@ -4,12 +4,10 @@ package com.example.admin.software_1.models;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Environment;
+
 import com.example.admin.software_1.ORM.App;
 import com.example.admin.software_1.R;
 import com.example.admin.software_1.controllers.fragments.LoginFragment;
-
-import org.greenrobot.greendao.query.WhereCondition;
-import org.greenrobot.greendao.query.QueryBuilder;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -124,10 +122,9 @@ public class TaskLab {
 
         Long user_id = UserLab.getInstance().getCurrentUser().get_id();
 
-        org.greenrobot.greendao.query.QueryBuilder qb=mTaskDao.queryBuilder();
-        qb.where(TaskDao.Properties.User_id.eq(user_id),qb.
-                or(TaskDao.Properties.Title.like(title),
-                TaskDao.Properties.Description.like(description)));
+        org.greenrobot.greendao.query.QueryBuilder qb = mTaskDao.queryBuilder();
+        qb.where(TaskDao.Properties.User_id.eq(user_id), TaskDao.Properties.Title.like("%" + title + "%"),
+                TaskDao.Properties.Description.like("%" + description + "%"));
         List<Task> tasks = qb.list();
         return tasks;
     }
