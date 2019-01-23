@@ -14,9 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.admin.software_1.R;
-import com.example.admin.software_1.controllers.activities.EditActivity;
 import com.example.admin.software_1.controllers.activities.TaskManagerActivity;
-import com.example.admin.software_1.models.Task;
 import com.example.admin.software_1.models.TaskLab;
 
 import java.util.UUID;

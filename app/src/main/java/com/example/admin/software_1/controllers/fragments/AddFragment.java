@@ -1,6 +1,7 @@
 package com.example.admin.software_1.controllers.fragments;
 
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
@@ -29,7 +30,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.admin.software_1.R;
-import com.example.admin.software_1.controllers.activities.EditActivity;
 import com.example.admin.software_1.controllers.activities.TaskManagerActivity;
 import com.example.admin.software_1.models.Task;
 import com.example.admin.software_1.models.TaskLab;
@@ -386,7 +386,7 @@ public class AddFragment extends DialogFragment implements View.OnClickListener 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (resultCode != EditActivity.RESULT_OK)
+        if (resultCode != Activity.RESULT_OK)
             return;
 
 
@@ -423,9 +423,6 @@ public class AddFragment extends DialogFragment implements View.OnClickListener 
         copyToImageLocations(selectedImage);
         mTaskPicture_imageView.setImageBitmap(selectedImage);
     }
-
-
-
 
 
 }

@@ -29,10 +29,6 @@
         </provider>
 
 
-        <activity
-            android:name=".controllers.activities.EditActivity"
-            android:parentActivityName=".controllers.activities.TaskManagerActivity" />
-
         <activity android:name=".controllers.activities.TaskManagerActivity" />
         <activity android:name=".controllers.activities.UserActivity">
             <intent-filter>

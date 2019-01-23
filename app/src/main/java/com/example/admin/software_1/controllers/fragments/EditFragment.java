@@ -1,6 +1,7 @@
 package com.example.admin.software_1.controllers.fragments;
 
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -23,7 +24,6 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.example.admin.software_1.R;
-import com.example.admin.software_1.controllers.activities.EditActivity;
 import com.example.admin.software_1.controllers.activities.TaskManagerActivity;
 import com.example.admin.software_1.models.Task;
 import com.example.admin.software_1.models.TaskLab;
@@ -40,6 +40,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+
+import javax.xml.transform.Result;
 
 
 /**
@@ -237,7 +239,7 @@ public class EditFragment extends DialogFragment implements View.OnClickListener
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (resultCode != EditActivity.RESULT_OK)
+        if (resultCode != Activity.RESULT_OK)
             return;
 
 
