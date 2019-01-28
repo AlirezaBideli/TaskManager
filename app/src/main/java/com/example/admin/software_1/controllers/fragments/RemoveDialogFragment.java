@@ -2,20 +2,15 @@ package com.example.admin.software_1.controllers.fragments;
 
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
-
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.admin.software_1.R;
-import com.example.admin.software_1.controllers.activities.TaskManagerActivity;
-import com.example.admin.software_1.models.TaskLab;
 
 import java.util.UUID;
 
@@ -25,30 +20,46 @@ import java.util.UUID;
  */
 public class RemoveDialogFragment extends DialogFragment implements View.OnClickListener {
 
-    public static  String ARGS_TASK_ID="task_id";
+    public static String ARGS_TASK_ID = "task_id";
     private UUID mTaskId;//this is used for the get this fragment args
     private Button mYesButton;
     private Button mNoButton;
+    private CallBacks mCallBacks;
 
-    public static RemoveDialogFragment newInstance(UUID taskId) {
-
-        Bundle args = new Bundle();
-        args.putSerializable(ARGS_TASK_ID,taskId);
-        RemoveDialogFragment fragment = new RemoveDialogFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
     public RemoveDialogFragment() {
         // Required empty public constructor
     }
 
+    public static RemoveDialogFragment newInstance(UUID taskId) {
+
+        Bundle args = new Bundle();
+        args.putSerializable(ARGS_TASK_ID, taskId);
+        RemoveDialogFragment fragment = new RemoveDialogFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof CallBacks)
+            mCallBacks = (CallBacks) context;
+
+    }
+
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mCallBacks = null;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        View view=inflater.inflate(R.layout.fragment_remove_dialog_fragmnet, container, false);
+        View view = inflater.inflate(R.layout.fragment_remove_dialog_fragmnet, container, false);
         initilization(view);
         getArgs();
         setListeners();
@@ -63,36 +74,34 @@ public class RemoveDialogFragment extends DialogFragment implements View.OnClick
     }
 
 
-    private void initilization(View view)
-    {
-        mYesButton=view.findViewById(R.id.yes_btn_RemoveDialogFragment);
-        mNoButton=view.findViewById(R.id.no_btn_RemoveDialogFragment);
+    private void initilization(View view) {
+        mYesButton = view.findViewById(R.id.yes_btn_RemoveDialogFragment);
+        mNoButton = view.findViewById(R.id.no_btn_RemoveDialogFragment);
     }
 
 
     @Override
     public void onClick(View v) {
 
-        switch (v.getId())
-        {
+        switch (v.getId()) {
             case R.id.yes_btn_RemoveDialogFragment:
-                Context context=getActivity();
-                TaskLab.getInstance().removeTask(mTaskId);
-                Intent intent=new TaskManagerActivity().newIntent(context);
-                startActivity(intent);
-
+                Context context = getActivity();
+                mCallBacks.onDeletedTask(mTaskId);
+                dismiss();
                 break;
             case R.id.no_btn_RemoveDialogFragment:
-                getActivity().getSupportFragmentManager().beginTransaction()
-                        .remove(this)
-                        .commit();
+                dismiss();
                 break;
         }
     }
 
 
-    private void getArgs()
-    {
-        mTaskId=(UUID) getArguments().getSerializable(ARGS_TASK_ID);
+    private void getArgs() {
+        mTaskId = (UUID) getArguments().getSerializable(ARGS_TASK_ID);
+    }
+
+
+    public interface CallBacks {
+        void onDeletedTask(UUID taskId);
     }
 }

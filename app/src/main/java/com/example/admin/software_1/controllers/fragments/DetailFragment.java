@@ -3,7 +3,7 @@ package com.example.admin.software_1.controllers.fragments;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Intent;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
@@ -17,7 +17,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.admin.software_1.R;
-import com.example.admin.software_1.controllers.activities.TaskManagerActivity;
 import com.example.admin.software_1.models.Task;
 import com.example.admin.software_1.models.TaskLab;
 import com.example.admin.software_1.utils.PictureUtils;
@@ -49,7 +48,7 @@ public class DetailFragment extends DialogFragment implements View.OnClickListen
     private UUID mTaskId;
     private File mTaskPicFile;
     private Task mTask;
-
+    private CallBacks mCallBacks;
 
     public DetailFragment() {
         // Required empty public constructor
@@ -64,6 +63,20 @@ public class DetailFragment extends DialogFragment implements View.OnClickListen
         return fragment;
     }
 
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof CallBacks)
+            mCallBacks = (CallBacks) context;
+        else throw new RuntimeException("Implementation Error");
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mCallBacks=null;
+    }
 
     @NonNull
     @Override
@@ -89,27 +102,23 @@ public class DetailFragment extends DialogFragment implements View.OnClickListen
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 
-                if (isChecked) {
-
+                if (isChecked)
                     mTask.setTaskType(Task.TaskType.DONE);
-                    TaskLab.getInstance().updateTask(mTask);
-
-                } else {
-
+                else
                     mTask.setTaskType(Task.TaskType.UNDONE);
-                    TaskLab.getInstance().updateTask(mTask);
-
-                }
-
-
-                Intent intent = new TaskManagerActivity().newIntent(getActivity());
-                startActivity(intent);
 
 
             }
         });
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        TaskLab.getInstance().updateTask(mTask);
+        mCallBacks.onTaskUpdated();
+
+    }
 
     private void initialization(View view) {
         mTitle_textView = view.findViewById(R.id.title_textView_detailFragment);
@@ -174,6 +183,11 @@ public class DetailFragment extends DialogFragment implements View.OnClickListen
 
         RemoveDialogFragment removeDialogFragmnet = RemoveDialogFragment.newInstance(mTaskId);
         removeDialogFragmnet.show(getFragmentManager(), TAG_REMOVE);
+    }
+
+
+    public interface CallBacks {
+        void onTaskUpdated();
     }
 
 

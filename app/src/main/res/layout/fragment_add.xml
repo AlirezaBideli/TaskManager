@@ -55,16 +55,8 @@
         android:hint="@string/Desc"
         android:inputType="textMultiLine|textPersonName"
         android:maxLength="70"
-        android:minLines="3"
+        android:minLines="2"
         android:singleLine="false" />
-
-    <CheckBox
-        android:id="@+id/taskType_checkbox_Addfragment"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
-        android:text="@string/tab_name_Done"
-/>
 
     <Button
         android:id="@+id/setDate_btn_AddFragment"

@@ -2,13 +2,11 @@ package com.example.admin.software_1.controllers.activities;
 
 import android.content.Context;
 import android.content.Intent;
-
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -21,25 +19,33 @@ import android.view.View;
 
 import com.example.admin.software_1.R;
 import com.example.admin.software_1.controllers.fragments.AddFragment;
+import com.example.admin.software_1.controllers.fragments.DetailFragment;
 import com.example.admin.software_1.controllers.fragments.NoLoginDialog;
+import com.example.admin.software_1.controllers.fragments.RemoveDialogFragment;
 import com.example.admin.software_1.controllers.fragments.SearchDialog;
 import com.example.admin.software_1.controllers.fragments.TaskListFragment;
 import com.example.admin.software_1.models.Task;
 import com.example.admin.software_1.models.TaskLab;
 import com.example.admin.software_1.models.UserLab;
 
-public class TaskManagerActivity extends AppCompatActivity {
+import java.util.UUID;
 
+public class TaskManagerActivity extends AppCompatActivity implements DetailFragment.CallBacks,
+        AddFragment.CallBacks, RemoveDialogFragment.CallBacks {
+
+    //simple variables
+    public static final String EXTRA_TASK_TYPE = "com.example.admin.software_1_taskType";
+    public static final String TAG_ADD_FRAGMENT = "tag_add fragment";
+    public static final String Tag = "TaskManagerActivity_Tag";
     private static final String DIALOG_TAG = "noLogin_task";
     //Widget variables
     private ViewPager mViewPager;
     private TabLayout mTabLayout;
     private FloatingActionButton mAdd_fab;
-    //simple variables
-    public static final String EXTRA_TASK_TYPE = "com.example.admin.software_1_taskType";
-    public static final String TAG_ADD_FRAGMENT = "tag_add fragment";
     private Long mUserId;
-    private String Tag_SEARCH="tag_search";
+    private Task.TaskType mTaskType;
+    private String Tag_SEARCH = "tag_search";
+    private TaskListFragment.TaskAdapter mTaskAdapter;
 
 
     public Intent newIntent(Context context) {
@@ -53,15 +59,21 @@ public class TaskManagerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_task_manager);
 
-        mUserId = UserLab .getInstance().getCurrentUser().get_id();
+        mUserId = UserLab.getInstance().getCurrentUser().get_id();
         initialization();//initialize Widgets ids
 
         mViewPager.setAdapter(new FragmentStatePagerAdapter(getSupportFragmentManager()) {
+
+
             @Override
             public Fragment getItem(int position) {
-                Task.TaskType taskType = getTaskType(position);
-                return TaskListFragment.newInstance(taskType);
+
+                Log.i(Tag, "fragment " + position);
+                mTaskType = getTaskType(position);
+
+                return TaskListFragment.newInstance(mTaskType);
             }
+
 
             @Override
             public int getCount() {
@@ -84,11 +96,14 @@ public class TaskManagerActivity extends AppCompatActivity {
                 }
                 return result;
             }
+            public int getItemPosition(Object object){
+                return POSITION_NONE;
+            }
         });
 
 
         mTabLayout.setupWithViewPager(mViewPager);
-
+        mViewPager.setSaveEnabled(false);
 
         mAdd_fab.setOnClickListener(new View.OnClickListener() {
 
@@ -136,8 +151,8 @@ public class TaskManagerActivity extends AppCompatActivity {
                 break;
             case R.id.app_bar_search:
 
-                SearchDialog searchDialog=SearchDialog.newInstance();
-                searchDialog.show(getSupportFragmentManager(),Tag_SEARCH);
+                SearchDialog searchDialog = SearchDialog.newInstance();
+                searchDialog.show(getSupportFragmentManager(), Tag_SEARCH);
                 break;
         }
         return true;
@@ -158,9 +173,9 @@ public class TaskManagerActivity extends AppCompatActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         Long userId = UserLab.getInstance().getCurrentUser().get_id();
-        int size = TaskLab.getInstance().getTasks(Task.TaskType.ALL,userId).size();
+        int size = TaskLab.getInstance().getTasks(Task.TaskType.ALL, userId).size();
         if (keyCode == KeyEvent.KEYCODE_BACK
-                && mUserId == UserActivity.USER_NEEDS_REGISTER && size>0) {
+                && mUserId == UserActivity.USER_NEEDS_REGISTER && size > 0) {
 
             NoLoginDialog noLoginDialog = new NoLoginDialog();
             noLoginDialog.show(getSupportFragmentManager(), DIALOG_TAG);
@@ -173,4 +188,34 @@ public class TaskManagerActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onTaskUpdated() {
+
+
+        TaskListFragment fragment = (TaskListFragment) getSupportFragmentManager().findFragmentById(R.id.container_viewPager_TaskManagerActivity);
+        fragment.updateUI();
+        fragment.showNoTaskImg();
+
+
+
+    }
+
+    @Override
+    public void onTaskAdded(Task task) {
+        TaskLab.getInstance().addTask(task);
+
+        TaskListFragment fragment = (TaskListFragment) getSupportFragmentManager().findFragmentById(R.id.container_viewPager_TaskManagerActivity);
+
+        fragment.updateUI();
+
+
+    }
+
+
+    @Override
+    public void onDeletedTask(UUID taskId) {
+        TaskLab.getInstance().removeTask(taskId);
+        TaskListFragment fragment = (TaskListFragment) getSupportFragmentManager().findFragmentById(R.id.container_viewPager_TaskManagerActivity);
+        fragment.updateUI();
+    }
 }

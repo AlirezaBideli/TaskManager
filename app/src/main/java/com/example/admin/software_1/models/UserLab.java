@@ -24,19 +24,15 @@ public class UserLab {
     public static UserLab getInstance() {
         return ourInstance;
     }
-
     private UserLab() {
 
     }
-
-
     public User getCurrentUser() {
         return mCurrentUser;
     }
 
     //get User from UserDataBase
     public boolean login(String userName, String password) {
-
 
         List<User> users = mUserDao.queryBuilder().where(UserDao.Properties.UserName.eq(userName),
                 UserDao.Properties.Password.eq(password))
@@ -60,6 +56,7 @@ public class UserLab {
         long id=mUserDao.insert(user);
         //after insert our user to database we set its id
         user.set_id(id);
+
         setCurrentUser(user);
 
     }

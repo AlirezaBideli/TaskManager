@@ -1,6 +1,7 @@
 package com.example.admin.software_1.controllers.fragments;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -29,14 +30,15 @@ import java.util.List;
 public class TaskListFragment extends Fragment {
 
 
-    private RecyclerView mRecyclerView;
-    private ImageView mNoTaskImageView;
+    public static final String TAG_SHOW_TASK_INFO = "tag_showTaskInfo";
+    public  RecyclerView mRecyclerView;
+    public List<Task> mTaskList;
+    public TaskAdapter mTaskAdapter;
 
+    private ImageView mNoTaskImageView;
     //simple Variables
     private Task.TaskType mTaskType;
     private Long mUserId;
-    private List<Task> mTaskLsit;
-    public static final String TAG_SHOW_TASK_INFO = "tag_showTaskInfo";
 
     public TaskListFragment() {
         // Required empty public constructor
@@ -52,6 +54,8 @@ public class TaskListFragment extends Fragment {
     }
 
 
+
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,7 +63,8 @@ public class TaskListFragment extends Fragment {
 
         mTaskType = (Task.TaskType) getArguments().getSerializable(TaskManagerActivity.EXTRA_TASK_TYPE);
         mUserId = UserLab.getInstance().getCurrentUser().get_id();
-        mTaskLsit = TaskLab.getInstance().getTasks(mTaskType, mUserId);
+        mTaskList = TaskLab.getInstance().getTasks(mTaskType, mUserId);
+
     }
 
     @Override
@@ -69,6 +74,7 @@ public class TaskListFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_task_list, container, false);
         initialization(view);
 
+
         return view;
     }
 
@@ -76,11 +82,43 @@ public class TaskListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (mTaskLsit.size() > 0) {
+
+        showNoTaskImg();
+
+
+    }
+
+
+
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+    }
+
+
+    public void updateUI() {
+        TaskLab taskLab = TaskLab.getInstance();
+        mTaskList = taskLab.getTasks(mTaskType,mUserId);
+        if (mTaskAdapter == null || mTaskList.size()==0) {
+            mTaskAdapter = new TaskAdapter(mTaskList);
+            mRecyclerView.setAdapter(mTaskAdapter);
+        } else {
+            mTaskAdapter.setTaskList(mTaskList);
+            mTaskAdapter.notifyDataSetChanged();
+        }
+    }
+
+
+
+
+    public void showNoTaskImg() {
+        if (mTaskList.size() > 0) {
+            mTaskList = TaskLab.getInstance().getTasks(mTaskType, mUserId);
             mNoTaskImageView.setVisibility(View.INVISIBLE);
-            TaskAdapter adapter = new TaskAdapter(mTaskLsit);
+            mTaskAdapter = new TaskAdapter(mTaskList);
             mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-            mRecyclerView.setAdapter(adapter);
+            mRecyclerView.setAdapter(mTaskAdapter);
         } else {
             mNoTaskImageView.setVisibility(View.VISIBLE);
         }
@@ -93,16 +131,19 @@ public class TaskListFragment extends Fragment {
     }
 
 
+
+
     ///RecyclerView Classes
+
 
 
     private class TaskHolder extends RecyclerView.ViewHolder {
 
+        List<Task> mTasks = TaskLab.getInstance().getTasks(TaskListFragment.this.mTaskType, mUserId);
         private TextView mTitile_textView;
         private TextView mDateandHour_textView;
         private ImageView mTaskImageView;
         private Button share_Button;
-        List<Task> mTasks = TaskLab.getInstance().getTasks(TaskListFragment.this.mTaskType, mUserId);
 
         public TaskHolder(View itemView) {
             super(itemView);
@@ -115,9 +156,8 @@ public class TaskListFragment extends Fragment {
             share_Button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Task task = mTaskLsit.get(getAdapterPosition());
-
-                    TaskLab.getInstance().shareTask(getActivity(),task);
+                    Task task = mTaskList.get(getAdapterPosition());
+                    TaskLab.getInstance().shareTask(getActivity(), task);
                 }
             });
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -140,17 +180,20 @@ public class TaskListFragment extends Fragment {
             mDateandHour_textView.setText(date_time_format);
 
 
-            PictureUtils.updatePhotoView(getActivity(),task,mTaskImageView);
+            PictureUtils.updatePhotoView(getActivity(), task, mTaskImageView);
         }
     }
 
-
-
-    private class TaskAdapter extends RecyclerView.Adapter<TaskHolder> {
+    public class TaskAdapter extends RecyclerView.Adapter<TaskHolder> {
         List<Task> mTasks;
 
-        public TaskAdapter(List<Task> tasks) {
+         TaskAdapter(List<Task> tasks) {
             mTasks = tasks;
+        }
+
+
+          void setTaskList(List<Task> taskList) {
+            this.mTasks = taskList;
         }
 
         @Override
@@ -171,8 +214,5 @@ public class TaskListFragment extends Fragment {
             return mTasks.size();
         }
     }
-
-
-
 
 }

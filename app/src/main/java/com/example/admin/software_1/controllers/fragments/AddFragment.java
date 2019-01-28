@@ -4,6 +4,7 @@ package com.example.admin.software_1.controllers.fragments;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
@@ -30,7 +31,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.admin.software_1.R;
-import com.example.admin.software_1.controllers.activities.TaskManagerActivity;
 import com.example.admin.software_1.models.Task;
 import com.example.admin.software_1.models.TaskLab;
 import com.example.admin.software_1.models.UserLab;
@@ -80,9 +80,10 @@ public class AddFragment extends DialogFragment implements View.OnClickListener 
     private Button mChoosePhoto;
     private ImageView mTaskPicture_imageView;
     private Task mTask;
-    private Task.TaskType mTaskType;
     private Long mUserId;
     private boolean isInputValid;
+
+    private CallBacks mCallBacks;
 
     public AddFragment() {
         // Required empty public constructor
@@ -97,6 +98,20 @@ public class AddFragment extends DialogFragment implements View.OnClickListener 
         return fragment;
     }
 
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof CallBacks)
+        mCallBacks= (CallBacks) context;
+        else throw new RuntimeException("Implementation Error");
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mCallBacks=null;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -125,7 +140,6 @@ public class AddFragment extends DialogFragment implements View.OnClickListener 
         mAddButton.setOnClickListener(this);
         mSetTimeButton.setOnClickListener(this);
         mSetDateButton.setOnClickListener(this);
-        mTaskType_Checkbox.setOnClickListener(this);
         mTakePhoto.setOnClickListener(this);
         mChoosePhoto.setOnClickListener(this);
         mTitle_EditText.addTextChangedListener(new TextWatcher() {
@@ -166,7 +180,6 @@ public class AddFragment extends DialogFragment implements View.OnClickListener 
     private void initilization(View view) {
         mTitle_EditText = view.findViewById(R.id.title_editText_Addfragment);
         mDescription_EditText = view.findViewById(R.id.description_editText_Addfragment);
-        mTaskType_Checkbox = view.findViewById(R.id.taskType_checkbox_Addfragment);
         mAddButton = view.findViewById(R.id.add_button_Addfragment);
         mSetTimeButton = view.findViewById(R.id.setTime_btn_AddFragment);
         mSetDateButton = view.findViewById(R.id.setDate_btn_AddFragment);
@@ -175,7 +188,7 @@ public class AddFragment extends DialogFragment implements View.OnClickListener 
         mTaskPicture_imageView = view.findViewById(R.id.chooseImage_img_AddFrgment);
     }
 
-    private void AddDate() {
+    private void addCondition() {
         //check if the input are empty ,show a message
 
         if (mTitle_EditText.getText().length() == 0) {
@@ -196,18 +209,26 @@ public class AddFragment extends DialogFragment implements View.OnClickListener 
         isInputValid = true;
         mTitle = mTitle_EditText.getText().toString();
         mDescription = mDescription_EditText.getText().toString();
-        mTaskType = setTaskType(mTaskType_Checkbox.isChecked());
 
         mTask.setTitle(mTitle);
-        mTask.setTaskType(mTaskType);
         if (mDate != null)
             mTask.setDate(mDate);
         if (mTime != null)
             mTask.setTime(mTime);
         if (mDescription != null)
             mTask.setDescription(mDescription);
+        mTask.setTaskType(Task.TaskType.UNDONE);
 
-        TaskLab.getInstance().addTask(mTask);
+
+
+
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mCallBacks.onTaskAdded(mTask);
+
     }
 
     private void resetData() {
@@ -218,14 +239,7 @@ public class AddFragment extends DialogFragment implements View.OnClickListener 
         mDate = defaultValue;
         mTaskTypeChecked = false;
         sIsOrientationChanged = false;
-        mTaskType = null;
-    }
 
-    private Task.TaskType setTaskType(boolean isChecked) {
-        if (isChecked)
-            return Task.TaskType.DONE;
-        else
-            return Task.TaskType.UNDONE;
     }
 
 
@@ -300,10 +314,7 @@ public class AddFragment extends DialogFragment implements View.OnClickListener 
         timePickerFragment.show(getFragmentManager(), DIALOG_TAG_TIME_PICKER);
     }
 
-    private void goToTaskManagerActivity() {
-        Intent intent = new TaskManagerActivity().newIntent(getActivity());
-        startActivity(intent);
-    }
+
 
     private void fillUIwidgets() {
 
@@ -353,10 +364,9 @@ public class AddFragment extends DialogFragment implements View.OnClickListener 
         switch (v.getId()) {
 
             case R.id.add_button_Addfragment:
-                AddDate();
+                addCondition();
                 resetData();
-                if (isInputValid)
-                    goToTaskManagerActivity();
+                dismiss();
                 break;
 
             case R.id.setTime_btn_AddFragment:
@@ -367,15 +377,12 @@ public class AddFragment extends DialogFragment implements View.OnClickListener 
                 goToDatePickerFragment();
                 break;
 
-            case R.id.taskType_checkbox_Addfragment:
-                mTaskType = setTaskType(true);
-                mTaskTypeChecked = true;
-                break;
             case R.id.choose_image_btn_AddFragment:
-                goToCamera();
+                goToDeviceStorage();
+
                 break;
             case R.id.take_image_btn_AddFragment:
-                goToDeviceStorage();
+                goToCamera();
                 break;
 
 
@@ -425,4 +432,9 @@ public class AddFragment extends DialogFragment implements View.OnClickListener 
     }
 
 
+
+    public interface CallBacks
+    {
+        void onTaskAdded(Task task);
+    }
 }
